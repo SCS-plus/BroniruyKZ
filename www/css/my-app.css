@@ -1,0 +1,135 @@
+.logo{
+    vertical-align: sub;
+}
+
+.content-block-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.price-slider .item-title {
+    display: block;
+    width: 100%;
+    height: 80px;
+}
+
+.picker-calendar .picker-header {
+    display: none;
+}
+
+#price-slider {
+    width: 90%;
+    margin: 10px auto 5px;
+}
+
+#lower-value {
+    float: left;
+}
+
+#upper-value {
+    float: right;
+}
+
+/*Card custom*/
+.card .card-content .card-content-inner .adress,
+.card .card-footer .testimonials{
+    padding-left: 5px;
+}
+
+/*list-product*/
+.list-product .card .card-header{
+    background-size: cover;
+    min-height: 150px;
+    font-size: 22px;
+}
+
+.list-product .card .card-content .card-content-inner .adress,
+.list-product .card .card-footer .testimonials {
+    padding-left: 5px;
+}
+
+.list-product .card .card-content .card-content-inner p,
+.list-product .card .card-footer .price {
+    color: #212121;
+}
+
+/*product*/
+.product-page .product-slider-top {
+    height: 200px;
+    margin-top: 48px;
+}
+
+.product-page .card .card-header{
+    font-size: 18px;
+}
+
+.product-page .card .card-content-inner .map {
+    height: 150px;
+}
+
+.product-page .card .card-content-inner .title {
+    text-transform: uppercase;
+    padding: 10px 0 5px;
+    font-weight: 700;
+}
+
+.product-page .card .card-content-inner .description {
+    padding: 5px 0;
+}
+
+.product-page .card .card-content-inner .product-service-slider {
+    height: 100px;
+}
+
+.product-page .card .card-content-inner .service .title{
+    text-transform: uppercase;
+    font-size: 14px;
+    padding: 5px 0;
+}
+
+.product-page .card .card-content-inner .service .item span{
+    padding-left: 5px;
+}
+
+.product-page .card .card-footer .info {
+    width: 100%;
+}
+
+.product-page .card .card-footer .info .quantity,
+.product-page .card .card-footer .info .price {
+    font-size: 18px;
+}
+
+/*Product Page Tab-2*/
+.list-block.reviews ul ul {
+    padding-left: 0px;
+}
+
+#addreview-form .rating-block {
+    margin-bottom: 10px;
+}
+
+#addreview-form ul:before,
+#addreview-form ul:after{
+    display: none;
+}
+
+#addreview-form .title {
+    font-size: 16px;
+}
+
+#addreview-form .text-field {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #b3b3b3;
+    font-size: 14px;
+    min-height: 200px;
+    padding: 5px
+}
+
+/*Recovery form*/
+.recovery-link {
+    text-align: center;
+}
