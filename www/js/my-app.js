@@ -68,7 +68,7 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "data/test-data.json";
+    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
 
     $$.ajax({
         dataType: 'json',
@@ -87,7 +87,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 });
 
 $$(document).on('click', '#about', function (e) {
-    var url = "data/test-data.json";
+    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -123,7 +123,7 @@ $$(document).on('click', '#help', function (e) {
 });
 
 $$(document).on('click', '#howadd', function (e) {
-    var url = "data/test-data.json";
+    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -264,7 +264,7 @@ function initProductServiceSlider(id) {
 var map;
 function initMap(lat, lan) {
     var lating = new google.maps.LatLng(lat, lan),
-        icon = '../img/map-marker.png';
+        icon = '/img/map-marker.png';
 
     map = new GMaps({
         disableDefaultUI: true,
