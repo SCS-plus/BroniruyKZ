@@ -68,7 +68,7 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "http://www.markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "data/test-data.json";
 
     $$.ajax({
         dataType: 'json',
@@ -87,7 +87,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 });
 
 $$(document).on('click', '#about', function (e) {
-    var url = "http://www.markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "data/test-data.json";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -123,7 +123,7 @@ $$(document).on('click', '#help', function (e) {
 });
 
 $$(document).on('click', '#howadd', function (e) {
-    var url = "http://www.markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "data/test-data.json";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -138,6 +138,10 @@ $$(document).on('click', '#howadd', function (e) {
             console.log("Error on ajax call " + xhr);
         }
     });
+});
+
+bankaKZ.onPageInit('index', function (page) {
+    initApp();
 });
 
 bankaKZ.onPageInit('product', function (page) {
@@ -157,6 +161,10 @@ bankaKZ.onPageInit('product', function (page) {
 
     initProductMainSlider();
     initMap(lat, lan);
+});
+
+bankaKZ.onPageInit('addreview-page', function (page) {
+    initAddRating();
 });
 
 // Init APP
