@@ -153,7 +153,7 @@ bankaKZ.onPageInit('product', function (page) {
         initProductServiceSlider(id);
     });
 
-    $$('.reviews .c-rating').each(function () {
+    $$('.list-rating').each(function () {
         var id = $$(this).attr('id'),
             value = $$(this).attr('data-rating');
         listRating(id, value);
@@ -164,7 +164,7 @@ bankaKZ.onPageInit('product', function (page) {
 });
 
 bankaKZ.onPageInit('addreview-page', function (page) {
-    initAddRating();
+    // initAddRating();
 });
 
 // Init APP
@@ -264,7 +264,7 @@ function initProductServiceSlider(id) {
 var map;
 function initMap(lat, lan) {
     var lating = new google.maps.LatLng(lat, lan),
-        icon = '/img/map-marker.png';
+        icon = 'img/map-marker.png';
 
     map = new GMaps({
         disableDefaultUI: true,
@@ -282,19 +282,16 @@ function initMap(lat, lan) {
 
 // Output list rating
 function listRating(id, value) {
-    var el = document.querySelector('#' + id);
-    var currentRating = 0;
-    var maxRating= 5;
-    var myRating = rating(el, currentRating, maxRating);
-    myRating.setRating(value);
+    var el = $$('#' + id + ' input');
+
+    $$(el).each(function () {
+        if ($$(this).val() == value) {
+            $$(this).attr( "checked", "checked" );
+        }
+    });
 }
 
 //Add Rating Form
 function initAddRating() {
-    var el = document.querySelector('#add-star'),
-        currentRating = 0,
-        maxRating= 5,
-        myRating = rating(el, currentRating, maxRating);
 
-    myRating.setRating();
 }

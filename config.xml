@@ -8,7 +8,7 @@
         Flamix Team
     </author>
     <content src="index.html" />
-    <!--<access origin="*" />-->
+    <access origin="*"/>
     <access origin="http://markup.romanshkabko.ru/bankadata/" subdomains="true" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -16,6 +16,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="data:*" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
