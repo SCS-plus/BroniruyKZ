@@ -103,12 +103,13 @@
 }
 
 /*Product Page Tab-2*/
-.list-block.reviews ul ul {
-    padding-left: 0px;
+#addreview-form .rating {
+    pointer-events: auto;
 }
 
 #addreview-form .rating-block {
     margin-bottom: 10px;
+    display: inline-block;
 }
 
 #addreview-form ul:before,
