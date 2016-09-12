@@ -16,13 +16,26 @@ var $$ = Dom7;
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.mainTemplate,
+                context: resp.filters[0]
+            });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
     initApp();
 });
 
 // Add view
-var mainView = bankaKZ.addView('.view-main', {
-    // dynamicNavbar: true
-});
+var mainView = bankaKZ.addView('.view-main');
 
 // Get login form
 $$(document).on('click', '#login', function (e) {
@@ -44,7 +57,6 @@ $$(document).on('click', '.get-rec-pass', function (e) {
 //Get add review form
 $$(document).on('click', '#btnAddReview', function (e) {
     mainView.router.loadContent($$('#addReviewPage').html());
-    initAddRating();
 });
 
 //Submit register form
@@ -58,6 +70,7 @@ $$(document).on('click', '.sbt-rec-pass', function (e) {
     mainView.router.loadContent($$('#loginPage').html());
 });
 
+//Search button submit
 $$(document).on('click', '#btnSearch', function (e) {
     var city = $$("#city").val(),
         type = $$("#type").val(),
@@ -86,6 +99,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 
 });
 
+//Get about page
 $$(document).on('click', '#about', function (e) {
     var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
     $$.ajax({
@@ -104,6 +118,7 @@ $$(document).on('click', '#about', function (e) {
     });
 });
 
+//Get help page
 $$(document).on('click', '#help', function (e) {
     var url = "http://www.markup.romanshkabko.ru/bankadata/test-data.json";
     $$.ajax({
@@ -122,6 +137,7 @@ $$(document).on('click', '#help', function (e) {
     });
 });
 
+//Get page How to add
 $$(document).on('click', '#howadd', function (e) {
     var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
     $$.ajax({
@@ -140,10 +156,17 @@ $$(document).on('click', '#howadd', function (e) {
     });
 });
 
+bankaKZ.onPageBeforeInit('index', function (page) {
+
+
+});
+
+//Init Index Page
 bankaKZ.onPageInit('index', function (page) {
     initApp();
 });
 
+//Init Product Page
 bankaKZ.onPageInit('product', function (page) {
     var lat = $$('.map').attr('data-lat'),
         lan = $$('.map').attr('data-lan');
@@ -163,8 +186,11 @@ bankaKZ.onPageInit('product', function (page) {
     initMap(lat, lan);
 });
 
+//Init Add Review PAge
 bankaKZ.onPageInit('addreview-page', function (page) {
-    // initAddRating();
+    $$('#addreview-form').on('submitted', function (e) {
+        var data = e.detail.data;
+    });
 });
 
 // Init APP
@@ -289,9 +315,4 @@ function listRating(id, value) {
             $$(this).attr( "checked", "checked" );
         }
     });
-}
-
-//Add Rating Form
-function initAddRating() {
-
 }

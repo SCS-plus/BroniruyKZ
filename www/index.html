@@ -19,6 +19,7 @@
 </head>
 
 <body class="theme-orange">
+
     <div class="statusbar-overlay"></div>
     <div class="panel-overlay"></div>
 
@@ -97,137 +98,12 @@
     <div class="views">
         <div class="view view-main">
             <div class="pages navbar-fixed">
-                <div data-page="index" class="page">
-                    <div class="navbar">
-                        <div class="navbar-inner">
-                            <div class="left ">
-                                <a href="#" class="link icon-only open-panel">
-                                    <i class="icon icon-bars"></i>
-                                </a>
-                            </div>
-                            <div class="sliding">
-                                <img src="img/logo.png" class="logo">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="page-content">
-                        <!-- Filter-->
-                        <div class="content-block-title">Поиск</div>
-                        <form id="filter-form" class="store-data list-block">
-                            <ul>
-                                <li>
-                                    <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                                       data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                        <select id="city" name="city">
-                                            <option value="Астана">Астана</option>
-                                            <option value="Алматы">Алматы</option>
-                                        </select>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Город</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                                       data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                        <select id="type" name="type">
-                                            <option value="Бильярд">Бильярд</option>
-                                            <option value="Сауна">Сауна</option>
-                                        </select>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Тип</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                                       data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                        <select id="service" name="service">
-                                            <option value="Банщик">Банщик</option>
-                                            <option value="Веники">Веники</option>
-                                        </select>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Сервисы</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="item-content">
-                                        <div class="item-inner">
-                                            <div class="item-title">
-                                                <input type="text" placeholder="Выберите дату" readonly id="data-search">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                                       data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                        <select id="time" name="time">
-                                            <option value="00:00">00:00</option>
-                                            <option value="01:00">01:00</option>
-                                            <option value="02:00">02:00</option>
-                                        </select>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Время</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                                       data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                        <select id="rating" name="rating">
-                                            <option value="от 1 звезды">от 1 звезды</option>
-                                            <option value="от 2 звезд">от 2 звезд</option>
-                                            <option value="от 3 звезд">от 3 звезд</option>
-                                            <option value="от 4 звезд">от 4 звезд</option>
-                                            <option value="5 звезд">5 звезд</option>
-                                        </select>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Рейтинг</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="item-content">
-                                        <div class="item-inner price-slider">
-                                            <div class="item-title">Стоимость, тг за час:
-                                                <div id="price-slider"></div>
-                                                <span id="lower-value"></span>
-                                                <input type="hidden" value="0" name="lower-price" id="lower-price">
-                                                <span id="upper-value"></span>
-                                                <input type="hidden" value="0" name="upper-price" id="upper-price">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="content-block">
-                                <div class="row">
-                                    <div class="col-100">
-                                        <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- Login Template  -->
-    <script type="text/template" id="loginPage">
+    <script id="loginPage" type="text/template">
         <div class="page" data-page="login-page">
             <div class="navbar">
                 <div class="navbar-inner">
@@ -274,7 +150,7 @@
     </script>
 
     <!-- Recovery Password Template  -->
-    <script type="text/template" id="recoveryPassPage">
+    <script id="recoveryPassPage" type="text/template">
         <div class="page" data-page="recovery-pass-page">
             <div class="navbar">
                 <div class="navbar-inner">
@@ -310,7 +186,7 @@
     </script>
 
     <!-- Registration Template  -->
-    <script type="text/template" id="registrationPage">
+    <script id="registrationPage" type="text/template">
         <div class="page" data-page="registration-page">
             <div class="navbar">
                 <div class="navbar-inner">
@@ -412,7 +288,7 @@
     </script>
 
     <!-- Add Review Template  -->
-    <script type="text/template" id="addReviewPage">
+    <script id="addReviewPage" type="text/template">
         <div class="page" data-page="addreview-page">
             <div class="navbar">
                 <div class="navbar-inner">
@@ -423,16 +299,16 @@
             <div class="page-content">
                 <div class="content-block-title">Добавить отзыв</div>
                 <div class="content-block">
-                    <form id="addreview-form" class="store-data list-block">
+                    <form id="addreview-form" class="ajax-submit" method="POST" action="http://markup.romanshkabko.ru/bankadata/send.php">
                         <div class="rating-block">
                             <div class="title">Ваша оценка</div>
                             <div id="addrat" class="list-rating">
                                 <fieldset class="rating">
-                                    <input type="radio" id="addstar5" name="rating" value="5" /><label for="addstar5" title="Rocks!">5 звезд</label>
-                                    <input type="radio" id="addstar4" name="rating" value="4" /><label for="addstar4" title="Pretty good">4 звезды</label>
-                                    <input type="radio" id="addstar3" name="rating" value="3" /><label for="addstar3" title="Meh">3 звезды</label>
-                                    <input type="radio" id="addstar2" name="rating" value="2" /><label for="addstar2" title="Kinda bad">2 звезды</label>
-                                    <input type="radio" id="addstar1" name="rating" value="1" /><label for="addstar1" title="Sucks big time">1 звезда</label>
+                                    <input type="radio" id="addstar5" name="rating" value="5" /><label for="addstar5" title="Отлично">5 звезд</label>
+                                    <input type="radio" id="addstar4" name="rating" value="4" /><label for="addstar4" title="Хорошо">4 звезды</label>
+                                    <input type="radio" id="addstar3" name="rating" value="3" /><label for="addstar3" title="Нормально">3 звезды</label>
+                                    <input type="radio" id="addstar2" name="rating" value="2" /><label for="addstar2" title="Плохо">2 звезды</label>
+                                    <input type="radio" id="addstar1" name="rating" value="1" /><label for="addstar1" title="Ужасно">1 звезда</label>
                                 </fieldset>
                             </div>
                         </div>
@@ -440,11 +316,141 @@
                             <div class="title">Текст отзыва</div>
                             <textarea name="review-text" required="required" class="text-field"></textarea>
                         </div>
+                        <div class="submit-block">
+                            <input type="submit" class="button button-fill color-orange" value="Добавить отзыв">
+                        </div>
+                        <input type="hidden" name="userID" value="1">
                     </form>
                 </div>
-                <div class="content-block">
-                    <a href="#" class="button button-fill color-orange sbt-login">Добавить отзыв</a>
+            </div>
+        </div>
+    </script>
+
+    <script id="mainTemplate" type="text/template7">
+        <div data-page="index" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left ">
+                        <a href="#" class="link icon-only open-panel">
+                            <i class="icon icon-bars"></i>
+                        </a>
+                    </div>
+                    <div class="sliding">
+                        <img src="img/logo.png" class="logo">
+                    </div>
                 </div>
+            </div>
+            <div class="page-content">
+                <!-- Filter-->
+                <div class="content-block-title">Поиск</div>
+                <form id="filter-form" class="store-data list-block">
+                    <ul>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="city" name="city">
+                                    {{#each city}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Город</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="type" name="type">
+                                    {{#each type}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Тип</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="service" name="service">
+                                    {{#each service}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Сервисы</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">
+                                        <input type="text" placeholder="Выберите дату" readonly id="data-search">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="time" name="time">
+                                    {{#each time}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Время</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="rating" name="rating">
+                                    {{#each rating}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Рейтинг</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner price-slider">
+                                    <div class="item-title">Стоимость, тг за час:
+                                        <div id="price-slider"></div>
+                                        <span id="lower-value"></span>
+                                        <input type="hidden" value="0" name="lower-price" id="lower-price" data-price="{{lowerprice}}">
+                                        <span id="upper-value"></span>
+                                        <input type="hidden" value="0" name="upper-price" id="upper-price" data-price="{{upperprice}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </script>
@@ -578,11 +584,11 @@
                                             <div class="item-subtitle">
                                                 <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
                                                     <fieldset class="rating">
-                                                        <input type="radio" id="star5-{{@index}}" name="rating" value="5" /><label for="star5-{{@index}}" title="Rocks!">5 звезд</label>
-                                                        <input type="radio" id="star4-{{@index}}" name="rating" value="4" /><label for="star4-{{@index}}" title="Pretty good">4 звезды</label>
-                                                        <input type="radio" id="star3-{{@index}}" name="rating" value="3" /><label for="star3-{{@index}}" title="Meh">3 звезды</label>
-                                                        <input type="radio" id="star2-{{@index}}" name="rating" value="2" /><label for="star2-{{@index}}" title="Kinda bad">2 звезды</label>
-                                                        <input type="radio" id="star1-{{@index}}" name="rating" value="1" /><label for="star1-{{@index}}" title="Sucks big time">1 звезда</label>
+                                                        <input type="radio" id="star5-{{@index}}" name="rating" value="5" /><label for="star5-{{@index}}" title="Отлично">5 звезд</label>
+                                                        <input type="radio" id="star4-{{@index}}" name="rating" value="4" /><label for="star4-{{@index}}" title="Хорошо">4 звезды</label>
+                                                        <input type="radio" id="star3-{{@index}}" name="rating" value="3" /><label for="star3-{{@index}}" title="Нормально">3 звезды</label>
+                                                        <input type="radio" id="star2-{{@index}}" name="rating" value="2" /><label for="star2-{{@index}}" title="Плохо">2 звезды</label>
+                                                        <input type="radio" id="star1-{{@index}}" name="rating" value="1" /><label for="star1-{{@index}}" title="Ужасно">1 звезда</label>
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -660,15 +666,14 @@
         </div>
     </script>
 
-    <!-- Path to Cordova Library JS-->
+    <!-- Path to JS-->
     <script type="text/javascript" src="cordova.js"></script>
-    <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/lib/framework7.js"></script>
-    <!-- Path to app js-->
     <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
     <script type="text/javascript" src="js/lib/gmaps.js"></script>
     <script type="text/javascript" src="js/lib/nouislider.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>
+
 </body>
 
 </html>

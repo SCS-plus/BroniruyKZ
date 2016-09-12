@@ -112,6 +112,10 @@
     display: inline-block;
 }
 
+#addreview-form .text-block {
+    margin-bottom: 10px;
+}
+
 #addreview-form ul:before,
 #addreview-form ul:after{
     display: none;
