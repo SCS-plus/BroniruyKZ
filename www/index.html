@@ -97,10 +97,432 @@
 
     <div class="views">
         <div class="view view-main">
-            <div class="pages navbar-fixed">
-            </div>
+            <div class="pages navbar-fixed"></div>
         </div>
     </div>
+
+    <!-- Main Template  -->
+    <script id="mainTemplate" type="text/template7">
+        <div data-page="index" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left ">
+                        <a href="#" class="link icon-only open-panel">
+                            <i class="icon icon-bars"></i>
+                        </a>
+                    </div>
+                    <div class="sliding">
+                        <img src="img/logo.png" class="logo">
+                    </div>
+                </div>
+            </div>
+            {{#if this}}
+            <div class="page-content main-found">
+                <!-- Filter-->
+                <div class="content-block-title">Поиск</div>
+                <form id="filter-form" class="store-data list-block">
+                    <ul>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="city" name="city">
+                                    {{#each city}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Город</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="type" name="type">
+                                    {{#each type}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Тип</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="service" name="service">
+                                    {{#each service}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Сервисы</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">
+                                        <input type="text" placeholder="Выберите дату" readonly id="data-search">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="time" name="time">
+                                    {{#each time}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Время</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="rating" name="rating">
+                                    {{#each rating}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Рейтинг</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner price-slider">
+                                    <div class="item-title">Стоимость, тг за час:
+                                        <div id="price-slider"></div>
+                                        <span id="lower-value"></span>
+                                        <input type="hidden" value="0" name="lower-price" id="lower-price" data-price="{{lowerprice}}">
+                                        <span id="upper-value"></span>
+                                        <input type="hidden" value="0" name="upper-price" id="upper-price" data-price="{{upperprice}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-100">
+                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{else}}
+            <div class="content-block main-not-found">
+                Подключите интернет!
+            </div>
+            {{/if}}
+        </div>
+    </script>
+
+    <!-- Product List Template  -->
+    <script id="listTemplate" type="text/template7">
+        <div data-page="list-product" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Результаты поиска</div>
+                </div>
+            </div>
+            {{#if this}}
+            <div class="page-content list-product product-found">
+                {{#each this}}
+                <a href='#' id='productItem-{{@index}}' data-template='itemTemplate' data-context='{{stringify this}}'>
+                    <div class="card ks-card-header-pic">
+                        <div style="background-image:url({{productImage}})" valign="bottom" class="card-header color-white no-border">{{productTitle}}</div>
+                        <div class="card-content">
+                            <div class="card-content-inner">
+                                <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
+                                <p>{{productDesc}}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="button color-orange"><i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{productPrice}} ТГ./час</span></div>
+                            <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                        </div>
+                    </div>
+                </a>
+                {{/each}}
+            </div>
+            {{else}}
+            <div class="content-block product-not-found">
+                Ничего не найдено!
+            </div>
+            {{/if}}
+        </div>
+    </script>
+
+    <!-- Product Item Template  -->
+    <script id="itemTemplate" type="text/template7">
+        <div data-page="product" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Подробная информация</div>
+                </div>
+            </div>
+
+            <div class="toolbar tabbar product-toolbar">
+                <div class="toolbar-inner"><a href="#tab1" class="active tab-link">Подробно</a><a href="#tab2" class="tab-link">Отзывы</a></div>
+            </div>
+
+            <div class="tabs-animated-wrap product-page">
+                <div class="tabs">
+                    <div id="tab1" class="page-content tab active">
+                        <div class="swiper-container product-slider-top">
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-wrapper">
+                                {{#each productDetailImage}}
+                                <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
+                                {{/each}}
+                            </div>
+                            <div class="swiper-button-next color-white"></div>
+                            <div class="swiper-button-prev color-white"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">{{productTitle}}</div>
+                            <div class="card-content">
+                                <div class="card-content-inner">
+                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
+                                    <div class="map" {{#each productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
+                                    <div class="title">Описание</div>
+                                    <div class="description">{{productDesc}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {{#each subproducts}}
+                        <div class="card">
+                            <div class="card-header">{{subProductTitle}}</div>
+                            <div class="card-content">
+                                <div class="card-content-inner">
+                                    <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
+                                        <div class="swiper-pagination"></div>
+                                        <div class="swiper-wrapper">
+                                            {{#each subProductDetailImage}}
+                                            <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
+                                            {{/each}}
+                                        </div>
+                                        <div class="swiper-button-next color-white"></div>
+                                        <div class="swiper-button-prev color-white"></div>
+                                    </div>
+                                    <div class="description">{{subProductDesc}}</div>
+                                    <div class="service">
+                                        <div class="title">Сервисы</div>
+                                        {{#each subProductService}}
+                                        <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{this}}</span></div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row info">
+                                    <div class="col-50">
+                                        <div class="col-100">Вместимость:</div>
+                                        <div class="col-100 quantity">{{subProductCapacity}} чел</div>
+                                    </div>
+                                    <div class="col-50">
+                                        <div class="col-100">Стоимость:</div>
+                                        <div class="col-100 quantity">{{subProductPrice}} тг./час</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <div id="tab2" class="page-content tab">
+                        <div class="content-block-title">Отзывы наших клиентов</div>
+                        {{#if reviews}}
+                        <div class="list-block media-list accordion-list reviews">
+                            <ul>
+                                {{#each reviews}}
+                                <li class="accordion-item">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">{{name}}</div>
+                                            </div>
+                                            <div class="item-subtitle">
+                                                <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
+                                                    <fieldset class="rating">
+                                                        <input type="radio" id="star5-{{@index}}" name="rating" value="5" /><label for="star5-{{@index}}" title="Отлично">5 звезд</label>
+                                                        <input type="radio" id="star4-{{@index}}" name="rating" value="4" /><label for="star4-{{@index}}" title="Хорошо">4 звезды</label>
+                                                        <input type="radio" id="star3-{{@index}}" name="rating" value="3" /><label for="star3-{{@index}}" title="Нормально">3 звезды</label>
+                                                        <input type="radio" id="star2-{{@index}}" name="rating" value="2" /><label for="star2-{{@index}}" title="Плохо">2 звезды</label>
+                                                        <input type="radio" id="star1-{{@index}}" name="rating" value="1" /><label for="star1-{{@index}}" title="Ужасно">1 звезда</label>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="item-text short">{{shortText}}</div>
+                                            <div class="accordion-item-content">{{longText}}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        {{/if}}
+
+                        <div class="content-block">
+                            <div class="row">
+                                <div class="col-100">
+                                    <input id="btnAddReview" type="button" value="Добавить отзыв" class="button button-raised button-fill color-orange">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- About Template  -->
+    <script id="aboutTemplate" type="text/template7">
+        <div data-page="about" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">О нас</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <p>{{aboutText}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Help Template  -->
+    <script id="helpTemplate" type="text/template7">
+        <div data-page="help" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Помощь</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <p>{{helpText}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- How to add Template  -->
+    <script id="howaddTemplate" type="text/template7">
+        <div data-page="help" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Как добавить?</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <p>{{howaddText}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Personal Page Template -->
+    <script id="personalTemplate" type="text/template7">
+        <div data-page="personal-userpage" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Личный кабинет</div>
+                </div>
+            </div>
+            <div class="toolbar tabbar personal-toolbar">
+                <div class="toolbar-inner">
+                    <a href="#tab-history" class="active tab-link">История</a>
+                    <a href="#tab-review" class="tab-link">Отзывы</a>
+                </div>
+            </div>
+            <div class="tabs-animated-wrap personal-page">
+                <div class="tabs">
+                    <div id="tab-history" class="page-content tab active">
+                        <div class="content-block">
+                            <div class="row no-gutter head">
+                                <div class="col-33">Заведение</div>
+                                <div class="col-20">Сумма</div>
+                                <div class="col-25">Дата, время</div>
+                                <div class="col-20">Статус</div>
+                            </div>
+                            <div class="row no-gutter list">
+                                <div class="col-35">Развлекательный центр "Адмирал"	- Дорожка боулинга №1</div>
+                                <div class="col-20">3000 тг.</div>
+                                <div class="col-25">22.09.2016 10:00 - 11:00</div>
+                                <div class="col-20">Не оплачено</div>
+                            </div>
+                            <div class="row no-gutter list">
+                                <div class="col-35">Тестовое заведение - Тестовый зал1</div>
+                                <div class="col-20">1000 тг.</div>
+                                <div class="col-25">27.09.2016 12:00 - 13:00</div>
+                                <div class="col-20">Оплачено</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-review" class="page-content tab">
+                        {{#if userreviews}}
+                        <div class="list-block media-list accordion-list reviews">
+                            <ul>
+                                {{#each userreviews}}
+                                <li class="accordion-item">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">{{name}}</div>
+                                            </div>
+                                            <div class="item-subtitle">
+                                                <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
+                                                    <fieldset class="rating">
+                                                        <input type="radio" id="star5-{{@index}}" name="rating" value="5" /><label for="star5-{{@index}}" title="Отлично">5 звезд</label>
+                                                        <input type="radio" id="star4-{{@index}}" name="rating" value="4" /><label for="star4-{{@index}}" title="Хорошо">4 звезды</label>
+                                                        <input type="radio" id="star3-{{@index}}" name="rating" value="3" /><label for="star3-{{@index}}" title="Нормально">3 звезды</label>
+                                                        <input type="radio" id="star2-{{@index}}" name="rating" value="2" /><label for="star2-{{@index}}" title="Плохо">2 звезды</label>
+                                                        <input type="radio" id="star1-{{@index}}" name="rating" value="1" /><label for="star1-{{@index}}" title="Ужасно">1 звезда</label>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="item-text short">{{shortText}}</div>
+                                            <div class="accordion-item-content">{{longText}}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
 
     <!-- Login Template  -->
     <script id="loginPage" type="text/template">
@@ -321,347 +743,6 @@
                         </div>
                         <input type="hidden" name="userID" value="1">
                     </form>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- Main Template  -->
-    <script id="mainTemplate" type="text/template7">
-        <div data-page="index" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left ">
-                        <a href="#" class="link icon-only open-panel">
-                            <i class="icon icon-bars"></i>
-                        </a>
-                    </div>
-                    <div class="sliding">
-                        <img src="img/logo.png" class="logo">
-                    </div>
-                </div>
-            </div>
-            <div class="page-content">
-                <!-- Filter-->
-                <div class="content-block-title">Поиск</div>
-                <form id="filter-form" class="store-data list-block">
-                    <ul>
-                        <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                <select id="city" name="city">
-                                    {{#each city}}
-                                    <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Город</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                <select id="type" name="type">
-                                    {{#each type}}
-                                    <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Тип</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                <select id="service" name="service">
-                                    {{#each service}}
-                                    <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Сервисы</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <div class="item-title">
-                                        <input type="text" placeholder="Выберите дату" readonly id="data-search">
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                <select id="time" name="time">
-                                    {{#each time}}
-                                    <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Время</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                <select id="rating" name="rating">
-                                    {{#each rating}}
-                                    <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Рейтинг</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-inner price-slider">
-                                    <div class="item-title">Стоимость, тг за час:
-                                        <div id="price-slider"></div>
-                                        <span id="lower-value"></span>
-                                        <input type="hidden" value="0" name="lower-price" id="lower-price" data-price="{{lowerprice}}">
-                                        <span id="upper-value"></span>
-                                        <input type="hidden" value="0" name="upper-price" id="upper-price" data-price="{{upperprice}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="content-block">
-                        <div class="row">
-                            <div class="col-100">
-                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </script>
-
-    <!-- Product List Template  -->
-    <script id="listTemplate" type="text/template7">
-        <div data-page="list-product" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Результаты поиска</div>
-                </div>
-            </div>
-            {{#if this}}
-            <div class="page-content list-product product-found">
-                {{#each this}}
-                <a href='#' id='productItem-{{@index}}' data-template='itemTemplate' data-context='{{stringify this}}'>
-                    <div class="card ks-card-header-pic">
-                        <div style="background-image:url({{productImage}})" valign="bottom" class="card-header color-white no-border">{{productTitle}}</div>
-                        <div class="card-content">
-                            <div class="card-content-inner">
-                                <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
-                                <p>{{productDesc}}</p>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="button color-orange"><i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{productPrice}} ТГ./час</span></div>
-                            <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
-                        </div>
-                    </div>
-                </a>
-                {{/each}}
-            </div>
-            {{else}}
-            <div class="content-block product-not-found">
-                Ничего не найдено!
-            </div>
-            {{/if}}
-        </div>
-    </script>
-
-    <!-- Product Item Template  -->
-    <script id="itemTemplate" type="text/template7">
-        <div data-page="product" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Подробная информация</div>
-                </div>
-            </div>
-
-            <div class="toolbar tabbar product-toolbar">
-                <div class="toolbar-inner"><a href="#tab1" class="active tab-link">Подробно</a><a href="#tab2" class="tab-link">Отзывы</a></div>
-            </div>
-
-            <div class="tabs-animated-wrap product-page">
-                <div class="tabs">
-                    <div id="tab1" class="page-content tab active">
-                        <div class="swiper-container product-slider-top">
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-wrapper">
-                                {{#each productDetailImage}}
-                                <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
-                                {{/each}}
-                            </div>
-                            <div class="swiper-button-next color-white"></div>
-                            <div class="swiper-button-prev color-white"></div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">{{productTitle}}</div>
-                            <div class="card-content">
-                                <div class="card-content-inner">
-                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
-                                    <div class="map" {{#each productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
-                                    <div class="title">Описание</div>
-                                    <div class="description">{{productDesc}}</div>
-                                </div>
-                            </div>
-                        </div>
-                        {{#each subproducts}}
-                        <div class="card">
-                            <div class="card-header">{{subProductTitle}}</div>
-                            <div class="card-content">
-                                <div class="card-content-inner">
-                                    <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
-                                        <div class="swiper-pagination"></div>
-                                        <div class="swiper-wrapper">
-                                            {{#each subProductDetailImage}}
-                                            <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
-                                            {{/each}}
-                                        </div>
-                                        <div class="swiper-button-next color-white"></div>
-                                        <div class="swiper-button-prev color-white"></div>
-                                    </div>
-                                    <div class="description">{{subProductDesc}}</div>
-                                    <div class="service">
-                                        <div class="title">Сервисы</div>
-                                        {{#each subProductService}}
-                                        <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{this}}</span></div>
-                                        {{/each}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="row info">
-                                    <div class="col-50">
-                                        <div class="col-100">Вместимость:</div>
-                                        <div class="col-100 quantity">{{subProductCapacity}} чел</div>
-                                    </div>
-                                    <div class="col-50">
-                                        <div class="col-100">Стоимость:</div>
-                                        <div class="col-100 quantity">{{subProductPrice}} тг./час</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{/each}}
-                    </div>
-                    <div id="tab2" class="page-content tab">
-                        <div class="content-block-title">Отзывы наших клиентов</div>
-                        {{#if reviews}}
-                        <div class="list-block media-list accordion-list reviews">
-                            <ul>
-                                {{#each reviews}}
-                                <li class="accordion-item">
-                                    <div class="item-content">
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title">{{name}}</div>
-                                            </div>
-                                            <div class="item-subtitle">
-                                                <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
-                                                    <fieldset class="rating">
-                                                        <input type="radio" id="star5-{{@index}}" name="rating" value="5" /><label for="star5-{{@index}}" title="Отлично">5 звезд</label>
-                                                        <input type="radio" id="star4-{{@index}}" name="rating" value="4" /><label for="star4-{{@index}}" title="Хорошо">4 звезды</label>
-                                                        <input type="radio" id="star3-{{@index}}" name="rating" value="3" /><label for="star3-{{@index}}" title="Нормально">3 звезды</label>
-                                                        <input type="radio" id="star2-{{@index}}" name="rating" value="2" /><label for="star2-{{@index}}" title="Плохо">2 звезды</label>
-                                                        <input type="radio" id="star1-{{@index}}" name="rating" value="1" /><label for="star1-{{@index}}" title="Ужасно">1 звезда</label>
-                                                    </fieldset>
-                                                </form>
-                                            </div>
-                                            <div class="item-text short">{{shortText}}</div>
-                                            <div class="accordion-item-content">{{longText}}</div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                        {{/if}}
-
-                        <div class="content-block">
-                            <div class="row">
-                                <div class="col-100">
-                                    <input id="btnAddReview" type="button" value="Добавить отзыв" class="button button-raised button-fill color-orange">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- About Template  -->
-    <script id="aboutTemplate" type="text/template7">
-        <div data-page="about" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">О нас</div>
-                </div>
-            </div>
-            <div class="page-content">
-                <div class="content-block">
-                    <p>{{aboutText}}</p>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- Help Template  -->
-    <script id="helpTemplate" type="text/template7">
-        <div data-page="help" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Помощь</div>
-                </div>
-            </div>
-            <div class="page-content">
-                <div class="content-block">
-                    <p>{{helpText}}</p>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- How to add Template  -->
-    <script id="howaddTemplate" type="text/template7">
-        <div data-page="help" class="page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Как добавить?</div>
-                </div>
-            </div>
-            <div class="page-content">
-                <div class="content-block">
-                    <p>{{howaddText}}</p>
                 </div>
             </div>
         </div>

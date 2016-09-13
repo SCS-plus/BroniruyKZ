@@ -205,3 +205,19 @@
 .clearfix {
     *zoom: 1;
 }
+
+/*Personal Page*/
+.personal-page {
+    margin-top: 48px;
+}
+
+#tab-history .head {
+    font-weight: 700;
+}
+
+#tab-history .head,
+#tab-history .list {
+    border-bottom: 1px solid #212121;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}

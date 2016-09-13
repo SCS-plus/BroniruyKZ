@@ -44,6 +44,11 @@ $$(document).on('click', '#btnAddReview', function (e) {
     mainView.router.loadContent($$('#addReviewPage').html());
 });
 
+//Submit login form
+$$(document).on('click', '.sbt-login', function (e) {
+    mainView.router.loadContent($$('#personalTemplate').html());
+});
+
 //Submit register form
 $$(document).on('click', '.sbt-register', function (e) {
     var formData = bankaKZ.formToJSON('#register-form');
