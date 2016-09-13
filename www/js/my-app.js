@@ -16,22 +16,7 @@ var $$ = Dom7;
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
-    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
-
-    $$.ajax({
-        dataType: 'json',
-        url: url,
-        success: function (resp) {
-            mainView.router.load({
-                template: Template7.templates.mainTemplate,
-                context: resp.filters[0]
-            });
-        },
-        error: function (xhr) {
-            console.log("Error on ajax call " + xhr);
-        }
-    });
-    initApp();
+    getFilters();
 });
 
 // Add view
@@ -156,11 +141,6 @@ $$(document).on('click', '#howadd', function (e) {
     });
 });
 
-bankaKZ.onPageBeforeInit('index', function (page) {
-
-
-});
-
 //Init Index Page
 bankaKZ.onPageInit('index', function (page) {
     initApp();
@@ -199,18 +179,43 @@ function initApp() {
     initCalendarPicker();
 }
 
+// Get filter data with JSON
+function getFilters() {
+    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.mainTemplate,
+                context: resp.filters[0]
+            });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+}
+
 // Main Page Range Slider
 function initRangeSlider() {
-    var priceSlider = document.getElementById('price-slider');
+    var lowerprice = parseInt($$('#lower-price').attr('data-price')),
+        upperprice = parseInt($$('#upper-price').attr('data-price')),
+        priceSlider = document.getElementById('price-slider'),
+        lowerValue = document.getElementById('lower-value'),
+        upperValue = document.getElementById('upper-value'),
+        lowerPrice = document.getElementById('lower-price'),
+        upperPrice = document.getElementById('upper-price');
 
     noUiSlider.create(priceSlider, {
         connect: true,
-        start: [ 0, 10000 ],
+        start: [ lowerprice, upperprice ],
         behaviour: 'drag',
         step: 1000,
         range: {
-            'min': 0,
-            'max': 10000
+            'min': lowerprice,
+            'max': upperprice
         },
         format: ({
             to: function ( value ) {
@@ -225,12 +230,6 @@ function initRangeSlider() {
     function leftValue ( handle ) {
         return handle.parentElement.style.left;
     }
-
-    var lowerValue = document.getElementById('lower-value'),
-        upperValue = document.getElementById('upper-value'),
-        lowerPrice = document.getElementById('lower-price'),
-        upperPrice = document.getElementById('upper-price'),
-        handles = priceSlider.getElementsByClassName('noUi-handle');
 
     priceSlider.noUiSlider.on('update', function ( values, handle ) {
         if ( !handle ) {
@@ -287,9 +286,9 @@ function initProductServiceSlider(id) {
 }
 
 // Product page set map
-var map;
 function initMap(lat, lan) {
-    var lating = new google.maps.LatLng(lat, lan),
+    var map,
+        lating = new google.maps.LatLng(lat, lan),
         icon = 'img/map-marker.png';
 
     map = new GMaps({
