@@ -53,13 +53,6 @@
                                         </div>
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="content-block">
-                            <p class="buttons-row"><a href="#" class="button button-raised button-fill color-orange">Добавить заведение</a></p>
-                        </div>
-                        <div class="list-block">
-                            <ul>
                                 <li id="about">
                                     <a href="#" class="item-link">
                                         <div class="item-content">
@@ -82,7 +75,7 @@
                                     <a href="#" class="item-link">
                                         <div class="item-content">
                                             <div class="item-inner">
-                                                <div class="item-title">Как добавить заведение</div>
+                                                <div class="item-title">Как добавить заведение?</div>
                                             </div>
                                         </div>
                                     </a>
@@ -127,7 +120,7 @@
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="city" name="city">
                                     {{#each city}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
@@ -142,7 +135,7 @@
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="type" name="type">
                                     {{#each type}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
@@ -157,7 +150,7 @@
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="service" name="service">
                                     {{#each service}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
@@ -196,7 +189,7 @@
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="rating" name="rating">
                                     {{#each rating}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
@@ -331,7 +324,7 @@
                                     <div class="service">
                                         <div class="title">Сервисы</div>
                                         {{#each subProductService}}
-                                        <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{this}}</span></div>
+                                        <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}</span></div>
                                         {{/each}}
                                     </div>
                                 </div>
@@ -374,8 +367,7 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-                                            <div class="item-text short">{{shortText}}</div>
-                                            <div class="accordion-item-content">{{longText}}</div>
+                                            <div class="review-text">{{text}}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -437,7 +429,7 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Как добавить?</div>
+                    <div class="center sliding">Как добавить заведение?</div>
                 </div>
             </div>
             <div class="page-content">
@@ -461,6 +453,7 @@
                 <div class="toolbar-inner">
                     <a href="#tab-history" class="active tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
+                    <a href="#tab-booking" class="tab-link">Бронирование</a>
                 </div>
             </div>
             <div class="tabs-animated-wrap personal-page">
@@ -473,26 +466,22 @@
                                 <div class="col-25">Дата, время</div>
                                 <div class="col-20">Статус</div>
                             </div>
+                            {{#each userHistory}}
                             <div class="row no-gutter list">
-                                <div class="col-35">Развлекательный центр "Адмирал"	- Дорожка боулинга №1</div>
-                                <div class="col-20">3000 тг.</div>
-                                <div class="col-25">22.09.2016 10:00 - 11:00</div>
-                                <div class="col-20">Не оплачено</div>
+                                <div class="col-35">{{name}}</div>
+                                <div class="col-20">{{summa}}</div>
+                                <div class="col-25">{{date}}</div>
+                                <div class="col-20">{{status}}</div>
                             </div>
-                            <div class="row no-gutter list">
-                                <div class="col-35">Тестовое заведение - Тестовый зал1</div>
-                                <div class="col-20">1000 тг.</div>
-                                <div class="col-25">27.09.2016 12:00 - 13:00</div>
-                                <div class="col-20">Оплачено</div>
-                            </div>
+                            {{/each}}
                         </div>
                     </div>
                     <div id="tab-review" class="page-content tab">
-                        {{#if userreviews}}
-                        <div class="list-block media-list accordion-list reviews">
+                        {{#if userReviews}}
+                        <div class="list-block media-list reviews">
                             <ul>
-                                {{#each userreviews}}
-                                <li class="accordion-item">
+                                {{#each userReviews}}
+                                <li>
                                     <div class="item-content">
                                         <div class="item-inner">
                                             <div class="item-title-row">
@@ -509,8 +498,7 @@
                                                     </fieldset>
                                                 </form>
                                             </div>
-                                            <div class="item-text short">{{shortText}}</div>
-                                            <div class="accordion-item-content">{{longText}}</div>
+                                            <div class="review-text">{{text}}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -529,12 +517,11 @@
         <div class="page" data-page="login-page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center"><img src="img/logo.png" class="logo"></div>
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Вход</div>
                 </div>
             </div>
             <div class="page-content">
-                <div class="content-block-title">Вход</div>
                 <form id="login-form" class="store-data list-block">
                     <ul>
                         <li>
@@ -576,12 +563,11 @@
         <div class="page" data-page="recovery-pass-page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center"><img src="img/logo.png" class="logo"></div>
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Восстановление пароля</div>
                 </div>
             </div>
             <div class="page-content">
-                <div class="content-block-title">Восстановление пароля</div>
                 <form id="recovery-pass-form" class="store-data list-block">
                     <ul>
                         <li>
@@ -612,12 +598,11 @@
         <div class="page" data-page="registration-page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center"><img src="img/logo.png" class="logo"></div>
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Регистрация</div>
                 </div>
             </div>
             <div class="page-content">
-                <div class="content-block-title">Регистрация</div>
                 <form id="register-form" class="store-data list-block">
                     <ul>
                         <li>
@@ -714,12 +699,11 @@
         <div class="page" data-page="addreview-page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
-                    <div class="center"><img src="img/logo.png" class="logo"></div>
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Добавить отзыв</div>
                 </div>
             </div>
             <div class="page-content">
-                <div class="content-block-title">Добавить отзыв</div>
                 <div class="content-block">
                     <form id="addreview-form" class="ajax-submit" method="POST" action="http://markup.romanshkabko.ru/bankadata/send.php">
                         <div class="rating-block">
@@ -751,7 +735,7 @@
     <!-- Path to JS-->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/lib/framework7.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBXYeDTQh9m_9Dvs5UjxHYqNr3fEJa3Eaw"></script>
     <script type="text/javascript" src="js/lib/gmaps.js"></script>
     <script type="text/javascript" src="js/lib/nouislider.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>

@@ -221,3 +221,9 @@
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
+
+#tab-review .reviews .review-text {
+    font-size: 14px;
+    color: #757575;
+    line-height: 20px;
+}

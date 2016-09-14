@@ -46,7 +46,7 @@ $$(document).on('click', '#btnAddReview', function (e) {
 
 //Submit login form
 $$(document).on('click', '.sbt-login', function (e) {
-    mainView.router.loadContent($$('#personalTemplate').html());
+    getPersonalData();
 });
 
 //Submit register form
@@ -71,7 +71,9 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data.php?city=" + city + "&type="
+        + type + "&service=" + service + "&datasearch=" + datasearch + "&time="
+        + time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
 
     $$.ajax({
         dataType: 'json',
@@ -81,6 +83,7 @@ $$(document).on('click', '#btnSearch', function (e) {
                 template: Template7.templates.listTemplate,
                 context: resp.products
             });
+            console.log(resp.products);
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -91,7 +94,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 
 //Get about page
 $$(document).on('click', '#about', function (e) {
-    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -110,7 +113,7 @@ $$(document).on('click', '#about', function (e) {
 
 //Get help page
 $$(document).on('click', '#help', function (e) {
-    var url = "http://www.markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -129,7 +132,7 @@ $$(document).on('click', '#help', function (e) {
 
 //Get page How to add
 $$(document).on('click', '#howadd', function (e) {
-    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -178,6 +181,15 @@ bankaKZ.onPageInit('addreview-page', function (page) {
     });
 });
 
+//Init Personal Page
+bankaKZ.onPageInit('personal-userpage', function (page) {
+    $$('.list-rating').each(function () {
+        var id = $$(this).attr('id'),
+            value = $$(this).attr('data-rating');
+        listRating(id, value);
+    });
+});
+
 // Init APP
 function initApp() {
     initRangeSlider();
@@ -186,7 +198,7 @@ function initApp() {
 
 // Get filter data with JSON
 function getFilters() {
-    var url = "http://markup.romanshkabko.ru/bankadata/test-data.json";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data.php";
 
     $$.ajax({
         dataType: 'json',
@@ -196,6 +208,26 @@ function getFilters() {
                 template: Template7.templates.mainTemplate,
                 context: resp.filters[0]
             });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+}
+
+// Get Personal data with JSON
+function getPersonalData() {
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.personalTemplate,
+                context: resp.users[0]
+            });
+            console.log(resp.users);
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -217,7 +249,7 @@ function initRangeSlider() {
         connect: true,
         start: [ lowerprice, upperprice ],
         behaviour: 'drag',
-        step: 1000,
+        step: 100,
         range: {
             'min': lowerprice,
             'max': upperprice
@@ -238,10 +270,10 @@ function initRangeSlider() {
 
     priceSlider.noUiSlider.on('update', function ( values, handle ) {
         if ( !handle ) {
-            lowerValue.innerHTML = values[handle];
+            lowerValue.innerHTML = parseInt(values[handle]);
             lowerPrice.setAttribute('value', values[handle]);
         } else {
-            upperValue.innerHTML = values[handle];
+            upperValue.innerHTML = parseInt(values[handle]);
             upperPrice.setAttribute('value', values[handle]);
         }
     });

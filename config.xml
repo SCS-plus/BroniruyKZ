@@ -8,6 +8,7 @@
         Flamix Team
     </author>
     <content src="index.html" />
+    <icon src="res/icon.png" />
     <access origin="*"/>
     <access origin="http://markup.romanshkabko.ru/bankadata/" subdomains="true" />
     <allow-intent href="http://*/*" />
