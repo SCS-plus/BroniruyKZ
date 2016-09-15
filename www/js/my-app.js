@@ -71,7 +71,7 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data.php?city=" + city + "&type="
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php?city=" + city + "&type="
         + type + "&service=" + service + "&datasearch=" + datasearch + "&time="
         + time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
 
@@ -79,17 +79,20 @@ $$(document).on('click', '#btnSearch', function (e) {
         dataType: 'json',
         url: url,
         success: function (resp) {
+            if(resp.products == null){
+                var ctx = {'empty': true};
+            } else {
+                var ctx = resp.products;
+            }
             mainView.router.load({
                 template: Template7.templates.listTemplate,
-                context: resp.products
+                context: ctx
             });
-            console.log(resp.products);
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
-
 });
 
 //Get about page
@@ -157,7 +160,8 @@ bankaKZ.onPageInit('index', function (page) {
 //Init Product Page
 bankaKZ.onPageInit('product', function (page) {
     var lat = $$('.map').attr('data-lat'),
-        lan = $$('.map').attr('data-lan');
+        lan = $$('.map').attr('data-lan'),
+        adress = $$('.map').attr('data-adress');
 
     $$('.product-service-slider').each(function () {
         var id = $$(this).attr('id');
@@ -171,7 +175,7 @@ bankaKZ.onPageInit('product', function (page) {
     });
 
     initProductMainSlider();
-    initMap(lat, lan);
+    initMap(lat, lan, adress);
 });
 
 //Init Add Review PAge
@@ -198,7 +202,7 @@ function initApp() {
 
 // Get filter data with JSON
 function getFilters() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data.php";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
 
     $$.ajax({
         dataType: 'json',
@@ -227,7 +231,6 @@ function getPersonalData() {
                 template: Template7.templates.personalTemplate,
                 context: resp.users[0]
             });
-            console.log(resp.users);
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -313,7 +316,7 @@ function initProductServiceSlider(id) {
     var swiperTop = bankaKZ.swiper('#'+id, {
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-        preloadImages: false,
+        preloadImages: true,
         lazyLoading: true,
         spaceBetween: 10,
         slidesPerView: 3,
@@ -323,23 +326,45 @@ function initProductServiceSlider(id) {
 }
 
 // Product page set map
-function initMap(lat, lan) {
+function initMap(lat, lan, adress) {
     var map,
-        lating = new google.maps.LatLng(lat, lan),
+        latlng = new google.maps.LatLng(lat, lan),
         icon = 'img/map-marker.png';
 
-    map = new GMaps({
-        disableDefaultUI: true,
-        el: '.map',
-        zoom: 14,
-        center: lating,
-        streetViewControl: false
-    });
+    if(lat && lan) {
+        map = new GMaps({
+            disableDefaultUI: true,
+            el: '.map',
+            zoom: 14,
+            center: latlng,
+            streetViewControl: false
+        });
 
-    map.addMarker({
-        position: lating,
-        icon: icon
-    });
+        map.addMarker({
+            position: latlng,
+            icon: icon
+        });
+    } else {
+        GMaps.geocode({
+            address: adress,
+            callback: function(results, status) {
+                if (status == 'OK') {
+                    var latlng = results[0].geometry.location;
+                    map = new GMaps({
+                        disableDefaultUI: true,
+                        el: '.map',
+                        zoom: 14,
+                        center: latlng,
+                        streetViewControl: false
+                    });
+                    map.addMarker({
+                        position: latlng,
+                        icon: icon
+                    });
+                }
+            }
+        });
+    }
 }
 
 // Output list rating

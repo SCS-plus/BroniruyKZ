@@ -39,8 +39,21 @@
 }
 
 /*list-product*/
+.product-not-found,
+.no-reviews {
+    text-align: center;
+    font-size: 18px;
+}
+
+.product-not-found span,
+.no-reviews span {
+    margin: 10px 0;
+    display: block;
+}
+
 .list-product .card .card-header{
     background-size: cover;
+    background-position: 0 center;
     min-height: 150px;
     font-size: 22px;
 }
@@ -83,6 +96,12 @@
     height: 100px;
 }
 
+.product-page .card .card-content-inner .product-service-slider .swiper-slide {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 0;
+}
+
 .product-page .card .card-content-inner .service .title{
     text-transform: uppercase;
     font-size: 14px;
@@ -100,6 +119,10 @@
 .product-page .card .card-footer .info .quantity,
 .product-page .card .card-footer .info .price {
     font-size: 18px;
+}
+
+.reviews {
+    margin-top: 48px;
 }
 
 /*Product Page Tab-2*/

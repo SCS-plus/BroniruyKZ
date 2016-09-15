@@ -8,7 +8,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <title>Бронируй KZ</title>
+    <title>Booking KZ</title>
 
     <link rel="stylesheet" type="text/css" href="css/framework7.material.css">
     <link rel="stylesheet" type="text/css" href="css/framework7.material.colors.css">
@@ -134,6 +134,7 @@
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="type" name="type">
+                                    <option value="0">Не выбрано</option>
                                     {{#each type}}
                                     <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
@@ -149,6 +150,7 @@
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="service" name="service">
+                                    <option value="0">Не выбрано</option>
                                     {{#each service}}
                                     <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
@@ -173,6 +175,7 @@
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="time" name="time">
+                                    <option value="0">Не выбрано</option>
                                     {{#each time}}
                                     <option value="{{this}}">{{this}}</option>
                                     {{/each}}
@@ -188,6 +191,7 @@
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="rating" name="rating">
+                                    <option value="0">Не выбрано</option>
                                     {{#each rating}}
                                     <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
@@ -239,29 +243,31 @@
                     <div class="center sliding">Результаты поиска</div>
                 </div>
             </div>
-            {{#if this}}
-            <div class="page-content list-product product-found">
-                {{#each this}}
-                <a href='#' id='productItem-{{@index}}' data-template='itemTemplate' data-context='{{stringify this}}'>
-                    <div class="card ks-card-header-pic">
-                        <div style="background-image:url({{productImage}})" valign="bottom" class="card-header color-white no-border">{{productTitle}}</div>
-                        <div class="card-content">
-                            <div class="card-content-inner">
-                                <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
-                                <p>{{productDesc}}</p>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="button color-orange"><i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{productPrice}} ТГ./час</span></div>
-                            <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
-                        </div>
-                    </div>
-                </a>
-                {{/each}}
+            {{#if empty}}
+            <div class="page-content list-product product-not-found">
+                <span>Ничего не найдено!</span>
             </div>
             {{else}}
-            <div class="content-block product-not-found">
-                Ничего не найдено!
+            <div class="page-content list-product virtual-list">
+              {{#each this}}
+                {{#each subproducts}}
+                    <a href='#' data-template='itemTemplate' data-context='{{stringify ../this}}'>
+                        <div class="card ks-card-header-pic">
+                            <div style="background-image:url({{subProducImage}})" valign="bottom" class="card-header no-border">{{subProductTitle}}</div>
+                            <div class="card-content">
+                                <div class="card-content-inner">
+                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../productAdress}}</span></p>
+                                    <p>{{subProductDesc}}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="button color-orange"><i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span></div>
+                                <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </a>
+                {{/each}}
+                {{/each}}
             </div>
             {{/if}}
         </div>
@@ -278,12 +284,12 @@
             </div>
 
             <div class="toolbar tabbar product-toolbar">
-                <div class="toolbar-inner"><a href="#tab1" class="active tab-link">Подробно</a><a href="#tab2" class="tab-link">Отзывы</a></div>
+                <div class="toolbar-inner"><a href="#tab-deteil" class="active tab-link">Подробно</a><a href="#tab-reviews" class="tab-link">Отзывы</a></div>
             </div>
 
             <div class="tabs-animated-wrap product-page">
                 <div class="tabs">
-                    <div id="tab1" class="page-content tab active">
+                    <div id="tab-detail" class="page-content tab active">
                         <div class="swiper-container product-slider-top">
                             <div class="swiper-pagination"></div>
                             <div class="swiper-wrapper">
@@ -299,7 +305,7 @@
                             <div class="card-content">
                                 <div class="card-content-inner">
                                     <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
-                                    <div class="map" {{#each productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
+                                    <div class="map" data-adress="{{productAdress}}" {{#each productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
                                     <div class="title">Описание</div>
                                     <div class="description">{{productDesc}}</div>
                                 </div>
@@ -314,7 +320,7 @@
                                         <div class="swiper-pagination"></div>
                                         <div class="swiper-wrapper">
                                             {{#each subProductDetailImage}}
-                                            <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
+                                            <div style="background-image:url({{this}});" class="swiper-slide"></div>
                                             {{/each}}
                                         </div>
                                         <div class="swiper-button-next color-white"></div>
@@ -322,10 +328,12 @@
                                     </div>
                                     <div class="description">{{subProductDesc}}</div>
                                     <div class="service">
-                                        <div class="title">Сервисы</div>
-                                        {{#each subProductService}}
-                                        <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}</span></div>
-                                        {{/each}}
+                                        {{#if subProductService}}
+                                            <div class="title">Сервисы</div>
+                                            {{#each subProductService}}
+                                            <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}</span></div>
+                                            {{/each}}
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -344,13 +352,12 @@
                         </div>
                         {{/each}}
                     </div>
-                    <div id="tab2" class="page-content tab">
-                        <div class="content-block-title">Отзывы наших клиентов</div>
+                    <div id="tab-reviews" class="page-content tab">
                         {{#if reviews}}
-                        <div class="list-block media-list accordion-list reviews">
+                        <div class="list-block media-list reviews">
                             <ul>
                                 {{#each reviews}}
-                                <li class="accordion-item">
+                                <li>
                                     <div class="item-content">
                                         <div class="item-inner">
                                             <div class="item-title-row">
@@ -373,6 +380,10 @@
                                 </li>
                                 {{/each}}
                             </ul>
+                        </div>
+                        {{else}}
+                        <div class="no-reviews">
+                            <span>Пока нет отзывов!</span>
                         </div>
                         {{/if}}
 
