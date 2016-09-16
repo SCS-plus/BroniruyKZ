@@ -24,67 +24,8 @@
     <div class="panel-overlay"></div>
 
     <div class="panel panel-left panel-reveal">
-        <div class="view navbar-fixed">
-            <div class="pages">
-                <div data-page="panel-left" class="page">
-                    <div class="navbar">
-                        <div class="navbar-inner">
-                            <div class="center">Панель управления</div>
-                        </div>
-                    </div>
-                    <div class="page-content">
-                        <div class="list-block">
-                            <ul>
-                                <li id="login">
-                                    <a href="#" class="item-link">
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Вход</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li id="registration">
-                                    <a href="#" class="item-link">
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Регистрация</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li id="about">
-                                    <a href="#" class="item-link">
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">О нас</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li id="help">
-                                    <a href="#" class="item-link">
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Помощь</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li id="howadd">
-                                    <a href="#" class="item-link">
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">Как добавить заведение?</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="view navbar-fixed view-sidebar">
+            <div class="pages"></div>
         </div>
     </div>
 
@@ -93,6 +34,91 @@
             <div class="pages navbar-fixed"></div>
         </div>
     </div>
+
+    <!-- Sidebar Template  -->
+    <script id="sidebarTemplate" type="text/template7">
+        <div data-page="panel-left" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="center">Панель управления</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="list-block">
+                    <ul>
+                        {{#if auth}}
+                        <li id="account">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Личный кабинет</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{else}}
+                        <li id="login">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Вход</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="registration">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Регистрация</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{/if}}
+                        <li id="about">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">О нас</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="help">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Помощь</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li id="howadd">
+                            <a href="#" class="item-link">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Как добавить заведение?</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {{#if auth}}
+                        <li id="logout">
+                            <div class="content-block">
+                                <div class="row">
+                                    <div class="col-100">
+                                        <input id="btnLogout" type="button" value="Выйти" class="button button-raised button-fill color-orange"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
 
     <!-- Main Template  -->
     <script id="mainTemplate" type="text/template7">
@@ -284,7 +310,7 @@
             </div>
 
             <div class="toolbar tabbar product-toolbar">
-                <div class="toolbar-inner"><a href="#tab-deteil" class="active tab-link">Подробно</a><a href="#tab-reviews" class="tab-link">Отзывы</a></div>
+                <div class="toolbar-inner"><a href="#tab-detail" class="active tab-link">Подробно</a><a href="#tab-reviews" class="tab-link">Отзывы</a></div>
             </div>
 
             <div class="tabs-animated-wrap product-page">
@@ -331,7 +357,7 @@
                                         {{#if subProductService}}
                                             <div class="title">Сервисы</div>
                                             {{#each subProductService}}
-                                            <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}</span></div>
+                                            <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</span></div>
                                             {{/each}}
                                         {{/if}}
                                     </div>
@@ -345,7 +371,7 @@
                                     </div>
                                     <div class="col-50">
                                         <div class="col-100">Стоимость:</div>
-                                        <div class="col-100 quantity">{{subProductPrice}} тг./час</div>
+                                        <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -387,14 +413,50 @@
                         </div>
                         {{/if}}
 
+                        {{#if auth}}
                         <div class="content-block">
-                            <div class="row">
-                                <div class="col-100">
-                                    <input id="btnAddReview" type="button" value="Добавить отзыв" class="button button-raised button-fill color-orange">
-                                </div>
+                            <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify this.productId}}'>Добавить отзыв</a>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Add Review Template  -->
+    <script id="addReviewTemplate" type="text/template7">
+        <div class="page" data-page="addreview-page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Добавить отзыв</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <form id="addreview-form">
+                        <div class="rating-block">
+                            <div class="title">Ваша оценка</div>
+                            <div id="addrat" class="list-rating">
+                                <fieldset class="rating">
+                                    <input type="radio" id="addstar5" name="rating" value="5" /><label for="addstar5" title="Отлично">5 звезд</label>
+                                    <input type="radio" id="addstar4" name="rating" value="4" /><label for="addstar4" title="Хорошо">4 звезды</label>
+                                    <input type="radio" id="addstar3" name="rating" value="3" /><label for="addstar3" title="Нормально">3 звезды</label>
+                                    <input type="radio" id="addstar2" name="rating" value="2" /><label for="addstar2" title="Плохо">2 звезды</label>
+                                    <input type="radio" id="addstar1" name="rating" value="1" /><label for="addstar1" title="Ужасно">1 звезда</label>
+                                </fieldset>
                             </div>
                         </div>
-                    </div>
+                        <div class="text-block">
+                            <div class="title">Текст отзыва</div>
+                            <textarea name="review-text" required="required" class="text-field"></textarea>
+                        </div>
+                        <input type="hidden" name="productId" value="{{this}}">
+                    </form>
+                </div>
+                <div class="content-block">
+                    <a href="#" class="button button-fill color-orange sbt-review">Добавить отзыв</a>
                 </div>
             </div>
         </div>
@@ -523,6 +585,111 @@
         </div>
     </script>
 
+    <!-- Registration Template  -->
+    <script id="registrationTemplate" type="text/template7">
+        <div class="page" data-page="registration-page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Регистрация</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <form id="register-form" class="store-data list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Ваш E-mail</div>
+                                    <div class="item-input">
+                                        <input id="email" type="email" name="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Ваш логин</div>
+                                    <div class="item-input">
+                                        <input type="text" name="name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
+                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                <select id="city" name="city">
+                                    {{#each city}}
+                                    <option value="{{@key}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-url"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Ваш город</div>
+                                    </div>
+                                </div>
+                            </a>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-tel"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Телефон</div>
+                                    <div class="item-input">
+                                        <input type="tel" name="phone"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="password"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Повторите пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="repassword"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Владелец заведения</div>
+                                    <div class="item-input">
+                                        <label class="label-switch">
+                                            <input type="checkbox" value="1" name="owner">
+                                            <div class="checkbox"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+                <div class="content-block">
+                    <a href="#" class="button button-fill color-orange sbt-register">Зарегистрироваться</a>
+                </div>
+            </div>
+        </div>
+    </script>
+
     <!-- Login Template  -->
     <script id="loginPage" type="text/template">
         <div class="page" data-page="login-page">
@@ -599,145 +766,6 @@
                 </div>
                 <div class="content-block">
                     <a href="#" class="button button-fill color-orange sbt-rec-pass">Сменить пароль</a>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- Registration Template  -->
-    <script id="registrationPage" type="text/template">
-        <div class="page" data-page="registration-page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Регистрация</div>
-                </div>
-            </div>
-            <div class="page-content">
-                <form id="register-form" class="store-data list-block">
-                    <ul>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-email"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Ваш E-mail</div>
-                                    <div class="item-input">
-                                        <input type="email" name="email"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Ваш логин</div>
-                                    <div class="item-input">
-                                        <input type="text" name="name"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-url"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Ваш город</div>
-                                    <div class="item-input">
-                                        <input type="text" name="city"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-tel"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Телефон</div>
-                                    <div class="item-input">
-                                        <input type="tel" name="phone"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Пароль</div>
-                                    <div class="item-input">
-                                        <input type="password" name="password"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Повторите пароль</div>
-                                    <div class="item-input">
-                                        <input type="password" name="repassword"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-toggle"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Владелец заведения</div>
-                                    <div class="item-input">
-                                        <label class="label-switch">
-                                            <input type="checkbox" value="yes" name="owner">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </form>
-                <div class="content-block">
-                    <a href="#" class="button button-fill color-orange sbt-register">Зарегистрироваться</a>
-                </div>
-            </div>
-        </div>
-    </script>
-
-    <!-- Add Review Template  -->
-    <script id="addReviewPage" type="text/template">
-        <div class="page" data-page="addreview-page">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
-                    <div class="center sliding">Добавить отзыв</div>
-                </div>
-            </div>
-            <div class="page-content">
-                <div class="content-block">
-                    <form id="addreview-form" class="ajax-submit" method="POST" action="http://markup.romanshkabko.ru/bankadata/send.php">
-                        <div class="rating-block">
-                            <div class="title">Ваша оценка</div>
-                            <div id="addrat" class="list-rating">
-                                <fieldset class="rating">
-                                    <input type="radio" id="addstar5" name="rating" value="5" /><label for="addstar5" title="Отлично">5 звезд</label>
-                                    <input type="radio" id="addstar4" name="rating" value="4" /><label for="addstar4" title="Хорошо">4 звезды</label>
-                                    <input type="radio" id="addstar3" name="rating" value="3" /><label for="addstar3" title="Нормально">3 звезды</label>
-                                    <input type="radio" id="addstar2" name="rating" value="2" /><label for="addstar2" title="Плохо">2 звезды</label>
-                                    <input type="radio" id="addstar1" name="rating" value="1" /><label for="addstar1" title="Ужасно">1 звезда</label>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div class="text-block">
-                            <div class="title">Текст отзыва</div>
-                            <textarea name="review-text" required="required" class="text-field"></textarea>
-                        </div>
-                        <div class="submit-block">
-                            <input type="submit" class="button button-fill color-orange" value="Добавить отзыв">
-                        </div>
-                        <input type="hidden" name="userID" value="1">
-                    </form>
                 </div>
             </div>
         </div>

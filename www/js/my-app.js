@@ -7,7 +7,7 @@ Template7.registerHelper('stringify', function (context){
 var bankaKZ = new Framework7({
     precompileTemplates: true,
     template7Pages: true,
-    modalTitle: "Бронируй KZ",
+    modalTitle: "Booking KZ",
     material: true
 });
 
@@ -20,7 +20,13 @@ $$(document).on('deviceready', function() {
 });
 
 // Add view
-var mainView = bankaKZ.addView('.view-main');
+var mainView = bankaKZ.addView('.view-main'),
+    sidebarView = bankaKZ.addView('.view-sidebar');
+
+// Get panel left
+$$(document).on('click', '.open-panel', function (e) {
+    getSidebar();
+});
 
 // Get login form
 $$(document).on('click', '#login', function (e) {
@@ -30,7 +36,7 @@ $$(document).on('click', '#login', function (e) {
 
 //Get registration form
 $$(document).on('click', '#registration', function (e) {
-    mainView.router.loadContent($$('#registrationPage').html());
+    getRegisterData();
     bankaKZ.closePanel();
 });
 
@@ -39,25 +45,9 @@ $$(document).on('click', '.get-rec-pass', function (e) {
     mainView.router.loadContent($$('#recoveryPassPage').html());
 });
 
-//Get add review form
-$$(document).on('click', '#btnAddReview', function (e) {
-    mainView.router.loadContent($$('#addReviewPage').html());
-});
-
-//Submit login form
-$$(document).on('click', '.sbt-login', function (e) {
-    getPersonalData();
-});
-
-//Submit register form
-$$(document).on('click', '.sbt-register', function (e) {
-    var formData = bankaKZ.formToJSON('#register-form');
-    console.log(JSON.stringify(formData));
-});
-
 //Submit recovery form
 $$(document).on('click', '.sbt-rec-pass', function (e) {
-    mainView.router.loadContent($$('#loginPage').html());
+    sendPassword();
 });
 
 //Search button submit
@@ -71,7 +61,7 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php?city=" + city + "&type="
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/list.php?city=" + city + "&type="
         + type + "&service=" + service + "&datasearch=" + datasearch + "&time="
         + time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
 
@@ -95,9 +85,16 @@ $$(document).on('click', '#btnSearch', function (e) {
     });
 });
 
+//Logout event
+$$(document).on('click', '#btnLogout', function (e) {
+    $$.get('http://xn--90aodoeldy.kz/mobile_api/forms/logout.php');
+    bankaKZ.closePanel();
+});
+
 //Get about page
 $$(document).on('click', '#about', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/about.php";
+
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -116,7 +113,8 @@ $$(document).on('click', '#about', function (e) {
 
 //Get help page
 $$(document).on('click', '#help', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/help.php";
+
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -135,7 +133,7 @@ $$(document).on('click', '#help', function (e) {
 
 //Get page How to add
 $$(document).on('click', '#howadd', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/howadd.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -150,6 +148,11 @@ $$(document).on('click', '#howadd', function (e) {
             console.log("Error on ajax call " + xhr);
         }
     });
+});
+
+//Get Personal Page
+$$(document).on('click', '#account', function (e) {
+    // getPersonalData();
 });
 
 //Init Index Page
@@ -178,10 +181,65 @@ bankaKZ.onPageInit('product', function (page) {
     initMap(lat, lan, adress);
 });
 
+//Init Registration Page
+bankaKZ.onPageInit('registration-page', function (page) {
+
+    $$('.sbt-register').on('click', function (e) {
+        var valid = true,
+            pattern = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+\.([a-z0-9]{1,6}\.)?[a-z]{2,6}$/i;
+
+        if($$("#email").val().search(pattern) !== 0){
+            valid = false;
+            bankaKZ.alert('Вы ввели неправильный Email!');
+        }
+
+        if(valid) {
+            var formData = bankaKZ.formToJSON('#register-form'),
+                url = 'http://xn--90aodoeldy.kz/mobile_api/forms/register.php';
+
+            $$.ajax({
+                dataType: 'json',
+                url: url,
+                method: 'POST',
+                data: formData,
+                success: function (resp) {
+                    if(resp.status == "OK" || resp.status == "ERROR") { bankaKZ.alert(resp.message); }
+                },
+                error: function (xhr) {
+                    console.log("Error on ajax call " + xhr);
+                }
+            });
+        }
+    });
+});
+
+//Init Login Page
+bankaKZ.onPageInit('login-page', function (page) {
+    $$('.sbt-login').on('click', function (e) {
+        var formData = bankaKZ.formToJSON('#login-form'),
+            url = 'http://xn--90aodoeldy.kz/mobile_api/forms/auth.php';
+
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            method: 'POST',
+            data: formData,
+            success: function (resp) {
+                if(resp.status == "OK") { getFilters(); }
+                else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
+            },
+            error: function (xhr) {
+                console.log("Error on ajax call " + xhr);
+            }
+        });
+
+    });
+});
+
 //Init Add Review PAge
 bankaKZ.onPageInit('addreview-page', function (page) {
-    $$('#addreview-form').on('submitted', function (e) {
-        var data = e.detail.data;
+    $$(document).on('click', '.sbt-review', function (e) {
+        sendReview();
     });
 });
 
@@ -202,7 +260,7 @@ function initApp() {
 
 // Get filter data with JSON
 function getFilters() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/filter.php";
 
     $$.ajax({
         dataType: 'json',
@@ -219,9 +277,97 @@ function getFilters() {
     });
 }
 
+//Get register data list
+function getRegisterData() {
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/register.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.registrationTemplate,
+                context: resp.register
+            });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+}
+
+//Send recovery password
+function sendPassword() {
+    var formData = bankaKZ.formToJSON('#recovery-pass-form'),
+        url = "http://xn--90aodoeldy.kz/mobile_api/forms/forgot.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        data: formData,
+        success: function (resp) {
+            if(resp.status == "OK") {
+                bankaKZ.alert(resp.message);
+                mainView.router.back();
+            }
+            else if (resp.status == "ERROR") {
+                bankaKZ.alert(resp.message);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    })
+}
+
+//Send review
+function sendReview() {
+    var formData = bankaKZ.formToJSON('#addreview-form'),
+        url = "http://xn--90aodoeldy.kz/mobile_api/forms/review.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        data: formData,
+        success: function (resp) {
+            if(resp.status == "OK") {
+                bankaKZ.alert(resp.message);
+                mainView.router.back();
+            }
+            else if (resp.status == "ERROR") {
+                bankaKZ.alert(resp.message);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    })
+}
+
+//Get sidebar
+function getSidebar() {
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/sidebar.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            sidebarView.router.load({
+                template: Template7.templates.sidebarTemplate,
+                context: resp.sidebar
+            });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+}
+
 // Get Personal data with JSON
 function getPersonalData() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/data-test.php";
+    var url = "#";
 
     $$.ajax({
         dataType: 'json',
@@ -285,6 +431,7 @@ function initRangeSlider() {
 //Main Page init calendar picker
 function initCalendarPicker() {
     var today = new Date();
+
     var dataSearch = bankaKZ.calendar({
         input: '#data-search',
         dateFormat: 'dd.mm.yyyy',
@@ -293,7 +440,7 @@ function initCalendarPicker() {
         closeOnSelect: true,
         disabled: {
             from: new Date(2010, 9, 1),
-            to: today
+            to: today.setDate(today.getDate() - 1)
         },
         toolbarCloseText: 'Готово'
     });
