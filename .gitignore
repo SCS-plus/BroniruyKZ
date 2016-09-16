@@ -15,4 +15,5 @@ resources/signing
 #Idea
 .idea
 .cordova/
+gen/
 hooks/
