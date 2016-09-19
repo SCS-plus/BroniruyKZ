@@ -69,15 +69,20 @@ $$(document).on('click', '#btnSearch', function (e) {
         dataType: 'json',
         url: url,
         success: function (resp) {
-            if(resp.products == null){
-                var ctx = {'empty': true};
-            } else {
-                var ctx = resp.products;
+            if(resp.status == 'ERROR') {
+                bankaKZ.alert(resp.message);
             }
-            mainView.router.load({
-                template: Template7.templates.listTemplate,
-                context: ctx
-            });
+            else {
+                if(resp.products == null){
+                    var ctx = {'empty': true};
+                } else {
+                    var ctx = resp.products;
+                }
+                mainView.router.load({
+                    template: Template7.templates.listTemplate,
+                    context: ctx
+                });
+            }
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -153,6 +158,31 @@ $$(document).on('click', '#howadd', function (e) {
 //Get Personal Page
 $$(document).on('click', '#account', function (e) {
     // getPersonalData();
+});
+
+//Send booking form
+$$(document).on('click', '.sbt-booking', function (e) {
+    var formData = bankaKZ.formToJSON('#booking-form'),
+        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reserve_add.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        data: formData,
+        success: function (resp) {
+            if(resp.status == "OK") {
+                bankaKZ.alert(resp.message);
+                mainView.router.back();
+            }
+            else if (resp.status == "ERROR") {
+                bankaKZ.alert(resp.message);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    })
 });
 
 //Init Index Page
@@ -236,11 +266,58 @@ bankaKZ.onPageInit('login-page', function (page) {
     });
 });
 
-//Init Add Review PAge
+//Init Add Review Page
 bankaKZ.onPageInit('addreview-page', function (page) {
     $$(document).on('click', '.sbt-review', function (e) {
         sendReview();
     });
+});
+
+//Init Booking Page
+bankaKZ.onPageInit('booking-page', function (page) {
+    initCalendarRangeServicePicker();
+
+    var serviceWrapperId =  $$('.subradiowrapper li:first-child input').val();
+
+    $$('.subradiowrapper li:first-child input').prop("checked", true);
+    $$('#service-'+serviceWrapperId).show();
+
+    calcBooking();
+
+    $$(document).on('change', '.sub-radio', function (e) {
+        var id = $$(this).val();
+        $$('.subproductservice').hide();
+        $$('.subproductservice input').each(function () {
+            $$(this).prop("checked", false);
+        });
+        $$('#service-'+id).show();
+        calcBooking();
+    });
+
+    $$(document).on('change', '.subproductservice input', function (e) {
+        calcBooking();
+    });
+
+    $$(document).on('change', '#calendar-service-from', function (e) {
+        var date = $$(this).val();
+        $$('#calendar-service-to').val(date);
+    });
+
+    $$(document).on('change', '#time-from', function (e) {
+        calcBooking();
+    });
+
+    $$(document).on('change', '#time-from', function (e) {
+        var time = parseInt($$(this).val()) + 1;
+        $$("#time-to option[value='"+ time +":00']").prop('selected', 'true');
+        $$("#time-to").siblings('.item-content').find('.item-after').html(time +':00');
+        calcBooking();
+    });
+
+    $$(document).on('change', '.all-service input', function (e) {
+        calcBooking();
+    });
+
 });
 
 //Init Personal Page
@@ -446,6 +523,36 @@ function initCalendarPicker() {
     });
 }
 
+//Main Page init calendar picker
+function initCalendarRangeServicePicker() {
+    var today = new Date();
+
+    var dataFrom = bankaKZ.calendar({
+        input: '#calendar-service-from',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        disabled: {
+            from: new Date(2010, 9, 1),
+            to: today.setDate(today.getDate() - 1)
+        },
+        toolbarCloseText: 'Готово'
+    });
+    var dataTo = bankaKZ.calendar({
+        input: '#calendar-service-to',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        disabled: {
+            from: new Date(2010, 9, 1),
+            to: today.setDate(today.getDate() - 1)
+        },
+        toolbarCloseText: 'Готово'
+    });
+}
+
 // Product page Main Slider
 function initProductMainSlider() {
     var swiperTop = bankaKZ.swiper('.product-slider-top', {
@@ -455,6 +562,15 @@ function initProductMainSlider() {
         preloadImages: false,
         lazyLoading: true,
         spaceBetween: 10
+    });
+
+    var photos = $$('.product-slider-top .hidden-big').attr('data-big');
+    var MainBig = bankaKZ.photoBrowser({
+        photos : JSON.parse(photos),
+        theme: 'dark'
+    });
+    $$('.product-slider-top .swiper-wrapper div').on('click', function () {
+        MainBig.open();
     });
 }
 
@@ -467,8 +583,14 @@ function initProductServiceSlider(id) {
         lazyLoading: true,
         spaceBetween: 10,
         slidesPerView: 3,
-        loopAdditionalSlides: 1,
-        loop: true
+    });
+    var photos = $$('#'+id+' .hidden-big').attr('data-big');
+    var MainBigService = bankaKZ.photoBrowser({
+        photos : JSON.parse(photos),
+        theme: 'dark'
+    });
+    $$('#'+id+' .swiper-wrapper div').on('click', function () {
+        MainBigService.open();
     });
 }
 
@@ -523,4 +645,52 @@ function listRating(id, value) {
             $$(this).attr( "checked", "checked" );
         }
     });
+}
+
+//Booking total 
+function calcBooking() {
+    var price = parseInt($$('.sub-radio:checked').data('price'));
+
+    if($$('#allservice').prop('checked') == true){
+
+        var price_type = $$('.sub-radio:checked').data('pricetype');
+
+        if(price_type == 'тг./час'){
+            var time_to = parseInt($$('#time-to').val()),
+                time_from = parseInt($$('#time-from').val());
+
+            if(time_from < time_to){
+                var time = time_to-time_from
+            }else{
+                var time = 24-time_from+time_to;
+            }
+
+            price = price*time;
+        }
+
+        $$('.subproductservice input').each(function () {
+            if($$(this).is(':checked')){
+                var price_type = $$(this).data('pricetype'),
+                    serv_price = parseInt($$(this).data('price'));
+                if(serv_price){
+                    if(price_type == 'тг./час'){
+                        var time_to = parseInt($$('#time-to').val());
+                        var time_from = parseInt($$('#time-from').val());
+
+                        if(time_from < time_to){
+                            var time = time_to-time_from
+                        }else{
+                            var time = 24-time_from+time_to;
+                        }
+                        price = price+(serv_price*time);
+                    }else{
+                        price = price+serv_price;
+                    }
+                }
+            }
+        });
+    }
+
+    $$('#result .total').text(price);
+    $$('#totalprice').val(price);
 }

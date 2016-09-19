@@ -279,7 +279,7 @@
                 {{#each subproducts}}
                     <a href='#' data-template='itemTemplate' data-context='{{stringify ../this}}'>
                         <div class="card ks-card-header-pic">
-                            <div style="background-image:url({{subProducImage}})" valign="bottom" class="card-header no-border">{{subProductTitle}}</div>
+                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{subProductTitle}}</div>
                             <div class="card-content">
                                 <div class="card-content-inner">
                                     <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../productAdress}}</span></p>
@@ -293,7 +293,7 @@
                         </div>
                     </a>
                 {{/each}}
-                {{/each}}
+               {{/each}}
             </div>
             {{/if}}
         </div>
@@ -319,12 +319,15 @@
                         <div class="swiper-container product-slider-top">
                             <div class="swiper-pagination"></div>
                             <div class="swiper-wrapper">
-                                {{#each productDetailImage}}
+                                {{#each productDetailImages}}
                                 <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
                                 {{/each}}
                             </div>
                             <div class="swiper-button-next color-white"></div>
                             <div class="swiper-button-prev color-white"></div>
+                            {{#if productDetailImagesBig}}
+                            <div class="hidden-big" data-big='{{stringify productDetailImagesBig}}'></div>
+                            {{/if}}
                         </div>
                         <div class="card">
                             <div class="card-header">{{productTitle}}</div>
@@ -345,12 +348,15 @@
                                     <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
                                         <div class="swiper-pagination"></div>
                                         <div class="swiper-wrapper">
-                                            {{#each subProductDetailImage}}
+                                            {{#each subProductImages}}
                                             <div style="background-image:url({{this}});" class="swiper-slide"></div>
                                             {{/each}}
                                         </div>
                                         <div class="swiper-button-next color-white"></div>
                                         <div class="swiper-button-prev color-white"></div>
+                                        {{#if subProductImagesBig}}
+                                        <div class="hidden-big" data-big='{{stringify subProductImagesBig}}'></div>
+                                        {{/if}}
                                     </div>
                                     <div class="description">{{subProductDesc}}</div>
                                     <div class="service">
@@ -377,6 +383,11 @@
                             </div>
                         </div>
                         {{/each}}
+                        {{#if auth}}
+                        <div class="content-block">
+                            <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify this}}'>Забронировать</a>
+                        </div>
+                        {{/if}}
                     </div>
                     <div id="tab-reviews" class="page-content tab">
                         {{#if reviews}}
@@ -419,6 +430,131 @@
                         </div>
                         {{/if}}
                     </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Booking Template -->
+    <script id="bookingTemplate" type="text/template7">
+        <div class="page" data-page="booking-page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Забронировать</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <form id="booking-form">
+                    <div class="content-block-title">Залы</div>
+                    <div class="list-block">
+                        <ul class="subradiowrapper">
+                            {{#each subproducts}}
+                            <li>
+                                <label class="label-radio item-content">
+                                    <input type="radio" name="ks-radio" value="{{subProductId}}" class="sub-radio" data-price="{{subProductPrice}}" data-pricetype="{{subProductPricetype}}">
+                                    <div class="item-media"><i class="icon icon-form-radio"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">{{subProductTitle}} <br> ({{subProductPrice}} {{subProductPricetype}})</div>
+                                    </div>
+                                </label>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+
+                    {{#each subproducts}}
+                        {{#if subProductService}}
+                        <div class="hidden subproductservice" id="service-{{subProductId}}">
+                            <div class="content-block-title">Дополнительные сервисы</div>
+                            <div class="list-block">
+                                <ul>
+                                    {{#each subProductService}}
+                                    <li>
+                                        <label class="label-checkbox item-content">
+                                            <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
+                                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title">{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</div>
+                                            </div>
+                                        </label>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                        {{/if}}
+                    {{/each}}
+                    <div class="content-block-title">Выбор даты и времени</div>
+                    <div class="list-block all-service">
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Дата от</div>
+                                        <div class="item-input">
+                                            <input type="text" name="date-from" placeholder="Выбрать" readonly id="calendar-service-from">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">Дата до</div>
+                                        <div class="item-input">
+                                            <input type="text" name="date-to" placeholder="Выбрать" readonly id="calendar-service-to">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                    <select id="time-from" name="time-from">
+                                        {{#each productWorkTimeFrom}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title">Время от</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                    <select id="time-to" name="time-to">
+                                        {{#each productWorkTimeTo}}
+                                        <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title">Время до</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <label class="label-checkbox item-content">
+                                    <input id="allservice" type="checkbox" name="allservice" value="1">
+                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">Оплатить всю стоимость услуг</div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content-block">
+                        <div id="result">Итого: <span class="total"></span> тг.</div>
+                    </div>
+                    <input id="totalprice" type="hidden" name="totalPrice" value="0">
+                    <input type="hidden" name="productId" value="{{productId}}">
+                </form>
+                <div class="content-block">
+                    <a href="#" class="button button-fill color-orange sbt-booking">Забронировать</a>
                 </div>
             </div>
         </div>
