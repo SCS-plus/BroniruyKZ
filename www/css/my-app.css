@@ -75,7 +75,7 @@
 
 .product-page .product-slider-top {
     height: 200px;
-    margin-top: 48px;
+    margin-top: 58px;
 }
 
 .product-page .product-slider-top .swiper-button-disabled,
@@ -128,10 +128,6 @@
 .product-page .card .card-footer .info .quantity,
 .product-page .card .card-footer .info .price {
     font-size: 18px;
-}
-
-.reviews {
-    margin-top: 48px;
 }
 
 /*Product Page Tab-2*/
@@ -238,26 +234,32 @@
     *zoom: 1;
 }
 
-/*Personal Page*/
-.personal-page {
-    margin-top: 48px;
+/*Reviews*/
+.reviews,
+.list-items {
+    margin-top: 68px;
 }
 
-#tab-history .head {
-    font-weight: 700;
+.reviews .data {
+    font-size: 13px;
 }
 
-#tab-history .head,
-#tab-history .list {
-    border-bottom: 1px solid #212121;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-}
-
-#tab-review .reviews .review-text {
+.reviews .review-text {
     font-size: 14px;
     color: #757575;
     line-height: 20px;
+}
+
+/*Personal Page*/
+.personal-page .list-items .item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    margin-bottom: 20px;
+}
+
+.personal-page .list-items .item .field .title {
+    display: inline-block;
+    width: 100%;
+    font-weight: 700;
 }
 
 /*Booking form*/
@@ -265,12 +267,15 @@
     display: none;
 }
 
-#booking-form .content-block-title:first-child {
-    margin-top: 16px;
-}
-
 #booking-form .content-block-title {
     font-size: 18px;
     padding-top: 0px;
-    margin-top: 0px;
+}
+
+#result {
+    font-size: 16px;
+}
+
+#result .total {
+    font-size: 20px;
 }

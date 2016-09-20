@@ -51,7 +51,7 @@
                             <a href="#" class="item-link">
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Личный кабинет</div>
+                                        <div class="item-title">Личный кабинет {{#if counter}}({{counter}}){{/if}}</div>
                                     </div>
                                 </div>
                             </a>
@@ -399,6 +399,7 @@
                                         <div class="item-inner">
                                             <div class="item-title-row">
                                                 <div class="item-title">{{name}}</div>
+                                                <div class="after-title data">{{data}}</div>
                                             </div>
                                             <div class="item-subtitle">
                                                 <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
@@ -462,28 +463,27 @@
                             {{/each}}
                         </ul>
                     </div>
-
                     {{#each subproducts}}
-                        {{#if subProductService}}
-                        <div class="hidden subproductservice" id="service-{{subProductId}}">
-                            <div class="content-block-title">Дополнительные сервисы</div>
-                            <div class="list-block">
-                                <ul>
-                                    {{#each subProductService}}
-                                    <li>
-                                        <label class="label-checkbox item-content">
-                                            <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
-                                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                            <div class="item-inner">
-                                                <div class="item-title">{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</div>
-                                            </div>
-                                        </label>
-                                    </li>
-                                    {{/each}}
-                                </ul>
-                            </div>
+                    {{#if subProductService}}
+                    <div class="hidden subproductservice" id="service-{{subProductId}}">
+                        <div class="content-block-title">Дополнительные сервисы</div>
+                        <div class="list-block">
+                            <ul>
+                                {{#each subProductService}}
+                                <li>
+                                    <label class="label-checkbox item-content">
+                                        <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
+                                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                        <div class="item-inner">
+                                            <div class="item-title">{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</div>
+                                        </div>
+                                    </label>
+                                </li>
+                                {{/each}}
+                            </ul>
                         </div>
-                        {{/if}}
+                    </div>
+                    {{/if}}
                     {{/each}}
                     <div class="content-block-title">Выбор даты и времени</div>
                     <div class="list-block all-service">
@@ -491,7 +491,7 @@
                             <li>
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Дата от</div>
+                                        <div class="item-title label">Дата от</div>
                                         <div class="item-input">
                                             <input type="text" name="date-from" placeholder="Выбрать" readonly id="calendar-service-from">
                                         </div>
@@ -501,7 +501,7 @@
                             <li>
                                 <div class="item-content">
                                     <div class="item-inner">
-                                        <div class="item-title">Дата до</div>
+                                        <div class="item-title label">Дата до</div>
                                         <div class="item-input">
                                             <input type="text" name="date-to" placeholder="Выбрать" readonly id="calendar-service-to">
                                         </div>
@@ -662,26 +662,48 @@
                 <div class="toolbar-inner">
                     <a href="#tab-history" class="active tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
+                    {{#if owner}}
                     <a href="#tab-booking" class="tab-link">Бронирование</a>
+                    {{/if}}
                 </div>
             </div>
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
                     <div id="tab-history" class="page-content tab active">
-                        <div class="content-block">
-                            <div class="row no-gutter head">
-                                <div class="col-33">Заведение</div>
-                                <div class="col-20">Сумма</div>
-                                <div class="col-25">Дата, время</div>
-                                <div class="col-20">Статус</div>
-                            </div>
+                        <div class="list-items content-block">
                             {{#each userHistory}}
-                            <div class="row no-gutter list">
-                                <div class="col-35">{{name}}</div>
-                                <div class="col-20">{{summa}}</div>
-                                <div class="col-25">{{date}}</div>
-                                <div class="col-20">{{status}}</div>
-                            </div>
+                                <div class="item">
+                                    <div class="field">
+                                        <span class="title">Название</span>
+                                        <span class="text">{{name}}</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="title">Сумма</span>
+                                        <span class="text">{{summa}} тг.</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="title">Дата</span>
+                                        <span class="text">{{date}}</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="title">Статус</span>
+                                        <span class="text">
+                                            <p class="buttons-row">
+                                                <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
+                                                {{#if substatus}}
+                                                <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
+                                                {{/if}}
+                                            </p>
+                                            <p class="buttons-row">
+                                                {{#if buttons}}
+                                                    {{#each buttons}}
+                                                    <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
+                                                    {{/each}}
+                                                {{/if}}
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
                             {{/each}}
                         </div>
                     </div>
@@ -695,6 +717,7 @@
                                         <div class="item-inner">
                                             <div class="item-title-row">
                                                 <div class="item-title">{{name}}</div>
+                                                <div class="after-title data">{{data}}</div>
                                             </div>
                                             <div class="item-subtitle">
                                                 <form id="rat-{{@index}}" class="list-rating" data-rating="{{rating}}">
@@ -715,6 +738,44 @@
                             </ul>
                         </div>
                         {{/if}}
+                    </div>
+                    <div id="tab-booking" class="page-content tab">
+                        <div class="list-items content-block">
+                            {{#each ownerHistory}}
+                            <div class="item">
+                                <div class="field">
+                                    <span class="title">Название</span>
+                                    <span class="text">{{name}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Сумма</span>
+                                    <span class="text">{{summa}} тг.</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Дата</span>
+                                    <span class="text">{{date}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Статус</span>
+                                    <span class="text">
+                                        <p class="buttons-row">
+                                            <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
+                                            {{#if substatus}}
+                                            <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
+                                            {{/if}}
+                                        </p>
+                                        <p class="buttons-row">
+                                            {{#if buttons}}
+                                                {{#each buttons}}
+                                                <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
+                                                {{/each}}
+                                            {{/if}}
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
                     </div>
                 </div>
             </div>

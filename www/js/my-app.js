@@ -157,8 +157,39 @@ $$(document).on('click', '#howadd', function (e) {
 
 //Get Personal Page
 $$(document).on('click', '#account', function (e) {
-    // getPersonalData();
+    getPersonalData();
+    bankaKZ.closePanel();
 });
+
+//Send status Personal Page
+$$(document).on('click', '.sbt-status', function (e) {
+    var id = $$(this).data('id'),
+        action = $$(this).data('action'),
+        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reserve_action.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'GET',
+        data: {
+            "ID": id,
+            "ACTION": action
+        },
+        success: function (resp) {
+            if(resp.status == "OK") {
+                bankaKZ.alert(resp.message);
+                mainView.router.refreshPage();
+            }
+            else if (resp.status == "ERROR") {
+                bankaKZ.alert(resp.message);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    })
+});
+
 
 //Send booking form
 $$(document).on('click', '.sbt-booking', function (e) {
@@ -444,7 +475,7 @@ function getSidebar() {
 
 // Get Personal data with JSON
 function getPersonalData() {
-    var url = "#";
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
         dataType: 'json',
@@ -452,7 +483,7 @@ function getPersonalData() {
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.personalTemplate,
-                context: resp.users[0]
+                context: resp
             });
         },
         error: function (xhr) {
