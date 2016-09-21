@@ -14,9 +14,12 @@ var bankaKZ = new Framework7({
 var $$ = Dom7;
 
 // Handle Cordova Device Ready Event
+
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     getFilters();
+
+    document.addEventListener("backbutton", onBackKeyDown, false);
 });
 
 // Add view
@@ -731,4 +734,11 @@ function calcBooking() {
 
     $$('#result .total').text(price);
     $$('#totalprice').val(price);
+}
+
+//Native function
+
+//Press back button
+function onBackKeyDown() {
+    mainView.router.back();
 }
