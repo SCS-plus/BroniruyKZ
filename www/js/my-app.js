@@ -14,12 +14,12 @@ var bankaKZ = new Framework7({
 var $$ = Dom7;
 
 // Handle Cordova Device Ready Event
-
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     getFilters();
+    getPushNotify();
 
-    document.addEventListener("backbutton", onBackKeyDown, false);
+    document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
 // Add view
@@ -296,7 +296,10 @@ bankaKZ.onPageInit('login-page', function (page) {
             method: 'POST',
             data: formData,
             success: function (resp) {
-                if(resp.status == "OK") { getFilters(); }
+                if(resp.status == "OK") {
+                    getFilters();
+                    getPushId();
+                }
                 else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
             },
             error: function (xhr) {
@@ -737,8 +740,36 @@ function calcBooking() {
 }
 
 //Native function
-
 //Press back button
 function onBackKeyDown() {
     mainView.router.back();
+}
+
+//Notifications init
+function getPushNotify() {
+
+    window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58",
+        {googleProjectNumber: "598379907149"});
+
+    getPushId();
+
+    window.plugins.OneSignal.enableInAppAlertNotification(true);
+}
+
+//Notifications get user ID
+function getPushId() {
+    var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            if(resp.auth){
+                window.plugins.OneSignal.sendTag("bitrixid", resp.id);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
 }
