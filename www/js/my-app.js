@@ -23,6 +23,14 @@ $$(document).on('deviceready', function() {
 var mainView = bankaKZ.addView('.view-main'),
     sidebarView = bankaKZ.addView('.view-sidebar');
 
+// Refresh Main Page
+$$(document).on('refresh', '.pull-to-refresh-content', function (e) {
+    setTimeout(function () {
+        mainView.router.refreshPage();
+        bankaKZ.pullToRefreshDone();
+    }, 2000);
+});
+
 // Get panel left
 $$(document).on('click', '.open-panel', function (e) {
     getSidebar();
@@ -190,7 +198,6 @@ $$(document).on('click', '.sbt-status', function (e) {
     })
 });
 
-
 //Send booking form
 $$(document).on('click', '.sbt-booking', function (e) {
     var formData = bankaKZ.formToJSON('#booking-form'),
@@ -345,7 +352,7 @@ bankaKZ.onPageInit('booking-page', function (page) {
         calcBooking();
     });
 
-    $$(document).on('change', '.all-service input', function (e) {
+    $$(document).on('change', '#allservice', function (e) {
         calcBooking();
     });
 

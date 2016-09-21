@@ -2,7 +2,7 @@
     vertical-align: sub;
 }
 
-.main-found .content-block-title {
+.main-page .content-block-title {
     text-align: center;
     text-transform: uppercase;
     font-size: 18px;
@@ -39,16 +39,9 @@
 }
 
 /*list-product*/
-.product-not-found,
-.no-reviews {
+.not-found {
     text-align: center;
     font-size: 18px;
-}
-
-.product-not-found span,
-.no-reviews span {
-    margin: 10px 0;
-    display: block;
 }
 
 .list-product .card .card-header{
@@ -128,6 +121,10 @@
 .product-page .card .card-footer .info .quantity,
 .product-page .card .card-footer .info .price {
     font-size: 18px;
+}
+
+.product-page .reviews {
+    margin-top: 68px;
 }
 
 /*Product Page Tab-2*/
@@ -235,11 +232,6 @@
 }
 
 /*Reviews*/
-.reviews,
-.list-items {
-    margin-top: 68px;
-}
-
 .reviews .data {
     font-size: 13px;
 }
@@ -251,6 +243,10 @@
 }
 
 /*Personal Page*/
+.personal-page .pull-to-refresh-layer {
+    margin-top: 0px;
+}
+
 .personal-page .list-items .item {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     margin-bottom: 20px;
@@ -279,3 +275,29 @@
 #result .total {
     font-size: 20px;
 }
+
+/*Custom*/
+.list-block .item-content .item-inner.arrow {
+    padding-right: 42px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D'0%200%2060%20120'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'm60%2061.5-38.25%2038.25-9.75-9.75%2029.25-28.5-29.25-28.5%209.75-9.75z'%20fill%3D'%23c7c7cc'%2F%3E%3C%2Fsvg%3E");
+    background-size: 10px 20px;
+    background-repeat: no-repeat;
+    background-position: 95% center;
+    background-position: -webkit-calc(100% - 16px) center;
+    background-position: calc(100% - 16px) center;
+}
+
+.list-block .item-content .item-inner .right {
+    text-align: right;
+    font-size: 14px;
+    color: #757575;
+}
+
+.list-block .item-content .item-inner.arrow .item-title.label {
+    color: #212121;
+}
+
+.list-block .item-content .item-inner .right::-webkit-input-placeholder {color:#757575;}
+.list-block .item-content .item-inner .right::-moz-placeholder          {color:#757575;}
+.list-block .item-content .item-inner .right:-moz-placeholder           {color:#757575;}
+.list-block .item-content .item-inner .right:-ms-input-placeholder      {color:#757575;}

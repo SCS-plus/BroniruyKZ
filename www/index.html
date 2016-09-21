@@ -47,6 +47,13 @@
                 <div class="list-block">
                     <ul>
                         {{#if auth}}
+                        <li id="balance">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Баланс: <span class="color-green">{{user.sum}}</span> тг.</div>
+                                </div>
+                            </div>
+                        </li>
                         <li id="account">
                             <a href="#" class="item-link">
                                 <div class="item-content">
@@ -136,7 +143,11 @@
                 </div>
             </div>
             {{#if this}}
-            <div class="page-content main-found">
+            <div class="page-content main-page pull-to-refresh-content" data-ptr-distance="55">
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <!-- Filter-->
                 <div class="content-block-title">Поиск</div>
                 <form id="filter-form" class="store-data list-block">
@@ -190,9 +201,10 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-inner">
+                                <div class="item-inner arrow">
+                                    <div class="item-title label">Выберите дату</div>
                                     <div class="item-title">
-                                        <input type="text" placeholder="Выберите дату" readonly id="data-search">
+                                        <input class="right" type="text" placeholder="Выбрать" readonly id="data-search">
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +265,7 @@
                 </form>
             </div>
             {{else}}
-            <div class="content-block main-not-found">
+            <div class="content-block not-found">
                 Подключите интернет!
             </div>
             {{/if}}
@@ -270,7 +282,7 @@
                 </div>
             </div>
             {{#if empty}}
-            <div class="page-content list-product product-not-found">
+            <div class="page-content list-product not-found">
                 <span>Ничего не найдено!</span>
             </div>
             {{else}}
@@ -420,7 +432,7 @@
                             </ul>
                         </div>
                         {{else}}
-                        <div class="no-reviews">
+                        <div class="not-found">
                             <span>Пока нет отзывов!</span>
                         </div>
                         {{/if}}
@@ -447,8 +459,8 @@
             </div>
             <div class="page-content">
                 <form id="booking-form">
-                    <div class="content-block-title">Залы</div>
                     <div class="list-block">
+                        <div class="content-block-title">Залы</div>
                         <ul class="subradiowrapper">
                             {{#each subproducts}}
                             <li>
@@ -465,45 +477,43 @@
                     </div>
                     {{#each subproducts}}
                     {{#if subProductService}}
-                    <div class="hidden subproductservice" id="service-{{subProductId}}">
+                    <div class="list-block hidden subproductservice" id="service-{{subProductId}}">
                         <div class="content-block-title">Дополнительные сервисы</div>
-                        <div class="list-block">
-                            <ul>
-                                {{#each subProductService}}
-                                <li>
-                                    <label class="label-checkbox item-content">
-                                        <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
-                                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-                                        <div class="item-inner">
-                                            <div class="item-title">{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</div>
-                                        </div>
-                                    </label>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
+                        <ul>
+                            {{#each subProductService}}
+                            <li>
+                                <label class="label-checkbox item-content">
+                                    <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
+                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</div>
+                                    </div>
+                                </label>
+                            </li>
+                            {{/each}}
+                        </ul>
                     </div>
                     {{/if}}
                     {{/each}}
-                    <div class="content-block-title">Выбор даты и времени</div>
-                    <div class="list-block all-service">
+                    <div class="list-block">
+                        <div class="content-block-title">Выбор даты и времени</div>
                         <ul>
                             <li>
                                 <div class="item-content">
-                                    <div class="item-inner">
+                                    <div class="item-inner arrow">
                                         <div class="item-title label">Дата от</div>
-                                        <div class="item-input">
-                                            <input type="text" name="date-from" placeholder="Выбрать" readonly id="calendar-service-from">
+                                        <div class="item-title">
+                                            <input class="right" type="text" name="date-from" placeholder="Выбрать" readonly id="calendar-service-from">
                                         </div>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="item-content">
-                                    <div class="item-inner">
+                                    <div class="item-inner arrow">
                                         <div class="item-title label">Дата до</div>
-                                        <div class="item-input">
-                                            <input type="text" name="date-to" placeholder="Выбрать" readonly id="calendar-service-to">
+                                        <div class="item-title">
+                                            <input class="right" type="text" name="date-to" placeholder="Выбрать" readonly id="calendar-service-to">
                                         </div>
                                     </div>
                                 </div>
@@ -669,7 +679,12 @@
             </div>
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
-                    <div id="tab-history" class="page-content tab active">
+                    <div id="tab-history" class="page-content tab active pull-to-refresh-content" data-ptr-distance="55">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        {{#if userHistory}}
                         <div class="list-items content-block">
                             {{#each userHistory}}
                                 <div class="item">
@@ -706,8 +721,17 @@
                                 </div>
                             {{/each}}
                         </div>
+                        {{else}}
+                        <div class="content-block not-found">
+                            <span>Пока нет бронирований!</span>
+                        </div>
+                        {{/if}}
                     </div>
-                    <div id="tab-review" class="page-content tab">
+                    <div id="tab-review" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
                         {{#if userReviews}}
                         <div class="list-block media-list reviews">
                             <ul>
@@ -737,9 +761,18 @@
                                 {{/each}}
                             </ul>
                         </div>
+                        {{else}}
+                        <div class="content-block not-found">
+                            <span>Пока нет отзывов!</span>
+                        </div>
                         {{/if}}
                     </div>
-                    <div id="tab-booking" class="page-content tab">
+                    <div id="tab-booking" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        {{#if ownerHistory}}
                         <div class="list-items content-block">
                             {{#each ownerHistory}}
                             <div class="item">
@@ -776,6 +809,11 @@
                             </div>
                             {{/each}}
                         </div>
+                        {{else}}
+                        <div class="content-block not-found">
+                            <span>Пока нет бронирований!</span>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
