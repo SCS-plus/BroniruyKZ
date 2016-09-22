@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.bronkz.bookingkz" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Booking KZ</name>
+    <name>Бронируй.KZ</name>
     <description>
         Бронируй отдых, бронируй развлечения, бронируй всё!
     </description>
@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <icon src="res/icon.png" />
-    <access origin="*"/>
+    <access origin="*" />
     <access origin="http://xn--90aodoeldy.kz/" subdomains="true" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -20,6 +20,11 @@
     <allow-intent href="data:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <icon density="mdpi" src="res/android/drawable-mdpi/ic_icon.png" />
+        <icon density="hdpi" src="res/android/drawable-hdpi/ic_icon.png" />
+        <icon density="xhdpi" src="res/android/drawable-xhdpi/ic_icon.png" />
+        <icon density="xxhdpi" src="res/android/drawable-xxhdpi/ic_icon.png" />
+        <icon density="xxxhdpi" src="res/android/drawable-xxxhdpi/ic_icon.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

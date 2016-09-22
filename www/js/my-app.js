@@ -7,7 +7,7 @@ Template7.registerHelper('stringify', function (context){
 var bankaKZ = new Framework7({
     precompileTemplates: true,
     template7Pages: true,
-    modalTitle: "Booking KZ",
+    modalTitle: "Бронируй.KZ",
     material: true
 });
 
@@ -61,6 +61,34 @@ $$(document).on('click', '.sbt-rec-pass', function (e) {
     sendPassword();
 });
 
+//Send phone code
+$$(document).on('click', '.send-code', function (e) {
+    var phone = $$("#register-form #phone").val(),
+        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reg_code_send.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'GET',
+        data: {
+            'PHONE': phone
+        },
+        success: function (resp) {
+            if(resp.status == "OK") {
+                bankaKZ.alert(resp.message);
+                $$("#register-form #code").attr('data-value', resp.code);
+            }
+            else if (resp.status == "ERROR") {
+                bankaKZ.alert(resp.message);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    })
+});
+
+
 //Search button submit
 $$(document).on('click', '#btnSearch', function (e) {
     var city = $$("#city").val(),
@@ -104,6 +132,7 @@ $$(document).on('click', '#btnSearch', function (e) {
 //Logout event
 $$(document).on('click', '#btnLogout', function (e) {
     $$.get('http://xn--90aodoeldy.kz/mobile_api/forms/logout.php');
+    window.plugins.OneSignal.deleteTag("bitrixid");
     bankaKZ.closePanel();
 });
 
@@ -257,11 +286,24 @@ bankaKZ.onPageInit('registration-page', function (page) {
 
     $$('.sbt-register').on('click', function (e) {
         var valid = true,
+            code = $$("#register-form #code").attr('data-value'),
+            code_value = $$("#register-form #code").val(),
             pattern = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+\.([a-z0-9]{1,6}\.)?[a-z]{2,6}$/i;
 
         if($$("#email").val().search(pattern) !== 0){
             valid = false;
             bankaKZ.alert('Вы ввели неправильный Email!');
+        }
+
+        if(code) {
+            if (code != code_value) {
+                valid = false;
+                bankaKZ.alert('Неправильный код из СМС');
+            }
+        }
+        else {
+            valid = false;
+            bankaKZ.alert('Неправильный код из СМС');
         }
 
         if(valid) {
@@ -747,13 +789,30 @@ function onBackKeyDown() {
 
 //Notifications init
 function getPushNotify() {
+    var notificationOpenedCallback = function(jsonData) {
+        var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            success: function (resp) {
+                if(resp.auth){
+                    getPersonalData();
+                }
+            },
+            error: function (xhr) {
+                console.log("Error on ajax call " + xhr);
+            }
+        });
+    }
 
     window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58",
-        {googleProjectNumber: "598379907149"});
+        {googleProjectNumber: "598379907149"}, notificationOpenedCallback);
 
     getPushId();
 
     window.plugins.OneSignal.enableInAppAlertNotification(true);
+    window.plugins.OneSignal.enableVibrate(true);
+    window.plugins.OneSignal.enableSound(true);
 }
 
 //Notifications get user ID
