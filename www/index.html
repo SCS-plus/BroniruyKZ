@@ -664,6 +664,23 @@
         </div>
     </script>
 
+    <!-- Website Rules Template  -->
+    <script id="siteRulesTemplate" type="text/template7">
+        <div data-page="site-rules" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Правила сервиса</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <p>{{rulesText}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
     <!-- Personal Page Template -->
     <script id="personalTemplate" type="text/template7">
         <div data-page="personal-userpage" class="page">
@@ -880,7 +897,8 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Телефон</div>
                                     <div class="item-input">
-                                        <input type="tel" name="phone" id="phone"/>
+                                        <input type="tel" name="phone" id="phone" value="+7 (___) ___-____"
+                                               pattern="^\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{4}$"/>
                                     </div>
                                 </div>
                             </div>
@@ -938,6 +956,15 @@
                                     </div>
                                 </div>
                             </div>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
+                                <input id="siterights" type="checkbox" name="siterights" value="1">
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title">Согласен с <a href="#" id="rules">правилами сервиса</a></div>
+                                </div>
+                            </label>
                         </li>
                     </ul>
                 </form>
@@ -1035,6 +1062,7 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBXYeDTQh9m_9Dvs5UjxHYqNr3fEJa3Eaw"></script>
     <script type="text/javascript" src="js/lib/gmaps.js"></script>
     <script type="text/javascript" src="js/lib/nouislider.min.js"></script>
+    <script type="text/javascript" src="js/lib/masked.min.js"></script>
     <script type="text/javascript" src="js/my-app.js"></script>
 
 </body>

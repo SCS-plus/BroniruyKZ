@@ -16,6 +16,7 @@ var $$ = Dom7;
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
+    getPullId();
     getFilters();
     getPushNotify();
 
@@ -63,7 +64,8 @@ $$(document).on('click', '.sbt-rec-pass', function (e) {
 
 //Send phone code
 $$(document).on('click', '.send-code', function (e) {
-    var phone = $$("#register-form #phone").val(),
+    var phone = $$("#register-form #phone").val().replace('(', '').replace(')', '').replace('+', '').replace(' ', '')
+            .replace('-', '').replace(' ', '').replace(' ', '').replace(' ', '').replace(' ', ''),
         url = "http://xn--90aodoeldy.kz/mobile_api/forms/reg_code_send.php";
 
     $$.ajax({
@@ -195,6 +197,24 @@ $$(document).on('click', '#howadd', function (e) {
     });
 });
 
+//Get page Website Rights
+$$(document).on('click', '#rules', function (e) {
+    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/rules.php";
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.siteRulesTemplate,
+                context: resp.rules
+            });
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+});
+
 //Get Personal Page
 $$(document).on('click', '#account', function (e) {
     getPersonalData();
@@ -283,6 +303,11 @@ bankaKZ.onPageInit('product', function (page) {
 
 //Init Registration Page
 bankaKZ.onPageInit('registration-page', function (page) {
+    MaskedInput({
+        elm: document.getElementById('phone'),
+        format: '+7 (___) ___-____',
+        separator: '+7 ()-'
+    });
 
     $$('.sbt-register').on('click', function (e) {
         var valid = true,
@@ -295,13 +320,18 @@ bankaKZ.onPageInit('registration-page', function (page) {
             bankaKZ.alert('Вы ввели неправильный Email!');
         }
 
-        if(code) {
+        if($$("#siterights").prop('checked') == false && valid){
+            valid = false;
+            bankaKZ.alert('Нужно согласиться с правилами сервиса.');
+        }
+
+        if(code && valid) {
             if (code != code_value) {
                 valid = false;
                 bankaKZ.alert('Неправильный код из СМС');
             }
         }
-        else {
+        else if (valid) {
             valid = false;
             bankaKZ.alert('Неправильный код из СМС');
         }
@@ -316,7 +346,10 @@ bankaKZ.onPageInit('registration-page', function (page) {
                 method: 'POST',
                 data: formData,
                 success: function (resp) {
-                    if(resp.status == "OK" || resp.status == "ERROR") { bankaKZ.alert(resp.message); }
+                    if(resp.status == "OK" || resp.status == "ERROR") {
+                        bankaKZ.alert(resp.message);
+                        getFilters();
+                    }
                 },
                 error: function (xhr) {
                     console.log("Error on ajax call " + xhr);
@@ -784,30 +817,29 @@ function calcBooking() {
 //Native function
 //Press back button
 function onBackKeyDown() {
-    mainView.router.back();
+    var page = bankaKZ.getCurrentView().activePage;
+
+    if ($$('.smart-select-popup').css('display') == 'block') {
+        $$('.smart-select-popup .close-popup').click();
+    } else if ($$('.picker-modal').css('display') == 'block') {
+        $$('.picker-modal .close-picker').click();
+    } else if ($$('.photo-browser-in').css('display') == 'block') {
+        $$('.photo-browser .photo-browser-close-link').click();
+    } else if ($$('body').hasClass('with-panel-left-reveal')) {
+        bankaKZ.closePanel();
+    } else if(page.name=='index'){
+        if(confirm('Хотите закрыть приложение?'))
+        {
+            navigator.app.clearHistory();
+            navigator.app.exitApp();
+        }
+    } else {
+        mainView.router.back();
+    }
 }
 
 //Notifications init
 function getPushNotify() {
-    var notificationOpenedCallback = function(jsonData) {
-        var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
-        $$.ajax({
-            dataType: 'json',
-            url: url,
-            success: function (resp) {
-                if(resp.auth){
-                    getPersonalData();
-                }
-            },
-            error: function (xhr) {
-                console.log("Error on ajax call " + xhr);
-            }
-        });
-    }
-
-    window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58",
-        {googleProjectNumber: "598379907149"}, notificationOpenedCallback);
-
     getPushId();
 
     window.plugins.OneSignal.enableInAppAlertNotification(true);
@@ -830,5 +862,44 @@ function getPushId() {
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
+    });
+}
+
+//Notifications get pull user ID
+function getPullId() {
+    var notificationOpenedCallback = function(jsonData) {
+        var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            success: function (resp) {
+                if(resp.auth){
+                    getPersonalData();
+                }
+            },
+            error: function (xhr) {
+                console.log("Error on ajax call " + xhr);
+            }
+        });
+    }
+
+    window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58",
+        {googleProjectNumber: "598379907149"}, notificationOpenedCallback);
+
+    window.plugins.OneSignal.getTags(function(tags) {
+        var url = "http://xn--90aodoeldy.kz/mobile_api/push/setid.php";
+
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            data: tags,
+            method: 'GET',
+            success: function (resp) {
+                console.log("Success ajax call");
+            },
+            error: function (xhr) {
+                console.log("Error on ajax call " + xhr);
+            }
+        });
     });
 }
