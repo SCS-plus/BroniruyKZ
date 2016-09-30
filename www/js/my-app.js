@@ -422,7 +422,7 @@ bankaKZ.onPageInit('booking-page', function (page) {
         $$('#calendar-service-to').val(date);
     });
 
-    $$(document).on('change', '#time-from', function (e) {
+    $$(document).on('change', '#time-to', function (e) {
         calcBooking();
     });
 
@@ -683,12 +683,15 @@ function initProductMainSlider() {
         spaceBetween: 10
     });
 
-    var photos = $$('.product-slider-top .hidden-big').attr('data-big');
-    var MainBig = bankaKZ.photoBrowser({
-        photos : JSON.parse(photos),
-        theme: 'dark'
-    });
     $$('.product-slider-top .swiper-wrapper div').on('click', function () {
+        var photos = $$('.product-slider-top .hidden-big').attr('data-big');
+        var index = $$(this).attr('data-index');
+        var MainBig = bankaKZ.photoBrowser({
+            photos : JSON.parse(photos),
+            initialSlide: index,
+            theme: 'dark'
+        });
+
         MainBig.open();
     });
 }
@@ -703,12 +706,15 @@ function initProductServiceSlider(id) {
         spaceBetween: 10,
         slidesPerView: 3,
     });
-    var photos = $$('#'+id+' .hidden-big').attr('data-big');
-    var MainBigService = bankaKZ.photoBrowser({
-        photos : JSON.parse(photos),
-        theme: 'dark'
-    });
+
     $$('#'+id+' .swiper-wrapper div').on('click', function () {
+        var photos = $$('#'+id+' .hidden-big').attr('data-big');
+        var index = $$(this).attr('data-index');
+        var MainBigService = bankaKZ.photoBrowser({
+            photos : JSON.parse(photos),
+            initialSlide: index,
+            theme: 'dark'
+        });
         MainBigService.open();
     });
 }

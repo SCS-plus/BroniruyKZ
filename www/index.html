@@ -337,7 +337,7 @@
                             <div class="swiper-pagination"></div>
                             <div class="swiper-wrapper">
                                 {{#each productDetailImages}}
-                                <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide"></div>
+                                <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide" data-index="{{@index}}"></div>
                                 {{/each}}
                             </div>
                             <div class="swiper-button-next color-white"></div>
@@ -366,7 +366,7 @@
                                         <div class="swiper-pagination"></div>
                                         <div class="swiper-wrapper">
                                             {{#each subProductImages}}
-                                            <div style="background-image:url({{this}});" class="swiper-slide"></div>
+                                            <div style="background-image:url({{this}});" class="swiper-slide" data-index="{{@index}}"></div>
                                             {{/each}}
                                         </div>
                                         <div class="swiper-button-next color-white"></div>
@@ -692,10 +692,10 @@
             </div>
             <div class="toolbar tabbar personal-toolbar">
                 <div class="toolbar-inner">
-                    <a href="#tab-history" class="active tab-link">История</a>
+                    <a href="#tab-history" class="{{#unless owner}}active{{/unless}} tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                     {{#if owner}}
-                    <a href="#tab-booking" class="tab-link">Бронирование</a>
+                    <a href="#tab-booking" class="active tab-link">Бронирование</a>
                     {{/if}}
                 </div>
             </div>
