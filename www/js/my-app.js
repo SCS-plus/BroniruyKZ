@@ -90,7 +90,6 @@ $$(document).on('click', '.send-code', function (e) {
     })
 });
 
-
 //Search button submit
 $$(document).on('click', '#btnSearch', function (e) {
     var city = $$("#city").val(),
@@ -238,7 +237,7 @@ $$(document).on('click', '.sbt-status', function (e) {
         success: function (resp) {
             if(resp.status == "OK") {
                 bankaKZ.alert(resp.message);
-                mainView.router.refreshPage();
+                getPersonalData();
             }
             else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
