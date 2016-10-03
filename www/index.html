@@ -701,7 +701,57 @@
             </div>
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
-                    <div id="tab-history" class="page-content tab active pull-to-refresh-content" data-ptr-distance="55">
+                    {{#if owner}}
+                    <div id="tab-booking" class="page-content tab active pull-to-refresh-content" data-ptr-distance="55">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        {{#if ownerHistory}}
+                        <div class="list-items content-block">
+                            {{#each ownerHistory}}
+                            <div class="item">
+                                <div class="field">
+                                    <span class="title">Название</span>
+                                    <span class="text">{{name}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Сумма</span>
+                                    <span class="text">{{summa}} тг.</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Дата</span>
+                                    <span class="text">{{date}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Статус</span>
+                                    <span class="text">
+                                        <p class="buttons-row">
+                                            <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
+                                            {{#if substatus}}
+                                            <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
+                                            {{/if}}
+                                        </p>
+                                        <p class="buttons-row">
+                                            {{#if buttons}}
+                                                {{#each buttons}}
+                                                <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
+                                                {{/each}}
+                                            {{/if}}
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="content-block not-found">
+                            <span>Пока нет бронирований!</span>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    <div id="tab-history" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
                         <div class="pull-to-refresh-layer">
                             <div class="preloader"></div>
                             <div class="pull-to-refresh-arrow"></div>
@@ -786,54 +836,6 @@
                         {{else}}
                         <div class="content-block not-found">
                             <span>Пока нет отзывов!</span>
-                        </div>
-                        {{/if}}
-                    </div>
-                    <div id="tab-booking" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
-                        {{#if ownerHistory}}
-                        <div class="list-items content-block">
-                            {{#each ownerHistory}}
-                            <div class="item">
-                                <div class="field">
-                                    <span class="title">Название</span>
-                                    <span class="text">{{name}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Сумма</span>
-                                    <span class="text">{{summa}} тг.</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Дата</span>
-                                    <span class="text">{{date}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Статус</span>
-                                    <span class="text">
-                                        <p class="buttons-row">
-                                            <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
-                                            {{#if substatus}}
-                                            <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
-                                            {{/if}}
-                                        </p>
-                                        <p class="buttons-row">
-                                            {{#if buttons}}
-                                                {{#each buttons}}
-                                                <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
-                                                {{/each}}
-                                            {{/if}}
-                                        </p>
-                                    </span>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-                        {{else}}
-                        <div class="content-block not-found">
-                            <span>Пока нет бронирований!</span>
                         </div>
                         {{/if}}
                     </div>
