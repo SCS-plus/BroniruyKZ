@@ -237,6 +237,7 @@ $$(document).on('click', '.sbt-status', function (e) {
         success: function (resp) {
             if(resp.status == "OK") {
                 bankaKZ.alert(resp.message);
+                mainView.router.back();
                 getPersonalData();
             }
             else if (resp.status == "ERROR") {
