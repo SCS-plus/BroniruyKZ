@@ -8,6 +8,7 @@ var bankaKZ = new Framework7({
     precompileTemplates: true,
     template7Pages: true,
     modalTitle: "Бронируй.KZ",
+    externalLinks: '.external, a[target="_system"]',
     material: true
 });
 
