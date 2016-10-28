@@ -10,7 +10,7 @@
     <content src="index.html" />
     <icon src="res/icon.png" />
     <access origin="*" />
-    <access origin="http://xn--90aodoeldy.kz/" subdomains="true" />
+    <access origin="https://broniruy.kz/" subdomains="true" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

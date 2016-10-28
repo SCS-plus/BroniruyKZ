@@ -304,6 +304,8 @@ bankaKZ.onPageInit('product', function (page) {
 
 //Init Registration Page
 bankaKZ.onPageInit('registration-page', function (page) {
+    initBirthPicker();
+
     MaskedInput({
         elm: document.getElementById('phone'),
         format: '+7 (___) ___-____',
@@ -639,6 +641,18 @@ function initCalendarPicker() {
             from: new Date(2010, 9, 1),
             to: today.setDate(today.getDate() - 1)
         },
+        toolbarCloseText: 'Готово'
+    });
+}
+
+//Registration Page init calendar picker
+function initBirthPicker() {
+    var dataSearch = bankaKZ.calendar({
+        input: '#data-birth',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
         toolbarCloseText: 'Готово'
     });
 }
