@@ -637,6 +637,7 @@ function initCalendarPicker() {
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
+        headerPlaceholder: "Выберите дату",
         disabled: {
             from: new Date(2010, 9, 1),
             to: today.setDate(today.getDate() - 1)
@@ -652,6 +653,7 @@ function initBirthPicker() {
         dateFormat: 'dd.mm.yyyy',
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        headerPlaceholder: "Укажите дату рождения",
         closeOnSelect: true,
         toolbarCloseText: 'Готово'
     });
