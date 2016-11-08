@@ -67,7 +67,7 @@ $$(document).on('click', '.sbt-rec-pass', function (e) {
 $$(document).on('click', '.send-code', function (e) {
     var phone = $$("#register-form #phone").val().replace('(', '').replace(')', '').replace('+', '').replace(' ', '')
             .replace('-', '').replace(' ', '').replace(' ', '').replace(' ', '').replace(' ', ''),
-        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reg_code_send.php";
+        url = "https://broniruy.kz/mobile_api/forms/reg_code_send.php";
 
     $$.ajax({
         dataType: 'json',
@@ -102,7 +102,7 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/list.php?city=" + city + "&type="
+    var url = "https://broniruy.kz/mobile_api/pageInit/list.php?city=" + city + "&type="
         + type + "&service=" + service + "&datasearch=" + datasearch + "&time="
         + time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
 
@@ -133,14 +133,14 @@ $$(document).on('click', '#btnSearch', function (e) {
 
 //Logout event
 $$(document).on('click', '#btnLogout', function (e) {
-    $$.get('http://xn--90aodoeldy.kz/mobile_api/forms/logout.php');
+    $$.get('https://broniruy.kz/mobile_api/forms/logout.php');
     window.plugins.OneSignal.deleteTag("bitrixid");
     bankaKZ.closePanel();
 });
 
 //Get about page
 $$(document).on('click', '#about', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/about.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/about.php";
 
     $$.ajax({
         dataType: 'json',
@@ -160,7 +160,7 @@ $$(document).on('click', '#about', function (e) {
 
 //Get help page
 $$(document).on('click', '#help', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/help.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/help.php";
 
     $$.ajax({
         dataType: 'json',
@@ -180,7 +180,7 @@ $$(document).on('click', '#help', function (e) {
 
 //Get page How to add
 $$(document).on('click', '#howadd', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/howadd.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/howadd.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -199,7 +199,7 @@ $$(document).on('click', '#howadd', function (e) {
 
 //Get page Website Rights
 $$(document).on('click', '#rules', function (e) {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/rules.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/rules.php";
     $$.ajax({
         dataType: 'json',
         url: url,
@@ -225,7 +225,7 @@ $$(document).on('click', '#account', function (e) {
 $$(document).on('click', '.sbt-status', function (e) {
     var id = $$(this).data('id'),
         action = $$(this).data('action'),
-        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reserve_action.php";
+        url = "https://broniruy.kz/mobile_api/forms/reserve_action.php";
 
     $$.ajax({
         dataType: 'json',
@@ -254,7 +254,7 @@ $$(document).on('click', '.sbt-status', function (e) {
 //Send booking form
 $$(document).on('click', '.sbt-booking', function (e) {
     var formData = bankaKZ.formToJSON('#booking-form'),
-        url = "http://xn--90aodoeldy.kz/mobile_api/forms/reserve_add.php";
+        url = "https://broniruy.kz/mobile_api/forms/reserve_add.php";
 
     $$.ajax({
         dataType: 'json',
@@ -341,7 +341,7 @@ bankaKZ.onPageInit('registration-page', function (page) {
 
         if(valid) {
             var formData = bankaKZ.formToJSON('#register-form'),
-                url = 'http://xn--90aodoeldy.kz/mobile_api/forms/register.php';
+                url = 'https://broniruy.kz/mobile_api/forms/register.php';
 
             $$.ajax({
                 dataType: 'json',
@@ -366,7 +366,7 @@ bankaKZ.onPageInit('registration-page', function (page) {
 bankaKZ.onPageInit('login-page', function (page) {
     $$('.sbt-login').on('click', function (e) {
         var formData = bankaKZ.formToJSON('#login-form'),
-            url = 'http://xn--90aodoeldy.kz/mobile_api/forms/auth.php';
+            url = 'https://broniruy.kz/mobile_api/forms/auth.php';
 
         $$.ajax({
             dataType: 'json',
@@ -459,7 +459,7 @@ function initApp() {
 
 // Get filter data with JSON
 function getFilters() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/filter.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/filter.php";
 
     $$.ajax({
         dataType: 'json',
@@ -478,7 +478,7 @@ function getFilters() {
 
 //Get register data list
 function getRegisterData() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/register.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/register.php";
 
     $$.ajax({
         dataType: 'json',
@@ -498,7 +498,7 @@ function getRegisterData() {
 //Send recovery password
 function sendPassword() {
     var formData = bankaKZ.formToJSON('#recovery-pass-form'),
-        url = "http://xn--90aodoeldy.kz/mobile_api/forms/forgot.php";
+        url = "https://broniruy.kz/mobile_api/forms/forgot.php";
 
     $$.ajax({
         dataType: 'json',
@@ -523,7 +523,7 @@ function sendPassword() {
 //Send review
 function sendReview() {
     var formData = bankaKZ.formToJSON('#addreview-form'),
-        url = "http://xn--90aodoeldy.kz/mobile_api/forms/review.php";
+        url = "https://broniruy.kz/mobile_api/forms/review.php";
 
     $$.ajax({
         dataType: 'json',
@@ -547,7 +547,7 @@ function sendReview() {
 
 //Get sidebar
 function getSidebar() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/sidebar.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/sidebar.php";
 
     $$.ajax({
         dataType: 'json',
@@ -566,7 +566,7 @@ function getSidebar() {
 
 // Get Personal data with JSON
 function getPersonalData() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
+    var url = "https://broniruy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
         dataType: 'json',
@@ -872,7 +872,7 @@ function getPushNotify() {
 
 //Notifications get user ID
 function getPushId() {
-    var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
+    var url = "https://broniruy.kz/mobile_api/push/getid.php";
 
     $$.ajax({
         dataType: 'json',
@@ -891,7 +891,7 @@ function getPushId() {
 //Notifications get pull user ID
 function getPullId() {
     var notificationOpenedCallback = function(jsonData) {
-        var url = "http://xn--90aodoeldy.kz/mobile_api/push/getid.php";
+        var url = "https://broniruy.kz/mobile_api/push/getid.php";
         $$.ajax({
             dataType: 'json',
             url: url,
@@ -910,7 +910,7 @@ function getPullId() {
         {googleProjectNumber: "598379907149"}, notificationOpenedCallback);
 
     window.plugins.OneSignal.getTags(function(tags) {
-        var url = "http://xn--90aodoeldy.kz/mobile_api/push/setid.php";
+        var url = "https://broniruy.kz/mobile_api/push/setid.php";
 
         $$.ajax({
             dataType: 'json',
