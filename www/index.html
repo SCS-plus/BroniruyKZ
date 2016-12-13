@@ -570,6 +570,20 @@
                     <div class="content-block">
                         <div id="result">Итого: <span class="total"></span> тг.</div>
                     </div>
+                    <div class="list-block">
+                        <div class="content-block-title">Комментарий</div>
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-input">
+                                            <textarea class="resizable" name="comment"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <input id="totalprice" type="hidden" name="totalPrice" value="0">
                     <input type="hidden" name="productId" value="{{productId}}">
                 </form>
@@ -737,6 +751,10 @@
                                     <span class="text">{{phone}}</span>
                                 </div>
                                 <div class="field">
+                                    <span class="title">Комментарий</span>
+                                    <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
+                                </div>
+                                <div class="field">
                                     <span class="title">Статус</span>
                                     <span class="text">
                                         <p class="buttons-row">
@@ -784,6 +802,10 @@
                                     <div class="field">
                                         <span class="title">Дата</span>
                                         <span class="text">{{date}}</span>
+                                    </div>
+                                    <div class="field">
+                                        <span class="title">Комментарий</span>
+                                        <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
                                     </div>
                                     <div class="field">
                                         <span class="title">Статус</span>
