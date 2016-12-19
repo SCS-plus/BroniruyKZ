@@ -301,7 +301,7 @@
                 {{#each subproducts}}
                     <a href='#' data-template='itemTemplate' data-context='{{stringify ../this}}'>
                         <div class="card ks-card-header-pic">
-                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{subProductTitle}}</div>
+                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{../productTitle}} <br/> {{subProductTitle}}</div>
                             <div class="card-content">
                                 <div class="card-content-inner">
                                     <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../productAdress}}</span></p>
