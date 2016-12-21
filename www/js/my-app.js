@@ -306,11 +306,7 @@ bankaKZ.onPageInit('product', function (page) {
 bankaKZ.onPageInit('registration-page', function (page) {
     initBirthPicker();
 
-    MaskedInput({
-        elm: document.getElementById('phone'),
-        format: '+7 (___) ___-____',
-        separator: '+7 ()-'
-    });
+    VMasker(document.getElementById('phone')).maskPattern("+9 (999) 999-99-99");
 
     $$('.sbt-register').on('click', function (e) {
         var valid = true,
