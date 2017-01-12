@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.bronkz.bookingkz" version="1.1.8" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.bronkz.bookingkz" version="1.1.9" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Бронируй.KZ</name>
     <description>Бронируй отдых, бронируй развлечения, бронируй всё!</description>
     <author email="m.polazhynets@hotmail.com" href="http://flamix.info">Flamix Team</author>
@@ -16,6 +16,8 @@
     <allow-intent href="data:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="android-minSdkVersion" value="16" />
+        <preference name="android-targetSdkVersion" value="24" />
         <icon density="mdpi" src="res/android/drawable-mdpi/ic_icon.png" />
         <icon density="hdpi" src="res/android/drawable-hdpi/ic_icon.png" />
         <icon density="xhdpi" src="res/android/drawable-xhdpi/ic_icon.png" />

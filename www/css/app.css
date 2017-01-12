@@ -72,6 +72,20 @@
     display: none;
 }
 
+
+.halls .card:last-child {
+    margin-bottom: 60px;
+}
+
+.booking-btn-block {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 2%;
+    z-index: 9999;
+}
+
 .product-page .card .card-header{
     font-size: 18px;
 }

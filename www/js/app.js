@@ -20,7 +20,7 @@ $$(document).on('deviceready', function() {
     getPullId();
     getFilters();
     getPushNotify();
-
+    showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
@@ -190,6 +190,25 @@ $$(document).on('click', '#howadd', function (e) {
                 context: resp.howadd
             });
             bankaKZ.closePanel();
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+});
+
+//Get page Instruction
+$$(document).on('click', '#get-instruction', function (e) {
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/instructions.php";
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.instructionTemplate,
+                context: resp.instructions
+            });
+            bankaKZ.closeModal('.modal');
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -847,7 +866,7 @@ function onBackKeyDown() {
     } else if ($$('body').hasClass('with-panel-left-reveal')) {
         bankaKZ.closePanel();
     } else if(page.name=='index'){
-        if(confirm('Хотите закрыть приложение?'))
+        if(bankaKZ.confirm('Хотите закрыть приложение?', 'Выход'))
         {
             navigator.app.clearHistory();
             navigator.app.exitApp();
@@ -920,5 +939,30 @@ function getPullId() {
                 console.log("Error on ajax call " + xhr);
             }
         });
+    });
+}
+
+//Popup show when no auth user
+function showPopupRegistration() {
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/sidebar.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        success: function (resp) {
+            var auth = resp.sidebar.auth;
+
+            if(!auth) {
+                setTimeout(function () {
+                    bankaKZ.modal({
+                        title: 'Пройдите регистрацию!',
+                        text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и авторизоваться.'
+                    });
+                }, 3000);
+            }
+        },
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
     });
 }

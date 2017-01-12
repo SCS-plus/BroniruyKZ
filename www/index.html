@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/nouislider.min.css">
-    <link rel="stylesheet" type="text/css" href="css/my-app.css" />
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
 </head>
 
 <body class="theme-orange">
@@ -181,7 +181,6 @@
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
                                data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="type" name="type">
-                                    <option value="0">Не выбрано</option>
                                     {{#each type}}
                                     <option value="{{@key}}">{{this}}</option>
                                     {{/each}}
@@ -362,52 +361,56 @@
                                 </div>
                             </div>
                         </div>
-                        {{#each subproducts}}
-                        <div class="card">
-                            <div class="card-header">{{subProductTitle}}</div>
-                            <div class="card-content">
-                                <div class="card-content-inner">
-                                    <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
-                                        <div class="swiper-pagination"></div>
-                                        <div class="swiper-wrapper">
-                                            {{#each subProductImages}}
-                                            <div style="background-image:url({{this}});" class="swiper-slide" data-index="{{@index}}"></div>
-                                            {{/each}}
+                        <div class="halls">
+                            {{#each subproducts}}
+                            <div class="card">
+                                <div class="card-header">{{subProductTitle}}</div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">
+                                        <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
+                                            <div class="swiper-pagination"></div>
+                                            <div class="swiper-wrapper">
+                                                {{#each subProductImages}}
+                                                <div style="background-image:url({{this}});" class="swiper-slide" data-index="{{@index}}"></div>
+                                                {{/each}}
+                                            </div>
+                                            <div class="swiper-button-next color-white"></div>
+                                            <div class="swiper-button-prev color-white"></div>
+                                            {{#if subProductImagesBig}}
+                                            <div class="hidden-big" data-big='{{stringify subProductImagesBig}}'></div>
+                                            {{/if}}
                                         </div>
-                                        <div class="swiper-button-next color-white"></div>
-                                        <div class="swiper-button-prev color-white"></div>
-                                        {{#if subProductImagesBig}}
-                                        <div class="hidden-big" data-big='{{stringify subProductImagesBig}}'></div>
-                                        {{/if}}
+                                        <div class="description">{{subProductDesc}}</div>
+                                        <div class="service">
+                                            {{#if subProductService}}
+                                                <div class="title">Сервисы</div>
+                                                {{#each subProductService}}
+                                                <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</span></div>
+                                                {{/each}}
+                                            {{/if}}
+                                        </div>
                                     </div>
-                                    <div class="description">{{subProductDesc}}</div>
-                                    <div class="service">
-                                        {{#if subProductService}}
-                                            <div class="title">Сервисы</div>
-                                            {{#each subProductService}}
-                                            <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</span></div>
-                                            {{/each}}
-                                        {{/if}}
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row info">
+                                        <div class="col-50">
+                                            <div class="col-100">Вместимость:</div>
+                                            <div class="col-100 quantity">{{subProductCapacity}} чел</div>
+                                        </div>
+                                        <div class="col-50">
+                                            <div class="col-100">Стоимость:</div>
+                                            <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <div class="row info">
-                                    <div class="col-50">
-                                        <div class="col-100">Вместимость:</div>
-                                        <div class="col-100 quantity">{{subProductCapacity}} чел</div>
-                                    </div>
-                                    <div class="col-50">
-                                        <div class="col-100">Стоимость:</div>
-                                        <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{/each}}
                         </div>
-                        {{/each}}
                         {{#if auth}}
                         <div class="content-block">
-                            <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify this}}'>Забронировать</a>
+                            <div class="booking-btn-block">
+                                <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify this}}'>Cоздать заявку</a>
+                            </div>
                         </div>
                         {{/if}}
                     </div>
@@ -588,7 +591,7 @@
                     <input type="hidden" name="productId" value="{{productId}}">
                 </form>
                 <div class="content-block">
-                    <a href="#" class="button button-fill color-orange sbt-booking">Забронировать</a>
+                    <a href="#" class="button button-fill color-orange sbt-booking">Создать заявку</a>
                 </div>
             </div>
         </div>
@@ -678,6 +681,23 @@
             <div class="page-content">
                 <div class="content-block">
                     <p>{{howaddText}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!--Instruction Template-->
+    <script id="instructionTemplate" type="text/template7">
+        <div data-page="instruction" class="page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link open-panel"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">Инструкция по регистрации</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="content-block">
+                    <p>{{instructionText}}</p>
                 </div>
             </div>
         </div>
@@ -1105,12 +1125,12 @@
 
     <!-- Path to JS-->
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/lib/framework7.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBXYeDTQh9m_9Dvs5UjxHYqNr3fEJa3Eaw"></script>
+    <script type="text/javascript" src="js/lib/framework7.js"></script>
     <script type="text/javascript" src="js/lib/gmaps.js"></script>
     <script type="text/javascript" src="js/lib/nouislider.min.js"></script>
     <script type="text/javascript" src="js/lib/vanilla-masker.min.js"></script>
-    <script type="text/javascript" src="js/my-app.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
 
 </body>
 
