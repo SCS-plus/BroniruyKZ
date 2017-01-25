@@ -13,6 +13,7 @@ var bankaKZ = new Framework7({
 });
 
 var $$ = Dom7;
+var storage = window.localStorage;
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -118,6 +119,7 @@ $$(document).on('click', '#btnSearch', function (e) {
                     var ctx = {'empty': true};
                 } else {
                     var ctx = resp.products;
+                    storage.setItem('products', JSON.stringify(ctx));
                 }
                 mainView.router.load({
                     template: Template7.templates.listTemplate,
@@ -298,6 +300,37 @@ $$(document).on('click', '.sbt-booking', function (e) {
 //Init Index Page
 bankaKZ.onPageInit('index', function (page) {
     initApp();
+
+    var allServices = $$('#service option');
+    var Services = [];
+
+    $$.each(service, function(i, item){
+        var name = $$(item).text();
+        var value = $$(item).val();
+        var types = $$(item).data('types');
+
+        Services.push({
+            "value": value,
+            "name": name,
+            "types": types
+        });
+    });
+    storage.setItem('services', JSON.stringify(Services));
+
+    $$('body').on('change', '#type', function(){
+        var type = $$(this).val();
+        var service = $$('#service option');
+        var storageService = JSON.parse(storage.getItem('services'));
+
+        service.remove();
+        
+        $$.each(storageService, function(i, item) {
+            if (item.types.indexOf(type) != -1) {
+                $$('#service').append("<option value='" + item.value + "' data-types='" + item.types + "'>" + item.name + "</option>");
+            }
+        });
+        
+    });
 });
 
 //Init Product Page
@@ -412,22 +445,39 @@ bankaKZ.onPageInit('addreview-page', function (page) {
 
 //Init Booking Page
 bankaKZ.onPageInit('booking-page', function (page) {
-    initCalendarRangeServicePicker();
+    var productId = $$('#productid').val();
+    var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
 
-    var serviceWrapperId =  $$('.subradiowrapper li:first-child input').val();
+    initCalendarRangeServicePicker(productId, serviceWrapperId);
 
     $$('.subradiowrapper li:first-child input').prop("checked", true);
     $$('#service-'+serviceWrapperId).show();
+
+    if($$('.subradiowrapper li:first-child #subproductdaily-'+serviceWrapperId).val() == "Y") {
+        $$('.time').hide();
+    } else {
+        $$('.time').show();
+    }
 
     calcBooking();
 
     $$(document).on('change', '.sub-radio', function (e) {
         var id = $$(this).val();
+
+        initCalendarRangeServicePicker(productId, id);
+
         $$('.subproductservice').hide();
         $$('.subproductservice input').each(function () {
             $$(this).prop("checked", false);
         });
         $$('#service-'+id).show();
+
+        if($$(this).parent().find('#subproductdaily-'+id).val() == "Y") {
+            $$('.time').hide();
+        } else {
+            $$('.time').show();
+        }
+
         calcBooking();
     });
 
@@ -653,10 +703,7 @@ function initCalendarPicker() {
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Выберите дату",
-        disabled: {
-            from: new Date(2010, 9, 1),
-            to: today.setDate(today.getDate() - 1)
-        },
+        minDate: today.setDate(today.getDate() - 1),
         toolbarCloseText: 'Готово'
     });
 }
@@ -675,7 +722,25 @@ function initBirthPicker() {
 }
 
 //Main Page init calendar picker
-function initCalendarRangeServicePicker() {
+function initCalendarRangeServicePicker(productId, subproductId) {
+    var disableDates = [];
+    var products = JSON.parse(storage.getItem('products'));
+    var disDate = [];
+
+    $$.each(products, function(i, item) {
+        if(item.productId == productId) {
+            $$.each(item.subproducts, function(k, subitem) {
+                if(subitem.subProductId == subproductId) {
+                    disDate = subitem.subProductDatesAlready;
+                }
+            });
+        }
+    });
+
+    $$.each(disDate, function(i, arDate){
+        disableDates.push(new Date(arDate.y, arDate.m-1, arDate.d));
+    });
+
     var today = new Date();
 
     var dataFrom = bankaKZ.calendar({
@@ -684,10 +749,10 @@ function initCalendarRangeServicePicker() {
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
-        disabled: {
-            from: new Date(2010, 9, 1),
-            to: today.setDate(today.getDate() - 1)
-        },
+        headerPlaceholder: "Дата от",
+        minDate: today.setDate(today.getDate() - 1),
+        events: disableDates,
+        disabled: disableDates,
         toolbarCloseText: 'Готово'
     });
     var dataTo = bankaKZ.calendar({
@@ -696,10 +761,10 @@ function initCalendarRangeServicePicker() {
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
-        disabled: {
-            from: new Date(2010, 9, 1),
-            to: today.setDate(today.getDate() - 1)
-        },
+        headerPlaceholder: "Дата до",
+        minDate: today.setDate(today.getDate() - 1),
+        events: disableDates,
+        disabled: disableDates,
         toolbarCloseText: 'Готово'
     });
 }
