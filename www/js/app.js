@@ -324,12 +324,16 @@ bankaKZ.onPageInit('index', function (page) {
 
         service.remove();
         
+        $$('#service').append('<option value="0" data-types="0">Не выбрано</option>');
+
         $$.each(storageService, function(i, item) {
             if (item.types.indexOf(type) != -1) {
                 $$('#service').append("<option value='" + item.value + "' data-types='" + item.types + "'>" + item.name + "</option>");
             }
         });
-        
+
+        var selectText = $$('#service option:first-child').text();
+        $$('.service-select .item-after').text(selectText);
     });
 });
 
@@ -447,13 +451,14 @@ bankaKZ.onPageInit('addreview-page', function (page) {
 bankaKZ.onPageInit('booking-page', function (page) {
     var productId = $$('#productid').val();
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
+    var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-'+serviceWrapperId).val();
 
-    initCalendarRangeServicePicker(productId, serviceWrapperId);
+    initCalendarRangeServicePicker(productId, serviceWrapperId, dailyBooked);
 
     $$('.subradiowrapper li:first-child input').prop("checked", true);
     $$('#service-'+serviceWrapperId).show();
 
-    if($$('.subradiowrapper li:first-child #subproductdaily-'+serviceWrapperId).val() == "Y") {
+    if(dailyBooked == "Y") {
         $$('.time').hide();
     } else {
         $$('.time').show();
@@ -463,8 +468,9 @@ bankaKZ.onPageInit('booking-page', function (page) {
 
     $$(document).on('change', '.sub-radio', function (e) {
         var id = $$(this).val();
+        var tempdailyBooked = $$(this).parent().find('#subproductdaily-'+id).val();
 
-        initCalendarRangeServicePicker(productId, id);
+        initCalendarRangeServicePicker(productId, id, tempdailyBooked);
 
         $$('.subproductservice').hide();
         $$('.subproductservice input').each(function () {
@@ -472,7 +478,7 @@ bankaKZ.onPageInit('booking-page', function (page) {
         });
         $$('#service-'+id).show();
 
-        if($$(this).parent().find('#subproductdaily-'+id).val() == "Y") {
+        if(tempdailyBooked == "Y") {
             $$('.time').hide();
         } else {
             $$('.time').show();
@@ -487,7 +493,13 @@ bankaKZ.onPageInit('booking-page', function (page) {
 
     $$(document).on('change', '#calendar-service-from', function (e) {
         var date = $$(this).val();
-        $$('#calendar-service-to').val(date);
+
+        if(dailyBooked == "Y") {
+            var tempData = date.split('.');
+            $$('#calendar-service-to').val(parseFloat(tempData[0])+1+'.'+tempData[1]+'.'+tempData[2]);
+        } else {
+            $$('#calendar-service-to').val(date);
+        }
     });
 
     $$(document).on('change', '#time-to', function (e) {
@@ -764,7 +776,7 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         headerPlaceholder: "Дата до",
         minDate: today.setDate(today.getDate() - 1),
         events: disableDates,
-        disabled: disableDates,
+        disabled: disableDates, 
         toolbarCloseText: 'Готово'
     });
 }
