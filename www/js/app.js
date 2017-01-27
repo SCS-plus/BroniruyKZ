@@ -218,6 +218,12 @@ $$(document).on('click', '#get-instruction', function (e) {
     });
 });
 
+// Get login form with popup
+$$(document).on('click', '#get-login', function (e) {
+    mainView.router.loadContent($$('#loginPage').html());
+    bankaKZ.closeModal('.modal');
+});
+
 //Get page Website Rights
 $$(document).on('click', '#rules', function (e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/rules.php";
@@ -1052,7 +1058,11 @@ function showPopupRegistration() {
                 setTimeout(function () {
                     bankaKZ.modal({
                         title: 'Пройдите регистрацию!',
-                        text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и авторизоваться.'
+                        text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
+                        buttons: [{
+                            text: 'Закрыть',
+                            bold: true
+                        }]                    
                     });
                 }, 3000);
             }
