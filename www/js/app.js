@@ -110,6 +110,9 @@ $$(document).on('click', '#btnSearch', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             if(resp.status == 'ERROR') {
                 bankaKZ.alert(resp.message);
@@ -126,6 +129,9 @@ $$(document).on('click', '#btnSearch', function (e) {
                     context: ctx
                 });
             }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -283,24 +289,28 @@ $$(document).on('click', '.sbt-booking', function (e) {
     var formData = bankaKZ.formToJSON('#booking-form');
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/reserve_add.php";
 
-    $$.ajax({
-        dataType: 'json',
-        url: url,
-        method: 'POST',
-        data: formData,
-        success: function (resp) {
-            if(resp.status == "OK") {
-                bankaKZ.alert(resp.message);
-                mainView.router.back();
+    if(formData.totalPrice == 0) {
+        bankaKZ.alert("Выбор дополнительных сервисов обязателен!");
+    } else {
+        $$.ajax({
+            dataType: 'json',
+            url: url,
+            method: 'POST',
+            data: formData,
+            success: function (resp) {
+                if(resp.status == "OK") {
+                    bankaKZ.alert(resp.message);
+                    mainView.router.back();
+                }
+                else if (resp.status == "ERROR") {
+                    bankaKZ.alert(resp.message);
+                }
+            },
+            error: function (xhr) {
+                console.log("Error on ajax call " + xhr);
             }
-            else if (resp.status == "ERROR") {
-                bankaKZ.alert(resp.message);
-            }
-        },
-        error: function (xhr) {
-            console.log("Error on ajax call " + xhr);
-        }
-    })
+        });
+    }
 });
 
 //Init Index Page
@@ -454,15 +464,21 @@ bankaKZ.onPageInit('addreview-page', function (page) {
 });
 
 //Init Booking Page
-bankaKZ.onPageInit('booking-page', function (page) {
+bankaKZ.onPageInit('booking-page', function (page) {      
     var productId = $$('#productid').val();
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
     var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-'+serviceWrapperId).val();
 
+    // Сheck empty sub service |
+    if($$(".subproductservice ul li").length > 0) {
+        $$('#service-'+serviceWrapperId).show();
+    } else {
+        $$('#service-'+serviceWrapperId).hide();  
+    }
+
     initCalendarRangeServicePicker(productId, serviceWrapperId, dailyBooked);
 
     $$('.subradiowrapper li:first-child input').prop("checked", true);
-    $$('#service-'+serviceWrapperId).show();
 
     if(dailyBooked == "Y") {
         $$('.time').hide();

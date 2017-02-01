@@ -308,7 +308,13 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <div class="button color-orange"><i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span></div>
+                                <div class="button color-orange">
+                                {{#if subProductPrice}}
+                                {{#js_compare "this.subProductPrice != 0"}}
+                                <i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span>
+                                {{/js_compare}}
+                                {{/if}}
+                                </div>
                                 <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
                             </div>
                         </div>
@@ -394,12 +400,18 @@
                                 <div class="card-footer">
                                     <div class="row info">
                                         <div class="col-50">
+                                            {{#if subProductCapacity}}
+                                            {{#js_compare "this.subProductCapacity != 0"}}
                                             <div class="col-100">Вместимость:</div>
                                             <div class="col-100 quantity">{{subProductCapacity}} чел</div>
+                                            {{/js_compare}}
+                                            {{/if}}
                                         </div>
                                         <div class="col-50">
+                                            {{#if subProductPrice}}
                                             <div class="col-100">Стоимость:</div>
                                             <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
+                                            {{/if}}
                                         </div>
                                     </div>
                                 </div>
@@ -411,8 +423,8 @@
                             <div class="booking-btn-block">
                                 <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify this}}'>Cоздать заявку</a>
                             </div>
-                        </div>     
-                        {{/if}}
+                        </div>      
+                        {{/if}}                       
                     </div>
                     <div id="tab-reviews" class="page-content tab">
                         {{#if reviews}}
@@ -478,10 +490,11 @@
                             {{#each subproducts}}
                             <li>
                                 <label class="label-radio item-content">
-                                    <input type="radio" name="ks-radio" value="{{subProductId}}" class="sub-radio" data-price="{{subProductPrice}}" data-pricetype="{{subProductPricetype}}">
+                                    <input type="radio" name="ks-radio" value="{{subProductId}}" class="sub-radio" data-price="{{#if subProductPrice}}{{subProductPrice}}{{else}}0{{/if}}" data-pricetype="{{subProductPricetype}}">
                                     <div class="item-media"><i class="icon icon-form-radio"></i></div>
                                     <div class="item-inner">
-                                        <div class="item-title">{{subProductTitle}} <br> ({{subProductPrice}} {{subProductPricetype}})</div>
+                                        <div class="item-title">{{subProductTitle}} <br>
+                                        {{#if subProductPrice}} ({{subProductPrice}} {{subProductPricetype}}){{/if}}</div>
                                     </div>
                                     <input id="subproductdaily-{{subProductId}}" type="hidden" value="{{subProductDaily}}">
                                 </label>
@@ -495,6 +508,7 @@
                         <div class="content-block-title">Дополнительные сервисы</div>
                         <ul>
                             {{#each subProductService}}
+                            {{#if price}}
                             <li>
                                 <label class="label-checkbox item-content">
                                     <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
@@ -504,6 +518,7 @@
                                     </div>
                                 </label>
                             </li>
+                            {{/if}}
                             {{/each}}
                         </ul>
                     </div>
