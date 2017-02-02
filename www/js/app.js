@@ -17,7 +17,6 @@ var storage = window.localStorage;
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    console.log("Device is ready!");
     getPullId();
     getFilters();
     getPushNotify();
@@ -77,6 +76,9 @@ $$(document).on('click', '.send-code', function (e) {
         data: {
             'PHONE': phone
         },
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },     
         success: function (resp) {
             if(resp.status == "OK") {
                 bankaKZ.alert(resp.message);
@@ -86,6 +88,9 @@ $$(document).on('click', '.send-code', function (e) {
                 bankaKZ.alert(resp.message);
             }
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },      
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -153,12 +158,18 @@ $$(document).on('click', '#about', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.aboutTemplate,
                 context: resp.about
             });
             bankaKZ.closePanel();
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -173,6 +184,9 @@ $$(document).on('click', '#help', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.helpTemplate,
@@ -180,6 +194,9 @@ $$(document).on('click', '#help', function (e) {
             });
             bankaKZ.closePanel();
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },    
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -192,6 +209,9 @@ $$(document).on('click', '#howadd', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },    
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.howaddTemplate,
@@ -199,6 +219,9 @@ $$(document).on('click', '#howadd', function (e) {
             });
             bankaKZ.closePanel();
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },  
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -211,6 +234,9 @@ $$(document).on('click', '#get-instruction', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        }, 
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.instructionTemplate,
@@ -218,6 +244,9 @@ $$(document).on('click', '#get-instruction', function (e) {
             });
             bankaKZ.closeModal('.modal');
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },      
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -236,12 +265,18 @@ $$(document).on('click', '#rules', function (e) {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },    
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.siteRulesTemplate,
                 context: resp.rules
             });
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },          
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -268,6 +303,9 @@ $$(document).on('click', '.sbt-status', function (e) {
             "ID": id,
             "ACTION": action
         },
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },  
         success: function (resp) {
             if(resp.status == "OK") {
                 bankaKZ.alert(resp.message);
@@ -278,6 +316,9 @@ $$(document).on('click', '.sbt-status', function (e) {
                 bankaKZ.alert(resp.message);
             }
         },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },     
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
         }
@@ -297,6 +338,9 @@ $$(document).on('click', '.sbt-booking', function (e) {
             url: url,
             method: 'POST',
             data: formData,
+            beforeSend: function(xhr) {
+                bankaKZ.showIndicator();
+            },  
             success: function (resp) {
                 if(resp.status == "OK") {
                     bankaKZ.alert(resp.message);
@@ -306,6 +350,9 @@ $$(document).on('click', '.sbt-booking', function (e) {
                     bankaKZ.alert(resp.message);
                 }
             },
+            complete: function(resp) {
+                bankaKZ.hideIndicator();
+            },      
             error: function (xhr) {
                 console.log("Error on ajax call " + xhr);
             }
@@ -416,11 +463,17 @@ bankaKZ.onPageInit('registration-page', function (page) {
                 url: url,
                 method: 'POST',
                 data: formData,
+                beforeSend: function(xhr) {
+                    bankaKZ.showIndicator();
+                },
                 success: function (resp) {
                     if(resp.status == "OK" || resp.status == "ERROR") {
                         bankaKZ.alert(resp.message);
                         getFilters();
                     }
+                },
+                complete: function(resp) {
+                    bankaKZ.hideIndicator();
                 },
                 error: function (xhr) {
                     console.log("Error on ajax call " + xhr);
@@ -441,6 +494,9 @@ bankaKZ.onPageInit('login-page', function (page) {
             url: url,
             method: 'POST',
             data: formData,
+            beforeSend: function(xhr) {
+                bankaKZ.showIndicator();
+            },
             success: function (resp) {
                 if(resp.status == "OK") {
                     getFilters();
@@ -448,6 +504,9 @@ bankaKZ.onPageInit('login-page', function (page) {
                 }
                 else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
             },
+            complete: function(resp) {
+                bankaKZ.hideIndicator();
+            },    
             error: function (xhr) {
                 console.log("Error on ajax call " + xhr);
             }
@@ -582,11 +641,17 @@ function getFilters() {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.mainTemplate,
                 context: resp.filters[0]
             });
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -601,11 +666,17 @@ function getRegisterData() {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.registrationTemplate,
                 context: resp.register
             });
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -622,6 +693,9 @@ function sendPassword() {
         dataType: 'json',
         url: url,
         method: 'POST',
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         data: formData,
         success: function (resp) {
             if(resp.status == "OK") {
@@ -631,6 +705,9 @@ function sendPassword() {
             else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -648,6 +725,9 @@ function sendReview() {
         url: url,
         method: 'POST',
         data: formData,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             if(resp.status == "OK") {
                 bankaKZ.alert(resp.message);
@@ -656,6 +736,9 @@ function sendReview() {
             else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -670,11 +753,17 @@ function getSidebar() {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             sidebarView.router.load({
                 template: Template7.templates.sidebarTemplate,
                 context: resp.sidebar
             });
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -689,11 +778,17 @@ function getPersonalData() {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
         success: function (resp) {
             mainView.router.load({
                 template: Template7.templates.personalTemplate,
                 context: resp
             });
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
         },
         error: function (xhr) {
             console.log("Error on ajax call " + xhr);
@@ -926,6 +1021,10 @@ function listRating(id, value) {
 function calcBooking() {
     var price = parseInt($$('.sub-radio:checked').data('price'));
 
+    if (price == 0) {
+        $$('#allservice').prop('checked', 'checked');
+    }
+
     if($$('#allservice').prop('checked') == true){
 
         var price_type = $$('.sub-radio:checked').data('pricetype');
@@ -1067,6 +1166,9 @@ function showPopupRegistration() {
     $$.ajax({
         dataType: 'json',
         url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        }, 
         success: function (resp) {
             var auth = resp.sidebar.auth;
 
