@@ -36,6 +36,11 @@ $$(document).on('refresh', '.pull-to-refresh-content', function (e) {
     }, 2000);
 });
 
+// Back to main
+$$(document).on('click', '.backtomain', function (e) { 
+    getFilters();
+});
+
 // Get product page
 $$(document).on('click', '.getitempage', function (e) {
     var id = $$(this).data('id');
