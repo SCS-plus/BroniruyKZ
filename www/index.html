@@ -295,15 +295,16 @@
                 <span>Ничего не найдено!</span>
             </div>
             {{else}}
-            <div class="page-content list-product virtual-list">
+            <div class="page-content list-product">
               {{#each this}}
                 {{#each subproducts}}
-                    <a href='#' data-template='itemTemplate' data-context='{{stringify ../this}}'>
+                    {{#if @first}}
+                    <a href='#' data-id='{{../../productId}}' data-scroll='{{subProductId}}' class="getitempage">
                         <div class="card ks-card-header-pic">
-                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{../productTitle}} <br/> {{subProductTitle}}</div>
+                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{../../productTitle}} <br/> {{subProductTitle}}</div>
                             <div class="card-content">
                                 <div class="card-content-inner">
-                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../productAdress}}</span></p>
+                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../../productAdress}}</span></p>
                                     <p>{{subProductDesc}}</p>
                                 </div>
                             </div>
@@ -319,6 +320,7 @@
                             </div>
                         </div>
                     </a>
+                    {{/if}}
                 {{/each}}
                {{/each}}
             </div>
@@ -342,34 +344,34 @@
 
             <div class="tabs-animated-wrap product-page">
                 <div class="tabs">
-                    <div id="tab-detail" class="page-content tab active">
+                    <div id="tab-detail" class="page-content tab active" data-scroll="{{subproductId}}">
                         <div class="swiper-container product-slider-top">
                             <div class="swiper-pagination"></div>
                             <div class="swiper-wrapper">
-                                {{#each productDetailImages}}
+                                {{#each products[0].productDetailImages}}
                                 <div style="background-image:url({{this}}); background-size: 100%" class="swiper-slide" data-index="{{@index}}"></div>
                                 {{/each}}
                             </div>
                             <div class="swiper-button-next color-white"></div>
                             <div class="swiper-button-prev color-white"></div>
-                            {{#if productDetailImagesBig}}
-                            <div class="hidden-big" data-big='{{stringify productDetailImagesBig}}'></div>
+                            {{#if products[0].productDetailImagesBig}}
+                            <div class="hidden-big" data-big='{{stringify products[0].productDetailImagesBig}}'></div>
                             {{/if}}
                         </div>
                         <div class="card">
-                            <div class="card-header">{{productTitle}}</div>
+                            <div class="card-header">{{products[0].productTitle}}</div>
                             <div class="card-content">
                                 <div class="card-content-inner">
-                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{productAdress}}</span></p>
-                                    <div class="map" data-adress="{{productAdress}}" {{#each productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
+                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{products[0].productAdress}}</span></p>
+                                    <div class="map" data-adress="{{productAdress}}" {{#each products[0].productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
                                     <div class="title">Описание</div>
-                                    <div class="description">{{productDesc}}</div>
+                                    <div class="description">{{products[0].productDesc}}</div>
                                 </div>
                             </div>
                         </div>
                         <div class="halls">
-                            {{#each subproducts}}
-                            <div class="card">
+                            {{#each products[0].subproducts}}
+                            <div id="scroll-{{subProductId}}" class="card">
                                 <div class="card-header">{{subProductTitle}}</div>
                                 <div class="card-content">
                                     <div class="card-content-inner">
@@ -421,16 +423,16 @@
                         {{#if auth}}
                         <div class="content-block">
                             <div class="booking-btn-block">
-                                <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify this}}'>Cоздать заявку</a>
+                                <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify products[0]}}'>Cоздать заявку</a>
                             </div>
-                        </div>      
-                        {{/if}}                       
+                        </div>   
+                        {{/if}}                          
                     </div>
                     <div id="tab-reviews" class="page-content tab">
-                        {{#if reviews}}
+                        {{#if products[0].reviews}}
                         <div class="list-block media-list reviews">
                             <ul>
-                                {{#each reviews}}
+                                {{#each products[0].reviews}}
                                 <li>
                                     <div class="item-content">
                                         <div class="item-inner">
@@ -463,10 +465,10 @@
                         {{/if}}
 
                         {{#if auth}}
-                        <div class="content-block">
-                            <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify this.productId}}'>Добавить отзыв</a>
-                        </div>
-                        {{/if}}
+                            <div class="content-block">
+                                <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify products[0].productId}}'>Добавить отзыв</a>
+                            </div>
+                        {{/if}}                        
                     </div>
                 </div>
             </div>

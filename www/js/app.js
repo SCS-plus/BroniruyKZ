@@ -20,7 +20,7 @@ $$(document).on('deviceready', function() {
     getPullId();
     getFilters();
     getPushNotify();
-    showPopupRegistration();
+    // showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
@@ -35,6 +35,32 @@ $$(document).on('refresh', '.pull-to-refresh-content', function (e) {
         bankaKZ.pullToRefreshDone();
     }, 2000);
 });
+
+// Get product page
+$$(document).on('click', '.getitempage', function (e) {
+    var id = $$(this).data('id');
+    var scrollid = $$(this).data('scroll');
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/detail.php?productId="+id+"&subproductId="+scrollid;
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        }, 
+        success: function (resp) {
+            mainView.router.load({
+                template: Template7.templates.itemTemplate,
+                context: resp
+            });
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },      
+        error: function (xhr) {
+            console.log("Error on ajax call " + xhr);
+        }
+    });
+})
 
 // Get panel left
 $$(document).on('click', '.open-panel', function (e) {
@@ -402,9 +428,14 @@ bankaKZ.onPageInit('index', function (page) {
 
 //Init Product Page
 bankaKZ.onPageInit('product', function (page) {
-    var lat = $$('.map').attr('data-lat'),
+    var scrollId = $$('#tab-detail').data('scroll'),
+        lat = $$('.map').attr('data-lat'),
         lan = $$('.map').attr('data-lan'),
         adress = $$('.map').attr('data-adress');
+   
+    var top = $$('#scroll-'+scrollId).offset().top-165;  
+
+    setTimeout(function() { $$('#tab-detail').scrollTo(0, top, 1000); }, 1000);
 
     $$('.product-service-slider').each(function () {
         var id = $$(this).attr('id');
