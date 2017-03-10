@@ -420,7 +420,7 @@
                             </div>
                             {{/each}}
                         </div>
-                        {{#if auth}}
+                        {{#if isAuth}}
                         <div class="content-block">
                             <div class="booking-btn-block">
                                 <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify products[0]}}'>Cоздать заявку</a>
@@ -464,7 +464,7 @@
                         </div>
                         {{/if}}
 
-                        {{#if auth}}
+                        {{#if isAuth}}
                             <div class="content-block">
                                 <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify products[0].productId}}'>Добавить отзыв</a>
                             </div>
