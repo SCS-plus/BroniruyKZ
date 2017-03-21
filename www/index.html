@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data:;">
 
@@ -163,8 +164,7 @@
                 <form id="filter-form" class="list-block">
                     <ul>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="city" name="city">
                                     {{#each city}}
                                     <option value="{{@key}}">{{this}}</option>
@@ -178,8 +178,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="type" name="type">
                                     {{#each type}}
                                     <option value="{{@key}}">{{this}}</option>
@@ -193,8 +192,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="service" name="service">
                                     <option value="0" data-types="0">Не выбрано</option>
                                     {{#each service}}
@@ -219,8 +217,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="time" name="time">
                                     <option value="0">Не выбрано</option>
                                     {{#each time}}
@@ -235,8 +232,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="rating" name="rating">
                                     <option value="0">Не выбрано</option>
                                     {{#each rating}}
@@ -286,7 +282,9 @@
         <div data-page="list-product" class="page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="link backtomain"> <i class="icon icon-back"></i></a></div>
+                    <div class="left">
+                        <a href="#" class="link backtomain"> <i class="icon icon-back"></i></a>
+                    </div>
                     <div class="center sliding">Результаты поиска</div>
                 </div>
             </div>
@@ -296,33 +294,26 @@
             </div>
             {{else}}
             <div class="page-content list-product">
-              {{#each this}}
-                {{#each subproducts}}
-                    {{#if @first}}
-                    <a href='#' data-id='{{../../productId}}' data-scroll='{{subProductId}}' class="getitempage">
-                        <div class="card ks-card-header-pic">
-                            <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{../../productTitle}} <br/> {{subProductTitle}}</div>
-                            <div class="card-content">
-                                <div class="card-content-inner">
-                                    <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../../productAdress}}</span></p>
-                                    <p>{{subProductDesc}}</p>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="button color-orange">
-                                {{#if subProductPrice}}
-                                {{#js_compare "this.subProductPrice != 0"}}
-                                <i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span>
-                                {{/js_compare}}
-                                {{/if}}
-                                </div>
-                                <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                {{#each this}} {{#each subproducts}} {{#if @first}}
+                <a href='#' data-id='{{../../productId}}' data-scroll='{{subProductId}}' class="getitempage">
+                    <div class="card ks-card-header-pic">
+                        <div style="background-image:url({{subProductDetailImage}})" valign="bottom" class="card-header no-border">{{../../productTitle}} <br/> {{subProductTitle}}</div>
+                        <div class="card-content">
+                            <div class="card-content-inner">
+                                <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{../../productAdress}}</span></p>
+                                <p>{{subProductDesc}}</p>
                             </div>
                         </div>
-                    </a>
-                    {{/if}}
-                {{/each}}
-               {{/each}}
+                        <div class="card-footer">
+                            <div class="button color-orange">
+                                {{#if subProductPrice}} {{#js_compare "this.subProductPrice != 0"}}
+                                <i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span> {{/js_compare}} {{/if}}
+                            </div>
+                            <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
+                        </div>
+                    </div>
+                </a>
+                {{/if}} {{/each}} {{/each}}
             </div>
             {{/if}}
         </div>
@@ -333,7 +324,9 @@
         <div data-page="product" class="page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
+                    <div class="left">
+                        <a href="#" class="back link"> <i class="icon icon-back"></i></a>
+                    </div>
                     <div class="center sliding">Подробная информация</div>
                 </div>
             </div>
@@ -363,7 +356,7 @@
                             <div class="card-content">
                                 <div class="card-content-inner">
                                     <p class="color-gray"><i class="fa fa-map-marker"></i><span class="adress color-teal">{{products[0].productAdress}}</span></p>
-                                    <div class="map" data-adress="{{products[0].productAdress}}" {{#each products[0].productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}} ></div>
+                                    <div class="map" data-adress="{{products[0].productAdress}}" {{#each products[0].productCoord}} data-lat="{{lat}}" data-lan="{{lan}}" {{/each}}></div>
                                     <div class="title">Описание</div>
                                     <div class="description">{{products[0].productDesc}}</div>
                                 </div>
@@ -391,23 +384,20 @@
                                         <div class="description">{{subProductDesc}}</div>
                                         <div class="service">
                                             {{#if subProductService}}
-                                                <div class="title">Сервисы</div>
-                                                {{#each subProductService}}
-                                                <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</span></div>
-                                                {{/each}}
-                                            {{/if}}
+                                            <div class="title">Сервисы</div>
+                                            {{#each subProductService}}
+                                            <div class="item"><i class="fa fa-check-square-o color-orange"></i><span>{{name}}{{#if price}} - {{price}} {{pricetype}}{{/if}}</span></div>
+                                            {{/each}} {{/if}}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row info">
                                         <div class="col-50">
-                                            {{#if subProductCapacity}}
-                                            {{#js_compare "this.subProductCapacity != 0"}}
+                                            {{#if subProductCapacity}} {{#js_compare "this.subProductCapacity != 0"}}
                                             <div class="col-100">Вместимость:</div>
                                             <div class="col-100 quantity">{{subProductCapacity}} чел</div>
-                                            {{/js_compare}}
-                                            {{/if}}
+                                            {{/js_compare}} {{/if}}
                                         </div>
                                         <div class="col-50">
                                             {{#if subProductPrice}}
@@ -425,8 +415,8 @@
                             <div class="booking-btn-block">
                                 <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify products[0]}}'>Cоздать заявку</a>
                             </div>
-                        </div>   
-                        {{/if}}                          
+                        </div>
+                        {{/if}}
                     </div>
                     <div id="tab-reviews" class="page-content tab">
                         {{#if products[0].reviews}}
@@ -462,13 +452,11 @@
                         <div class="not-found">
                             <span>Пока нет отзывов!</span>
                         </div>
+                        {{/if}} {{#if isAuth}}
+                        <div class="content-block">
+                            <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify products[0].productId}}'>Добавить отзыв</a>
+                        </div>
                         {{/if}}
-
-                        {{#if isAuth}}
-                            <div class="content-block">
-                                <a href="#" class="button button-fill color-orange btn-add-review" data-template='addReviewTemplate' data-context='{{stringify products[0].productId}}'>Добавить отзыв</a>
-                            </div>
-                        {{/if}}                        
                     </div>
                 </div>
             </div>
@@ -504,13 +492,11 @@
                             {{/each}}
                         </ul>
                     </div>
-                    {{#each subproducts}}
-                    {{#if subProductService}}
+                    {{#each subproducts}} {{#if subProductService}}
                     <div class="list-block hidden subproductservice" id="service-{{subProductId}}">
                         <div class="content-block-title">Дополнительные сервисы</div>
                         <ul>
-                            {{#each subProductService}}
-                            {{#if price}}
+                            {{#each subProductService}} {{#if price}}
                             <li>
                                 <label class="label-checkbox item-content">
                                     <input type="checkbox" name="service" value="{{@key}}" data-price="{{price}}" data-pricetype="{{pricetype}}">
@@ -520,12 +506,10 @@
                                     </div>
                                 </label>
                             </li>
-                            {{/if}}
-                            {{/each}}
+                            {{/if}} {{/each}}
                         </ul>
                     </div>
-                    {{/if}}
-                    {{/each}}
+                    {{/if}} {{/each}}
                     <div class="list-block">
                         <div class="content-block-title">Выбор даты и времени</div>
                         <ul>
@@ -743,15 +727,16 @@
         <div data-page="personal-userpage" class="page">
             <div class="navbar">
                 <div class="navbar-inner">
-                    <div class="left"><a href="#" class="back link"> <i class="icon icon-back"></i></a></div>
+                    <div class="left">
+                        <a href="#" class="back link"> <i class="icon icon-back"></i></a>
+                    </div>
                     <div class="center sliding">Личный кабинет</div>
                 </div>
             </div>
             <div class="toolbar tabbar personal-toolbar">
                 <div class="toolbar-inner">
                     {{#if owner}}
-                    <a href="#tab-booking" class="active tab-link">Бронирование</a>
-                    {{/if}}
+                    <a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
                     <a href="#tab-history" class="{{#unless owner}}active{{/unless}} tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                 </div>
@@ -828,26 +813,26 @@
                         {{#if userHistory}}
                         <div class="list-items content-block">
                             {{#each userHistory}}
-                                <div class="item">
-                                    <div class="field">
-                                        <span class="title">Название</span>
-                                        <span class="text">{{name}}</span>
-                                    </div>
-                                    <div class="field">
-                                        <span class="title">Сумма</span>
-                                        <span class="text">{{summa}} тг.</span>
-                                    </div>
-                                    <div class="field">
-                                        <span class="title">Дата</span>
-                                        <span class="text">{{date}}</span>
-                                    </div>
-                                    <div class="field">
-                                        <span class="title">Комментарий</span>
-                                        <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
-                                    </div>
-                                    <div class="field">
-                                        <span class="title">Статус</span>
-                                        <span class="text">
+                            <div class="item">
+                                <div class="field">
+                                    <span class="title">Название</span>
+                                    <span class="text">{{name}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Сумма</span>
+                                    <span class="text">{{summa}} тг.</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Дата</span>
+                                    <span class="text">{{date}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Комментарий</span>
+                                    <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Статус</span>
+                                    <span class="text">
                                             <p class="buttons-row">
                                                 <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
                                                 {{#if substatus}}
@@ -862,8 +847,8 @@
                                                 {{/if}}
                                             </p>
                                         </span>
-                                    </div>
                                 </div>
+                            </div>
                             {{/each}}
                         </div>
                         {{else}}
@@ -935,7 +920,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш E-mail</div>
                                     <div class="item-input">
-                                        <input id="email" type="email" name="email"/>
+                                        <input id="email" type="email" name="email" />
                                     </div>
                                 </div>
                             </div>
@@ -946,7 +931,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
-                                        <input type="text" name="name"/>
+                                        <input type="text" name="name" />
                                     </div>
                                 </div>
                             </div>
@@ -963,8 +948,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск"
-                               data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                            <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                 <select id="city" name="city">
                                     {{#each city}}
                                     <option value="{{@key}}">{{this}}</option>
@@ -977,80 +961,80 @@
                                     </div>
                                 </div>
                             </a>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-tel"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Телефон</div>
-                                    <div class="item-input">
-                                        <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__"/>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-tel"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">Телефон</div>
+                                        <div class="item-input">
+                                            <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-inner">
-                                    <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Код из СМС</div>
-                                    <div class="item-input">
-                                        <input type="text" name="code" id="code" value=""/>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Пароль</div>
-                                    <div class="item-input">
-                                        <input type="password" name="password"/>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">Код из СМС</div>
+                                        <div class="item-input">
+                                            <input type="text" name="code" id="code" value="" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Повторите пароль</div>
-                                    <div class="item-input">
-                                        <input type="password" name="repassword"/>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">Пароль</div>
+                                        <div class="item-input">
+                                            <input type="password" name="password" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-toggle"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">Владелец заведения</div>
-                                    <div class="item-input">
-                                        <label class="label-switch">
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">Повторите пароль</div>
+                                        <div class="item-input">
+                                            <input type="password" name="repassword" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">Владелец заведения</div>
+                                        <div class="item-input">
+                                            <label class="label-switch">
                                             <input type="checkbox" value="1" name="owner">
                                             <div class="checkbox"></div>
                                         </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <label class="label-checkbox item-content">
+                            </li>
+                            <li>
+                                <label class="label-checkbox item-content">
                                 <input id="siterights" type="checkbox" name="siterights" value="1">
                                 <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title">Согласен с <a href="#" id="rules">правилами сервиса</a></div>
                                 </div>
                             </label>
-                        </li>
+                            </li>
                     </ul>
                 </form>
                 <div class="content-block">
@@ -1078,7 +1062,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
-                                        <input type="text" name="name"/>
+                                        <input type="text" name="name" />
                                     </div>
                                 </div>
                             </div>
@@ -1089,7 +1073,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Пароль</div>
                                     <div class="item-input">
-                                        <input type="password" name="password"/>
+                                        <input type="password" name="password" />
                                     </div>
                                 </div>
                             </div>
@@ -1124,7 +1108,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
-                                        <input type="text" name="name"/>
+                                        <input type="text" name="name" />
                                     </div>
                                 </div>
                             </div>

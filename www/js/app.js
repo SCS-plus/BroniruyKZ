@@ -1,4 +1,4 @@
-Template7.registerHelper('stringify', function (context){
+Template7.registerHelper('stringify', function(context) {
     var str = JSON.stringify(context);
     return str.split("'").join('&#39;');
 });
@@ -29,30 +29,30 @@ var mainView = bankaKZ.addView('.view-main'),
     sidebarView = bankaKZ.addView('.view-sidebar');
 
 // Refresh Main Page
-$$(document).on('refresh', '.pull-to-refresh-content', function (e) {
-    setTimeout(function () {
+$$(document).on('refresh', '.pull-to-refresh-content', function(e) {
+    setTimeout(function() {
         mainView.router.refreshPage();
         bankaKZ.pullToRefreshDone();
     }, 2000);
 });
 
 // Back to main
-$$(document).on('click', '.backtomain', function (e) { 
+$$(document).on('click', '.backtomain', function(e) {
     getFilters();
 });
 
 // Get product page
-$$(document).on('click', '.getitempage', function (e) {
+$$(document).on('click', '.getitempage', function(e) {
     var id = $$(this).data('id');
     var scrollid = $$(this).data('scroll');
-    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/detail.php?productId="+id+"&subproductId="+scrollid;
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/detail.php?productId=" + id + "&subproductId=" + scrollid;
     $$.ajax({
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        }, 
-        success: function (resp) {
+        },
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.itemTemplate,
                 context: resp
@@ -60,44 +60,44 @@ $$(document).on('click', '.getitempage', function (e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },      
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 })
 
 // Get panel left
-$$(document).on('click', '.open-panel', function (e) {
+$$(document).on('click', '.open-panel', function(e) {
     getSidebar();
 });
 
 // Get login form
-$$(document).on('click', '#login', function (e) {
+$$(document).on('click', '#login', function(e) {
     mainView.router.loadContent($$('#loginPage').html());
     bankaKZ.closePanel();
 });
 
 //Get registration form
-$$(document).on('click', '#registration', function (e) {
+$$(document).on('click', '#registration', function(e) {
     getRegisterData();
     bankaKZ.closePanel();
 });
 
 //Get recovery password form
-$$(document).on('click', '.get-rec-pass', function (e) {
+$$(document).on('click', '.get-rec-pass', function(e) {
     mainView.router.loadContent($$('#recoveryPassPage').html());
 });
 
 //Submit recovery form
-$$(document).on('click', '.sbt-rec-pass', function (e) {
+$$(document).on('click', '.sbt-rec-pass', function(e) {
     sendPassword();
 });
 
 //Send phone code
-$$(document).on('click', '.send-code', function (e) {
+$$(document).on('click', '.send-code', function(e) {
     var phone = $$("#register-form #phone").val().replace('(', '').replace(')', '').replace('+', '').replace(' ', '')
-            .replace('-', '').replace(' ', '').replace(' ', '').replace(' ', '').replace(' ', '');
+        .replace('-', '').replace(' ', '').replace(' ', '').replace(' ', '').replace(' ', '');
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/reg_code_send.php";
 
     $$.ajax({
@@ -109,27 +109,26 @@ $$(document).on('click', '.send-code', function (e) {
         },
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        },     
-        success: function (resp) {
-            if(resp.status == "OK") {
+        },
+        success: function(resp) {
+            if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 $$("#register-form #code").attr('data-value', resp.code);
-            }
-            else if (resp.status == "ERROR") {
+            } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },      
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     })
 });
 
 //Search button submit
-$$(document).on('click', '#btnSearch', function (e) {
+$$(document).on('click', '#btnSearch', function(e) {
     var city = $$("#city").val(),
         type = $$("#type").val(),
         service = $$("#service").val(),
@@ -139,9 +138,9 @@ $$(document).on('click', '#btnSearch', function (e) {
         lowerprice = $$("#lower-price").val(),
         upperprice = $$("#upper-price").val();
 
-    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/list.php?city=" + city + "&type="
-        + type + "&service=" + service + "&datasearch=" + datasearch + "&time="
-        + time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/list.php?city=" + city + "&type=" +
+        type + "&service=" + service + "&datasearch=" + datasearch + "&time=" +
+        time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
 
     $$.ajax({
         dataType: 'json',
@@ -149,13 +148,12 @@ $$(document).on('click', '#btnSearch', function (e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
-            if(resp.status == 'ERROR') {
+        success: function(resp) {
+            if (resp.status == 'ERROR') {
                 bankaKZ.alert(resp.message);
-            }
-            else {
-                if(resp.products == null){
-                    var ctx = {'empty': true};
+            } else {
+                if (resp.products == null) {
+                    var ctx = { 'empty': true };
                 } else {
                     var ctx = resp.products;
                     storage.setItem('products', JSON.stringify(ctx));
@@ -169,21 +167,21 @@ $$(document).on('click', '#btnSearch', function (e) {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 //Logout event
-$$(document).on('click', '#btnLogout', function (e) {
+$$(document).on('click', '#btnLogout', function(e) {
     $$.get("https://www.xn--90aodoeldy.kz/mobile_api/forms/logout.php");
     window.plugins.OneSignal.deleteTag("bitrixid");
     bankaKZ.closePanel();
 });
 
 //Get about page
-$$(document).on('click', '#about', function (e) {
+$$(document).on('click', '#about', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/about.php";
 
     $$.ajax({
@@ -192,7 +190,7 @@ $$(document).on('click', '#about', function (e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.aboutTemplate,
                 context: resp.about
@@ -202,14 +200,14 @@ $$(document).on('click', '#about', function (e) {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 //Get help page
-$$(document).on('click', '#help', function (e) {
+$$(document).on('click', '#help', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/help.php";
 
     $$.ajax({
@@ -218,7 +216,7 @@ $$(document).on('click', '#help', function (e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.helpTemplate,
                 context: resp.help
@@ -227,23 +225,23 @@ $$(document).on('click', '#help', function (e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },    
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 //Get page How to add
-$$(document).on('click', '#howadd', function (e) {
+$$(document).on('click', '#howadd', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/howadd.php";
     $$.ajax({
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        },    
-        success: function (resp) {
+        },
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.howaddTemplate,
                 context: resp.howadd
@@ -252,23 +250,23 @@ $$(document).on('click', '#howadd', function (e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },  
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 //Get page Instruction
-$$(document).on('click', '#get-instruction', function (e) {
+$$(document).on('click', '#get-instruction', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/instructions.php";
     $$.ajax({
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        }, 
-        success: function (resp) {
+        },
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.instructionTemplate,
                 context: resp.instructions
@@ -277,29 +275,29 @@ $$(document).on('click', '#get-instruction', function (e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },      
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 // Get login form with popup
-$$(document).on('click', '#get-login', function (e) {
+$$(document).on('click', '#get-login', function(e) {
     mainView.router.loadContent($$('#loginPage').html());
     bankaKZ.closeModal('.modal');
 });
 
 //Get page Website Rights
-$$(document).on('click', '#rules', function (e) {
+$$(document).on('click', '#rules', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/rules.php";
     $$.ajax({
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        },    
-        success: function (resp) {
+        },
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.siteRulesTemplate,
                 context: resp.rules
@@ -307,21 +305,21 @@ $$(document).on('click', '#rules', function (e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },          
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
 });
 
 //Get Personal Page
-$$(document).on('click', '#account', function (e) {
+$$(document).on('click', '#account', function(e) {
     getPersonalData();
     bankaKZ.closePanel();
 });
 
 //Send status Personal Page
-$$(document).on('click', '.sbt-status', function (e) {
+$$(document).on('click', '.sbt-status', function(e) {
     var id = $$(this).data('id');
     var action = $$(this).data('action');
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/reserve_action.php";
@@ -336,32 +334,31 @@ $$(document).on('click', '.sbt-status', function (e) {
         },
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        },  
-        success: function (resp) {
-            if(resp.status == "OK") {
+        },
+        success: function(resp) {
+            if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
                 getPersonalData();
-            }
-            else if (resp.status == "ERROR") {
+            } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-        },     
-        error: function (xhr) {
+        },
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     })
 });
 
 //Send booking form
-$$(document).on('click', '.sbt-booking', function (e) {
+$$(document).on('click', '.sbt-booking', function(e) {
     var formData = bankaKZ.formToJSON('#booking-form');
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/reserve_add.php";
 
-    if(formData.totalPrice == 0) {
+    if (formData.totalPrice == 0) {
         bankaKZ.alert("Выбор дополнительных сервисов обязателен!");
     } else {
         $$.ajax({
@@ -371,20 +368,19 @@ $$(document).on('click', '.sbt-booking', function (e) {
             data: formData,
             beforeSend: function(xhr) {
                 bankaKZ.showIndicator();
-            },  
-            success: function (resp) {
-                if(resp.status == "OK") {
+            },
+            success: function(resp) {
+                if (resp.status == "OK") {
                     bankaKZ.alert(resp.message);
                     mainView.router.back();
-                }
-                else if (resp.status == "ERROR") {
+                } else if (resp.status == "ERROR") {
                     bankaKZ.alert(resp.message);
                 }
             },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
-            },      
-            error: function (xhr) {
+            },
+            error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
             }
         });
@@ -392,13 +388,13 @@ $$(document).on('click', '.sbt-booking', function (e) {
 });
 
 //Init Index Page
-bankaKZ.onPageInit('index', function (page) {
+bankaKZ.onPageInit('index', function(page) {
     initApp();
 
     var allServices = $$('#service option');
     var Services = [];
 
-    $$.each(service, function(i, item){
+    $$.each(service, function(i, item) {
         var name = $$(item).text();
         var value = $$(item).val();
         var types = $$(item).data('types');
@@ -411,43 +407,31 @@ bankaKZ.onPageInit('index', function (page) {
     });
     storage.setItem('services', JSON.stringify(Services));
 
-    $$('body').on('change', '#type', function(){
+    $$('body').on('change', '#type', function() {
         var type = $$(this).val();
-        var service = $$('#service option');
-        var storageService = JSON.parse(storage.getItem('services'));
-
-        service.remove();
-        
-        $$('#service').append('<option value="0" data-types="0">Не выбрано</option>');
-
-        $$.each(storageService, function(i, item) {
-            if (item.types.indexOf(type) != -1) {
-                $$('#service').append("<option value='" + item.value + "' data-types='" + item.types + "'>" + item.name + "</option>");
-            }
-        });
-
-        var selectText = $$('#service option:first-child').text();
-        $$('.service-select .item-after').text(selectText);
+        loadServices(type);
     });
+
+    loadServices($$('#type').val());
 });
 
 //Init Product Page
-bankaKZ.onPageInit('product', function (page) {
+bankaKZ.onPageInit('product', function(page) {
     var scrollId = $$('#tab-detail').data('scroll'),
         lat = $$('.map').attr('data-lat'),
         lan = $$('.map').attr('data-lan'),
         adress = $$('.map').attr('data-adress');
-   
-    var top = $$('#scroll-'+scrollId).offset().top-165;  
+
+    var top = $$('#scroll-' + scrollId).offset().top - 165;
 
     setTimeout(function() { $$('#tab-detail').scrollTo(0, top, 1000); }, 1000);
 
-    $$('.product-service-slider').each(function () {
+    $$('.product-service-slider').each(function() {
         var id = $$(this).attr('id');
         initProductServiceSlider(id);
     });
 
-    $$('.list-rating').each(function () {
+    $$('.list-rating').each(function() {
         var id = $$(this).attr('id'),
             value = $$(this).attr('data-rating');
         listRating(id, value);
@@ -458,39 +442,38 @@ bankaKZ.onPageInit('product', function (page) {
 });
 
 //Init Registration Page
-bankaKZ.onPageInit('registration-page', function (page) {
+bankaKZ.onPageInit('registration-page', function(page) {
     initBirthPicker();
 
     VMasker(document.getElementById('phone')).maskPattern("+9 (999) 999-99-99");
 
-    $$('.sbt-register').on('click', function (e) {
+    $$('.sbt-register').on('click', function(e) {
         var valid = true,
             code = $$("#register-form #code").attr('data-value'),
             code_value = $$("#register-form #code").val(),
             pattern = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+\.([a-z0-9]{1,6}\.)?[a-z]{2,6}$/i;
 
-        if($$("#email").val().search(pattern) !== 0){
+        if ($$("#email").val().search(pattern) !== 0) {
             valid = false;
             bankaKZ.alert('Вы ввели неправильный Email!');
         }
 
-        if($$("#siterights").prop('checked') == false && valid){
+        if ($$("#siterights").prop('checked') == false && valid) {
             valid = false;
             bankaKZ.alert('Нужно согласиться с правилами сервиса.');
         }
 
-        if(code && valid) {
+        if (code && valid) {
             if (code != code_value) {
                 valid = false;
                 bankaKZ.alert('Неправильный код из СМС');
             }
-        }
-        else if (valid) {
+        } else if (valid) {
             valid = false;
             bankaKZ.alert('Неправильный код из СМС');
         }
 
-        if(valid) {
+        if (valid) {
             var formData = bankaKZ.formToJSON('#register-form');
             var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/register.php";
 
@@ -502,8 +485,8 @@ bankaKZ.onPageInit('registration-page', function (page) {
                 beforeSend: function(xhr) {
                     bankaKZ.showIndicator();
                 },
-                success: function (resp) {
-                    if(resp.status == "OK" || resp.status == "ERROR") {
+                success: function(resp) {
+                    if (resp.status == "OK" || resp.status == "ERROR") {
                         bankaKZ.alert(resp.message);
                         getFilters();
                     }
@@ -511,7 +494,7 @@ bankaKZ.onPageInit('registration-page', function (page) {
                 complete: function(resp) {
                     bankaKZ.hideIndicator();
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     console.log("Error on ajax call " + xhr);
                 }
             });
@@ -520,8 +503,8 @@ bankaKZ.onPageInit('registration-page', function (page) {
 });
 
 //Init Login Page
-bankaKZ.onPageInit('login-page', function (page) {
-    $$('.sbt-login').on('click', function (e) {
+bankaKZ.onPageInit('login-page', function(page) {
+    $$('.sbt-login').on('click', function(e) {
         var formData = bankaKZ.formToJSON("#login-form");
         var url = "https://www.xn--90aodoeldy.kz/mobile_api/forms/auth.php";
 
@@ -533,17 +516,16 @@ bankaKZ.onPageInit('login-page', function (page) {
             beforeSend: function(xhr) {
                 bankaKZ.showIndicator();
             },
-            success: function (resp) {
-                if(resp.status == "OK") {
+            success: function(resp) {
+                if (resp.status == "OK") {
                     getFilters();
                     getPushId();
-                }
-                else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
+                } else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
             },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
-            },    
-            error: function (xhr) {
+            },
+            error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
             }
         });
@@ -552,30 +534,30 @@ bankaKZ.onPageInit('login-page', function (page) {
 });
 
 //Init Add Review Page
-bankaKZ.onPageInit('addreview-page', function (page) {
-    $$(document).on('click', '.sbt-review', function (e) {
+bankaKZ.onPageInit('addreview-page', function(page) {
+    $$(document).on('click', '.sbt-review', function(e) {
         sendReview();
     });
 });
 
 //Init Booking Page
-bankaKZ.onPageInit('booking-page', function (page) {      
+bankaKZ.onPageInit('booking-page', function(page) {
     var productId = $$('#productid').val();
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
-    var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-'+serviceWrapperId).val();
+    var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-' + serviceWrapperId).val();
 
     // Сheck empty sub service |
-    if($$(".subproductservice ul li").length > 0) {
-        $$('#service-'+serviceWrapperId).show();
+    if ($$(".subproductservice ul li").length > 0) {
+        $$('#service-' + serviceWrapperId).show();
     } else {
-        $$('#service-'+serviceWrapperId).hide();  
+        $$('#service-' + serviceWrapperId).hide();
     }
 
     initCalendarRangeServicePicker(productId, serviceWrapperId, dailyBooked);
 
     $$('.subradiowrapper li:first-child input').prop("checked", true);
 
-    if(dailyBooked == "Y") {
+    if (dailyBooked == "Y") {
         $$('.time').hide();
     } else {
         $$('.time').show();
@@ -583,19 +565,19 @@ bankaKZ.onPageInit('booking-page', function (page) {
 
     calcBooking();
 
-    $$(document).on('change', '.sub-radio', function (e) {
+    $$(document).on('change', '.sub-radio', function(e) {
         var id = $$(this).val();
-        var tempdailyBooked = $$(this).parent().find('#subproductdaily-'+id).val();
+        var tempdailyBooked = $$(this).parent().find('#subproductdaily-' + id).val();
 
         initCalendarRangeServicePicker(productId, id, tempdailyBooked);
 
         $$('.subproductservice').hide();
-        $$('.subproductservice input').each(function () {
+        $$('.subproductservice input').each(function() {
             $$(this).prop("checked", false);
         });
-        $$('#service-'+id).show();
+        $$('#service-' + id).show();
 
-        if(tempdailyBooked == "Y") {
+        if (tempdailyBooked == "Y") {
             $$('.time').hide();
         } else {
             $$('.time').show();
@@ -604,40 +586,40 @@ bankaKZ.onPageInit('booking-page', function (page) {
         calcBooking();
     });
 
-    $$(document).on('change', '.subproductservice input', function (e) {
+    $$(document).on('change', '.subproductservice input', function(e) {
         calcBooking();
     });
 
-    $$(document).on('change', '#calendar-service-from', function (e) {
+    $$(document).on('change', '#calendar-service-from', function(e) {
         var date = $$(this).val();
 
-        if(dailyBooked == "Y") {
+        if (dailyBooked == "Y") {
             $$('#calendar-service-to').val(addOneDay(date));
         } else {
             $$('#calendar-service-to').val(date);
         }
     });
 
-    $$(document).on('change', '#time-to', function (e) {
+    $$(document).on('change', '#time-to', function(e) {
         calcBooking();
     });
 
-    $$(document).on('change', '#time-from', function (e) {
+    $$(document).on('change', '#time-from', function(e) {
         var time = parseInt($$(this).val()) + 1;
-        $$("#time-to option[value='"+ time +":00']").prop('selected', 'true');
-        $$("#time-to").siblings('.item-content').find('.item-after').html(time +':00');
+        $$("#time-to option[value='" + time + ":00']").prop('selected', 'true');
+        $$("#time-to").siblings('.item-content').find('.item-after').html(time + ':00');
         calcBooking();
     });
 
-    $$(document).on('change', '#allservice', function (e) {
+    $$(document).on('change', '#allservice', function(e) {
         calcBooking();
     });
 
 });
 
 //Init Personal Page
-bankaKZ.onPageInit('personal-userpage', function (page) {
-    $$('.list-rating').each(function () {
+bankaKZ.onPageInit('personal-userpage', function(page) {
+    $$('.list-rating').each(function() {
         var id = $$(this).attr('id'),
             value = $$(this).attr('data-rating');
         listRating(id, value);
@@ -653,21 +635,40 @@ function initApp() {
 // Add +1 day in booking form
 function addOneDay(date) {
     var tempData = date.split('.');
-    var month = parseInt(tempData[1]-1);
+    var month = parseInt(tempData[1] - 1);
     var date_from = new Date(tempData[2], month, tempData[0]);
-    var unix_from = date_from.getTime()/1000;
+    var unix_from = date_from.getTime() / 1000;
 
-    unix_from = unix_from+24*60*60;
+    unix_from = unix_from + 24 * 60 * 60;
 
-    var date_to_tmp = new Date(date_from.setTime(unix_from*1000));
+    var date_to_tmp = new Date(date_from.setTime(unix_from * 1000));
 
     var dd = date_to_tmp.getDate();
     if (dd < 10) dd = '0' + dd;
 
-    var mm = date_to_tmp.getMonth()+1;
+    var mm = date_to_tmp.getMonth() + 1;
     if (mm < 10) mm = '0' + mm;
 
-    return  dd + '.' + mm + '.' + date_to_tmp.getFullYear();
+    return dd + '.' + mm + '.' + date_to_tmp.getFullYear();
+}
+
+// Load services in filter Main Page
+function loadServices(type) {
+    var service = $$('#service option');
+    var storageService = JSON.parse(storage.getItem('services'));
+
+    service.remove();
+
+    $$('#service').append('<option value="0" data-types="0">Не выбрано</option>');
+
+    $$.each(storageService, function(i, item) {
+        if (item.types.indexOf(type) != -1) {
+            $$('#service').append("<option value='" + item.value + "' data-types='" + item.types + "'>" + item.name + "</option>");
+        }
+    });
+
+    var selectText = $$('#service option:first-child').text();
+    $$('.service-select .item-after').text(selectText);
 }
 
 // Get filter data with JSON
@@ -680,7 +681,7 @@ function getFilters() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.mainTemplate,
                 context: resp.filters[0]
@@ -689,7 +690,7 @@ function getFilters() {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
@@ -705,7 +706,7 @@ function getRegisterData() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.registrationTemplate,
                 context: resp.register
@@ -714,7 +715,7 @@ function getRegisterData() {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
@@ -733,19 +734,18 @@ function sendPassword() {
             bankaKZ.showIndicator();
         },
         data: formData,
-        success: function (resp) {
-            if(resp.status == "OK") {
+        success: function(resp) {
+            if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-            }
-            else if (resp.status == "ERROR") {
+            } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     })
@@ -764,19 +764,18 @@ function sendReview() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
-            if(resp.status == "OK") {
+        success: function(resp) {
+            if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-            }
-            else if (resp.status == "ERROR") {
+            } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     })
@@ -792,7 +791,7 @@ function getSidebar() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             sidebarView.router.load({
                 template: Template7.templates.sidebarTemplate,
                 context: resp.sidebar
@@ -801,7 +800,7 @@ function getSidebar() {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
@@ -817,7 +816,7 @@ function getPersonalData() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function (resp) {
+        success: function(resp) {
             mainView.router.load({
                 template: Template7.templates.personalTemplate,
                 context: resp
@@ -826,7 +825,7 @@ function getPersonalData() {
         complete: function(resp) {
             bankaKZ.hideIndicator();
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
@@ -844,7 +843,7 @@ function initRangeSlider() {
 
     noUiSlider.create(priceSlider, {
         connect: true,
-        start: [ lowerprice, upperprice ],
+        start: [lowerprice, upperprice],
         behaviour: 'drag',
         step: 100,
         range: {
@@ -852,21 +851,21 @@ function initRangeSlider() {
             'max': upperprice
         },
         format: ({
-            to: function ( value ) {
+            to: function(value) {
                 return value;
             },
-            from: function ( value ) {
+            from: function(value) {
                 return value;
             }
         })
     });
 
-    function leftValue ( handle ) {
+    function leftValue(handle) {
         return handle.parentElement.style.left;
     }
 
-    priceSlider.noUiSlider.on('update', function ( values, handle ) {
-        if ( !handle ) {
+    priceSlider.noUiSlider.on('update', function(values, handle) {
+        if (!handle) {
             lowerValue.innerHTML = parseInt(values[handle]);
             lowerPrice.setAttribute('value', values[handle]);
         } else {
@@ -883,7 +882,7 @@ function initCalendarPicker() {
     var dataSearch = bankaKZ.calendar({
         input: '#data-search',
         dateFormat: 'dd.mm.yyyy',
-        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Выберите дату",
@@ -897,7 +896,7 @@ function initBirthPicker() {
     var dataSearch = bankaKZ.calendar({
         input: '#data-birth',
         dateFormat: 'dd.mm.yyyy',
-        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         headerPlaceholder: "Укажите дату рождения",
         closeOnSelect: true,
@@ -905,24 +904,25 @@ function initBirthPicker() {
     });
 }
 
-//Main Page init calendar picker
+//Booking form init calendar picker
 function initCalendarRangeServicePicker(productId, subproductId) {
     var disableDates = [];
     var products = JSON.parse(storage.getItem('products'));
     var disDate = [];
 
     $$.each(products, function(i, item) {
-        if(item.productId == productId) {
+        if (item.productId == productId) {
             $$.each(item.subproducts, function(k, subitem) {
-                if(subitem.subProductId == subproductId) {
+                if (subitem.subProductId == subproductId) {
                     disDate = subitem.subProductDatesAlready;
                 }
             });
         }
     });
 
-    $$.each(disDate, function(i, arDate){
-        disableDates.push(new Date(arDate.y, arDate.m-1, arDate.d));
+
+    $$.each(disDate, function(i, arDate) {
+        disableDates.push(new Date(arDate.y, arDate.m - 1, arDate.d));
     });
 
     var today = new Date();
@@ -930,7 +930,7 @@ function initCalendarRangeServicePicker(productId, subproductId) {
     var dataFrom = bankaKZ.calendar({
         input: '#calendar-service-from',
         dateFormat: 'dd.mm.yyyy',
-        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Дата от",
@@ -942,13 +942,13 @@ function initCalendarRangeServicePicker(productId, subproductId) {
     var dataTo = bankaKZ.calendar({
         input: '#calendar-service-to',
         dateFormat: 'dd.mm.yyyy',
-        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август' , 'Сентябрь' , 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Дата до",
         minDate: today.setDate(today.getDate() - 1),
         events: disableDates,
-        disabled: disableDates, 
+        disabled: disableDates,
         toolbarCloseText: 'Готово'
     });
 }
@@ -958,17 +958,17 @@ function initProductMainSlider() {
     var swiperTop = bankaKZ.swiper('.product-slider-top', {
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-        pagination:'.swiper-pagination',
+        pagination: '.swiper-pagination',
         preloadImages: false,
         lazyLoading: true,
         spaceBetween: 10
     });
 
-    $$('.product-slider-top .swiper-wrapper div').on('click', function () {
+    $$('.product-slider-top .swiper-wrapper div').on('click', function() {
         var photos = $$('.product-slider-top .hidden-big').attr('data-big');
         var index = $$(this).attr('data-index');
         var MainBig = bankaKZ.photoBrowser({
-            photos : JSON.parse(photos),
+            photos: JSON.parse(photos),
             initialSlide: index,
             theme: 'dark'
         });
@@ -979,7 +979,7 @@ function initProductMainSlider() {
 
 // Product page Service Slider
 function initProductServiceSlider(id) {
-    var swiperTop = bankaKZ.swiper('#'+id, {
+    var swiperTop = bankaKZ.swiper('#' + id, {
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
         preloadImages: true,
@@ -988,11 +988,11 @@ function initProductServiceSlider(id) {
         slidesPerView: 3,
     });
 
-    $$('#'+id+' .swiper-wrapper div').on('click', function () {
-        var photos = $$('#'+id+' .hidden-big').attr('data-big');
+    $$('#' + id + ' .swiper-wrapper div').on('click', function() {
+        var photos = $$('#' + id + ' .hidden-big').attr('data-big');
         var index = $$(this).attr('data-index');
         var MainBigService = bankaKZ.photoBrowser({
-            photos : JSON.parse(photos),
+            photos: JSON.parse(photos),
             initialSlide: index,
             theme: 'dark'
         });
@@ -1006,7 +1006,7 @@ function initMap(lat, lan, adress) {
         latlng = new google.maps.LatLng(lat, lan),
         icon = 'img/map-marker.png';
 
-    if(lat && lan) {
+    if (lat && lan) {
         map = new GMaps({
             disableDefaultUI: true,
             el: '.map',
@@ -1046,9 +1046,9 @@ function initMap(lat, lan, adress) {
 function listRating(id, value) {
     var el = $$('#' + id + ' input');
 
-    $$(el).each(function () {
+    $$(el).each(function() {
         if ($$(this).val() == value) {
-            $$(this).attr( "checked", "checked" );
+            $$(this).attr("checked", "checked");
         }
     });
 }
@@ -1061,40 +1061,40 @@ function calcBooking() {
         $$('#allservice').prop('checked', 'checked');
     }
 
-    if($$('#allservice').prop('checked') == true){
+    if ($$('#allservice').prop('checked') == true) {
 
         var price_type = $$('.sub-radio:checked').data('pricetype');
 
-        if(price_type == 'тг./час'){
+        if (price_type == 'тг./час') {
             var time_to = parseInt($$('#time-to').val()),
                 time_from = parseInt($$('#time-from').val());
 
-            if(time_from < time_to){
-                var time = time_to-time_from
-            }else{
-                var time = 24-time_from+time_to;
+            if (time_from < time_to) {
+                var time = time_to - time_from
+            } else {
+                var time = 24 - time_from + time_to;
             }
 
-            price = price*time;
+            price = price * time;
         }
 
-        $$('.subproductservice input').each(function () {
-            if($$(this).is(':checked')){
+        $$('.subproductservice input').each(function() {
+            if ($$(this).is(':checked')) {
                 var price_type = $$(this).data('pricetype'),
                     serv_price = parseInt($$(this).data('price'));
-                if(serv_price){
-                    if(price_type == 'тг./час'){
+                if (serv_price) {
+                    if (price_type == 'тг./час') {
                         var time_to = parseInt($$('#time-to').val());
                         var time_from = parseInt($$('#time-from').val());
 
-                        if(time_from < time_to){
-                            var time = time_to-time_from
-                        }else{
-                            var time = 24-time_from+time_to;
+                        if (time_from < time_to) {
+                            var time = time_to - time_from
+                        } else {
+                            var time = 24 - time_from + time_to;
                         }
-                        price = price+(serv_price*time);
-                    }else{
-                        price = price+serv_price;
+                        price = price + (serv_price * time);
+                    } else {
+                        price = price + serv_price;
                     }
                 }
             }
@@ -1118,9 +1118,8 @@ function onBackKeyDown() {
         $$('.photo-browser .photo-browser-close-link').click();
     } else if ($$('body').hasClass('with-panel-left-reveal')) {
         bankaKZ.closePanel();
-    } else if(page.name=='index'){
-        if(bankaKZ.confirm('Хотите закрыть приложение?', 'Выход'))
-        {
+    } else if (page.name == 'index') {
+        if (bankaKZ.confirm('Хотите закрыть приложение?', 'Выход')) {
             navigator.app.clearHistory();
             navigator.app.exitApp();
         }
@@ -1145,12 +1144,12 @@ function getPushId() {
     $$.ajax({
         dataType: 'json',
         url: url,
-        success: function (resp) {
-            if(resp.auth){
+        success: function(resp) {
+            if (resp.auth) {
                 window.plugins.OneSignal.sendTag("bitrixid", resp.id);
             }
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
@@ -1163,19 +1162,18 @@ function getPullId() {
         $$.ajax({
             dataType: 'json',
             url: url,
-            success: function (resp) {
-                if(resp.auth){
+            success: function(resp) {
+                if (resp.auth) {
                     getPersonalData();
                 }
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
             }
         });
     }
 
-    window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58",
-        {googleProjectNumber: "598379907149"}, notificationOpenedCallback);
+    window.plugins.OneSignal.init("51d610ca-18aa-4e7f-9ccf-4c17d3ccab58", { googleProjectNumber: "598379907149" }, notificationOpenedCallback);
 
     window.plugins.OneSignal.getTags(function(tags) {
         var url = "https://www.xn--90aodoeldy.kz/mobile_api/push/setid.php";
@@ -1185,10 +1183,10 @@ function getPullId() {
             url: url,
             data: tags,
             method: 'GET',
-            success: function (resp) {
+            success: function(resp) {
                 console.log("Success ajax call");
             },
-            error: function (xhr) {
+            error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
             }
         });
@@ -1204,24 +1202,24 @@ function showPopupRegistration() {
         url: url,
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
-        }, 
-        success: function (resp) {
+        },
+        success: function(resp) {
             var auth = resp.sidebar.auth;
 
-            if(!auth) {
-                setTimeout(function () {
+            if (!auth) {
+                setTimeout(function() {
                     bankaKZ.modal({
                         title: 'Пройдите регистрацию!',
                         text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
                         buttons: [{
                             text: 'Закрыть',
                             bold: true
-                        }]                    
+                        }]
                     });
                 }, 3000);
             }
         },
-        error: function (xhr) {
+        error: function(xhr) {
             console.log("Error on ajax call " + xhr);
         }
     });
