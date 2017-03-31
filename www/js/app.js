@@ -15,6 +15,9 @@ var bankaKZ = new Framework7({
 var $$ = Dom7;
 var storage = window.localStorage;
 
+// Enable/Disable development mode
+const devMode = true;
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     getPullId();
@@ -63,6 +66,7 @@ $$(document).on('click', '.getitempage', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 })
@@ -123,6 +127,7 @@ $$(document).on('click', '.send-code', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -169,6 +174,7 @@ $$(document).on('click', '#btnSearch', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -202,6 +208,7 @@ $$(document).on('click', '#about', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -228,6 +235,7 @@ $$(document).on('click', '#help', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -253,6 +261,7 @@ $$(document).on('click', '#howadd', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -278,6 +287,7 @@ $$(document).on('click', '#get-instruction', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -308,6 +318,7 @@ $$(document).on('click', '#rules', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -349,6 +360,7 @@ $$(document).on('click', '.sbt-status', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -382,6 +394,7 @@ $$(document).on('click', '.sbt-booking', function(e) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if(devMode) alert(JSON.parse(xhr));
             }
         });
     }
@@ -496,6 +509,7 @@ bankaKZ.onPageInit('registration-page', function(page) {
                 },
                 error: function(xhr) {
                     console.log("Error on ajax call " + xhr);
+                    if(devMode) alert(JSON.parse(xhr));
                 }
             });
         }
@@ -527,6 +541,7 @@ bankaKZ.onPageInit('login-page', function(page) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if(devMode) alert(JSON.parse(xhr));
             }
         });
 
@@ -692,6 +707,7 @@ function getFilters() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -717,6 +733,7 @@ function getRegisterData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -747,6 +764,7 @@ function sendPassword() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -777,6 +795,7 @@ function sendReview() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -802,6 +821,7 @@ function getSidebar() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -827,6 +847,7 @@ function getPersonalData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1151,6 +1172,7 @@ function getPushId() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1169,6 +1191,7 @@ function getPullId() {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if(devMode) alert(JSON.parse(xhr));
             }
         });
     }
@@ -1187,7 +1210,8 @@ function getPullId() {
                 console.log("Success ajax call");
             },
             error: function(xhr) {
-                console.log("Error on ajax call " + xhr);
+                console.log("Error on ajax call " + xhr)
+                if(devMode) alert(JSON.parse(xhr));
             }
         });
     });
@@ -1221,6 +1245,7 @@ function showPopupRegistration() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
         }
     });
 }
