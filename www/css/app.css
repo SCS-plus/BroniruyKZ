@@ -34,7 +34,15 @@
     padding-left: 5px;
 }
 
-/*list-product*/
+.card .item-content {
+    padding-left: 0px;
+}
+
+.card .item-content .item-inner:after {
+    display: none;
+}
+
+    /*list-product*/
 .not-found {
     text-align: center;
     font-size: 18px;
@@ -87,6 +95,7 @@
 
 .product-page .card .card-header{
     font-size: 18px;
+    width: 100%;
 }
 
 .product-page .card .card-content-inner .map {

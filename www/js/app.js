@@ -16,7 +16,7 @@ var $$ = Dom7;
 var storage = window.localStorage;
 
 // Enable/Disable development mode
-const devMode = true;
+const devMode = false;
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -30,14 +30,6 @@ $$(document).on('deviceready', function() {
 // Add view
 var mainView = bankaKZ.addView('.view-main'),
     sidebarView = bankaKZ.addView('.view-sidebar');
-
-// Refresh Main Page
-$$(document).on('refresh', '.pull-to-refresh-content', function(e) {
-    setTimeout(function() {
-        mainView.router.refreshPage();
-        bankaKZ.pullToRefreshDone();
-    }, 2000);
-});
 
 // Back to main
 $$(document).on('click', '.backtomain', function(e) {
@@ -902,6 +894,7 @@ function initCalendarPicker() {
 
     var dataSearch = bankaKZ.calendar({
         input: '#data-search',
+        value: [new Date()],
         dateFormat: 'dd.mm.yyyy',
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
@@ -1145,6 +1138,7 @@ function onBackKeyDown() {
             navigator.app.exitApp();
         }
     } else {
+        getFilters();
         mainView.router.back();
     }
 }
