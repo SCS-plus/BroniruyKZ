@@ -1,0 +1,21 @@
+{
+    "name": "com.bronkz.bookingkz",
+    "version": "1.3.0",
+    "displayName": "Бронируй.KZ",
+    "cordova": {
+        "platforms": [
+            "browser"
+        ],
+        "plugins": {
+            "cordova-plugin-inappbrowser": {},
+            "cordova-plugin-whitelist": {},
+            "onesignal-cordova-plugin": {}
+        }
+    },
+    "dependencies": {
+        "cordova-browser": "~4.1.0",
+        "cordova-plugin-inappbrowser": "~1.7.0",
+        "cordova-plugin-whitelist": "~1.2.2",
+        "onesignal-cordova-plugin": "~1.13.1"
+    }
+}

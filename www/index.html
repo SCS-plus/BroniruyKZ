@@ -48,17 +48,21 @@
                 <div class="list-block">
                     <ul>
                         {{#if auth}}
-                        <li id="balance">
+                        <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title">Никнейм: {{user.login}}</div>
                                 </div>
                             </div>
+                        </li>
+                        <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title">Баланс: <span class="color-green">{{user.sum}}</span> тг.</div>
                                 </div>
                             </div>
+                        </li>
+                        <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title"><a href="https://www.xn--90aodoeldy.kz/account/pay/" class="external" target="_system">Пополнить баланс</a></div>
@@ -74,6 +78,15 @@
                                 </div>
                             </a>
                         </li>
+                        {{#if user.owner}}
+                        <li id="my-halls">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Мои заведения</div>
+                                </div>
+                            </div>
+                        </li>
+                        {{/if}}
                         {{else}}
                         <li id="login">
                             <a href="#" class="item-link">
@@ -409,12 +422,13 @@
                             {{/each}}
                         </div>
                         {{#if isAuth}}
+
+                        {{/if}}
                         <div class="content-block">
                             <div class="booking-btn-block">
                                 <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify products[0]}}'>Cоздать заявку</a>
                             </div>
                         </div>
-                        {{/if}}
                     </div>
                     <div id="tab-reviews" class="page-content tab">
                         {{#if products[0].reviews}}
@@ -471,7 +485,7 @@
                 </div>
             </div>
             <div class="page-content">
-                <form id="booking-form">
+                <form id="booking-form" class="store-data">
                     <div class="list-block">
                         <div class="content-block-title">Залы</div>
                         <ul class="subradiowrapper">

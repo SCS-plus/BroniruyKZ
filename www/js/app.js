@@ -20,8 +20,8 @@ const devMode = false;
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    getPullId();
     getFilters();
+    getPullId();
     getPushNotify();
     showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
@@ -48,6 +48,7 @@ $$(document).on('click', '.getitempage', function(e) {
             bankaKZ.showIndicator();
         },
         success: function(resp) {
+            console.log(JSON.stringify(resp));
             mainView.router.load({
                 template: Template7.templates.itemTemplate,
                 context: resp
@@ -138,6 +139,43 @@ $$(document).on('click', '#btnSearch', function(e) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/list.php?city=" + city + "&type=" +
         type + "&service=" + service + "&datasearch=" + datasearch + "&time=" +
         time + "&rating=" + rating + "&lowerprice=" + lowerprice + "&upperprice=" + upperprice;
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            if (resp.status == 'ERROR') {
+                bankaKZ.alert(resp.message);
+            } else {
+                if (resp.products == null) {
+                    var ctx = { 'empty': true };
+                } else {
+                    var ctx = resp.products;
+                    storage.setItem('products', JSON.stringify(ctx));
+                }
+                mainView.router.load({
+                    template: Template7.templates.listTemplate,
+                    context: ctx
+                });
+            }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
+        }
+    });
+});
+
+//Get user halls
+$$(document).on('click', '#my-halls', function(e) {
+    bankaKZ.closePanel();
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/owner_list.php";
 
     $$.ajax({
         dataType: 'json',
@@ -396,7 +434,7 @@ $$(document).on('click', '.sbt-booking', function(e) {
 bankaKZ.onPageInit('index', function(page) {
     initApp();
 
-    var allServices = $$('#service option');
+    var service = $$('#service option');
     var Services = [];
 
     $$.each(service, function(i, item) {
