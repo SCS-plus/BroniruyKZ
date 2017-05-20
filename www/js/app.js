@@ -23,7 +23,7 @@ $$(document).on('deviceready', function() {
     getFilters();
     getPullId();
     getPushNotify();
-    showPopupRegistration();
+    // showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
@@ -147,6 +147,7 @@ $$(document).on('click', '#btnSearch', function(e) {
             bankaKZ.showIndicator();
         },
         success: function(resp) {
+            console.log(resp);
             if (resp.status == 'ERROR') {
                 bankaKZ.alert(resp.message);
             } else {
