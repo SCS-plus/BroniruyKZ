@@ -23,7 +23,7 @@ $$(document).on('deviceready', function() {
     getFilters();
     getPullId();
     getPushNotify();
-    // showPopupRegistration();
+    showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
@@ -48,7 +48,6 @@ $$(document).on('click', '.getitempage', function(e) {
             bankaKZ.showIndicator();
         },
         success: function(resp) {
-            console.log(JSON.stringify(resp));
             mainView.router.load({
                 template: Template7.templates.itemTemplate,
                 context: resp
@@ -147,7 +146,6 @@ $$(document).on('click', '#btnSearch', function(e) {
             bankaKZ.showIndicator();
         },
         success: function(resp) {
-            console.log(resp);
             if (resp.status == 'ERROR') {
                 bankaKZ.alert(resp.message);
             } else {
@@ -591,8 +589,8 @@ bankaKZ.onPageInit('booking-page', function(page) {
     var productId = $$('#productid').val();
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
     var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-' + serviceWrapperId).val();
-
-    // Сheck empty sub service |
+    
+    // Сheck empty sub service 
     if ($$(".subproductservice ul li").length > 0) {
         $$('#service-' + serviceWrapperId).show();
     } else {
@@ -638,12 +636,22 @@ bankaKZ.onPageInit('booking-page', function(page) {
 
     $$(document).on('change', '#calendar-service-from', function(e) {
         var date = $$(this).val();
+        var timesAlready = JSON.parse($$('.subradiowrapper li input:checked').parent().find('.timesalready').val());
+
+        disableTimesAlredy(timesAlready, date);
 
         if (dailyBooked == "Y") {
             $$('#calendar-service-to').val(addOneDay(date));
         } else {
             $$('#calendar-service-to').val(date);
-        }
+        }        
+    });
+
+    $$(document).on('change', '#calendar-service-to', function(e) { 
+        var date = $$(this).val();
+        var timesAlready = JSON.parse($$('.subradiowrapper li input:checked').parent().find('.timesalready').val());
+        
+        disableTimesAlredy(timesAlready, date);
     });
 
     $$(document).on('change', '#time-to', function(e) {
@@ -652,6 +660,7 @@ bankaKZ.onPageInit('booking-page', function(page) {
 
     $$(document).on('change', '#time-from', function(e) {
         var time = parseInt($$(this).val()) + 1;
+
         $$("#time-to option[value='" + time + ":00']").prop('selected', 'true');
         $$("#time-to").siblings('.item-content').find('.item-after').html(time + ':00');
         calcBooking();
@@ -973,7 +982,6 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         }
     });
 
-
     $$.each(disDate, function(i, arDate) {
         disableDates.push(new Date(arDate.y, arDate.m - 1, arDate.d));
     });
@@ -992,6 +1000,7 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         disabled: disableDates,
         toolbarCloseText: 'Готово'
     });
+
     var dataTo = bankaKZ.calendar({
         input: '#calendar-service-to',
         dateFormat: 'dd.mm.yyyy',
@@ -999,10 +1008,39 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Дата до",
-        minDate: today.setDate(today.getDate() - 1),
+        minDate: today.setDate(today.getDate()),
         events: disableDates,
         disabled: disableDates,
         toolbarCloseText: 'Готово'
+    });
+}
+
+// Booking form disable already times
+function disableTimesAlredy(timesData, date) {
+    $$.each(timesData, function(i, item) {        
+        if(date == item.date) {
+            $$("#time-from option").each(function() {
+                if($$(this).val() == item.h) {
+                    $$(this).prop("disabled", true);
+                } 
+            });
+            $$("#time-to option").each(function() {
+                if($$(this).val() == item.h) {
+                    $$(this).prop("disabled", true);
+                } 
+            });
+        } else {
+            $$("#time-from option").each(function() {
+                if($$(this).val() == item.h) {
+                    $$(this).prop("disabled", false);
+                } 
+            });
+            $$("#time-to option").each(function() {
+                if($$(this).val() == item.h) {
+                    $$(this).prop("disabled", false);
+                } 
+            });
+        }
     });
 }
 

@@ -323,3 +323,7 @@
 .list-block .item-content .item-inner .right::-moz-placeholder          {color:#757575;}
 .list-block .item-content .item-inner .right:-moz-placeholder           {color:#757575;}
 .list-block .item-content .item-inner .right:-ms-input-placeholder      {color:#757575;}
+
+.smart-select-popup ul li.disabled .item-title {
+    color: #f00;
+}

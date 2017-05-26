@@ -422,13 +422,12 @@
                             {{/each}}
                         </div>
                         {{#if isAuth}}
-
-                        {{/if}}
                         <div class="content-block">
                             <div class="booking-btn-block">
                                 <a href="#" class="button button-fill color-orange btn-booking" data-template='bookingTemplate' data-context='{{stringify products[0]}}'>Cоздать заявку</a>
                             </div>
                         </div>
+                        {{/if}}
                     </div>
                     <div id="tab-reviews" class="page-content tab">
                         {{#if products[0].reviews}}
@@ -498,7 +497,8 @@
                                         <div class="item-title">{{subProductTitle}} <br>
                                         {{#if subProductPrice}} ({{subProductPrice}} {{subProductPricetype}}){{/if}}</div>
                                     </div>
-                                    <input id="subproductdaily-{{subProductId}}" type="hidden" value="{{subProductDaily}}">
+                                    <input id="subproductdaily-{{subProductId}}" type="hidden" value="{{subProductDaily}}">                                    
+                                    <input class="timesalready" type="hidden" value='{{stringify subProductTimessAlready}}'>
                                 </label>
                             </li>
                             {{/each}}
