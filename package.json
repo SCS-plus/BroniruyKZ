@@ -13,7 +13,7 @@
         }
     },
     "dependencies": {
-        "cordova-browser": "~4.1.0",
+        "cordova-browser": "^4.1.0",
         "cordova-plugin-inappbrowser": "~1.7.0",
         "cordova-plugin-whitelist": "~1.2.2",
         "onesignal-cordova-plugin": "~1.13.1"

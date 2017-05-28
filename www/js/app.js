@@ -23,7 +23,7 @@ $$(document).on('deviceready', function() {
     getFilters();
     getPullId();
     getPushNotify();
-    showPopupRegistration();
+    //showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
