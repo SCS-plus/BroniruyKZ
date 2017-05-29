@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" type="text/css" href="css/framework7.material.min.css">
     <link rel="stylesheet" type="text/css" href="css/framework7.material.colors.min.css">
-
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/nouislider.min.css">
     <link rel="stylesheet" type="text/css" href="css/app.css" />
@@ -928,7 +927,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-media"><i class="icon material-icons">email</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш E-mail</div>
                                     <div class="item-input">
@@ -939,7 +938,7 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
@@ -950,11 +949,11 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-calendar"></i></div>
-                                <div class="item-inner arrow">
+                                <div class="item-media"><i class="icon material-icons">today</i></div>
+                                <div class="item-inner">
                                     <div class="item-title label">Ваша дата рождения</div>
                                     <div class="item-input">
-                                        <input class="right" type="text" placeholder="Выбрать" name="birth" readonly id="data-birth">
+                                        <input type="text" placeholder="Выбрать" name="birth" readonly id="data-birth">
                                     </div>
                                 </div>
                             </div>
@@ -967,86 +966,87 @@
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-url"></i></div>
+                                    <div class="item-media"><i class="icon material-icons">language</i></div>
                                     <div class="item-inner">
                                         <div class="item-title">Ваш город</div>
                                     </div>
                                 </div>
                             </a>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-tel"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Телефон</div>
-                                        <div class="item-input">
-                                            <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__" />
-                                        </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">call</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Телефон</div>
+                                    <div class="item-input">
+                                        <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Код из СМС</div>
+                                    <div class="item-input">
+                                        <input type="text" name="code" id="code" value="" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Код из СМС</div>
-                                        <div class="item-input">
-                                            <input type="text" name="code" id="code" value="" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="password" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Пароль</div>
-                                        <div class="item-input">
-                                            <input type="password" name="password" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Повторите пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="repassword" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Повторите пароль</div>
-                                        <div class="item-input">
-                                            <input type="password" name="repassword" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">domain</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Владелец заведения</div>
+                                    <div class="item-input">
+                                        <label class="label-switch">
+                                        <input type="checkbox" value="1" name="owner">
+                                        <div class="checkbox"></div>
+                                    </label>
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-toggle"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Владелец заведения</div>
-                                        <div class="item-input">
-                                            <label class="label-switch">
-                                            <input type="checkbox" value="1" name="owner">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <label class="label-checkbox item-content">
+                            </div>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
                                 <input id="siterights" type="checkbox" name="siterights" value="1">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-media"><i class="icon material-icons">check</i></div>
                                 <div class="item-inner">
                                     <div class="item-title">Согласен с <a href="#" id="rules">правилами сервиса</a></div>
                                 </div>
                             </label>
-                            </li>
+                        </li>
                     </ul>
                 </form>
                 <div class="content-block">
@@ -1070,7 +1070,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i>   </div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
@@ -1081,7 +1081,7 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Пароль</div>
                                     <div class="item-input">
@@ -1116,7 +1116,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">

@@ -1,3 +1,5 @@
+@import "material-icons.css";
+
 .logo{
     vertical-align: sub;
 }
@@ -326,4 +328,17 @@
 
 .smart-select-popup ul li.disabled .item-title {
     color: #f00;
+}
+
+#register-form .smart-select .item-inner {
+    padding-top: 14px;
+}
+
+#register-form .smart-select .item-title { 
+    font-size: 12px;
+    display: inline-block;
+}
+
+#register-form .smart-select .item-after { 
+    float: right;
 }
