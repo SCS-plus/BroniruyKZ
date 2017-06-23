@@ -429,6 +429,21 @@ $$(document).on('click', '.sbt-booking', function(e) {
     }
 });
 
+//Open payment link
+$$(document).on('click', '#payment', function(e) {
+    var userID = $$(this).find('.item-title').attr('data-id');
+    var hash = CryptoJS.MD5("booking" + userID);
+    var link = 'https://www.xn--90aodoeldy.kz/account/pay/?id=' + userID + '&hash=' + hash;
+    var os = bankaKZ.device.os;
+
+    window.open = cordova.InAppBrowser.open;
+    if (os == 'ios') { 
+        window.open(link);
+    } else {
+        window.open(link, '_system', 'location=no,closebuttoncaption=Cerrar,enableViewportScale=yes');
+    }
+});
+
 //Init Index Page
 bankaKZ.onPageInit('index', function(page) {
     initApp();

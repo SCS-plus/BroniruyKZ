@@ -342,3 +342,7 @@
 #register-form .smart-select .item-after { 
     float: right;
 }
+
+#payment {
+    color: #E65100;
+}
