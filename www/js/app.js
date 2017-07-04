@@ -990,9 +990,7 @@ function initCalendarRangeServicePicker(productId, subproductId) {
     $$.each(products, function(i, item) {
         if (item.productId == productId) {
             $$.each(item.subproducts, function(k, subitem) {
-                if (subitem.subProductId == subproductId) {
-                    disDate = subitem.subProductDatesAlready;
-                }
+                if (subitem.subProductId == subproductId) disDate = subitem.subProductDatesAlready;
             });
         }
     });
@@ -1153,9 +1151,7 @@ function listRating(id, value) {
     var el = $$('#' + id + ' input');
 
     $$(el).each(function() {
-        if ($$(this).val() == value) {
-            $$(this).attr("checked", "checked");
-        }
+        if ($$(this).val() == value) $$(this).attr("checked", "checked");
     });
 }
 
@@ -1163,9 +1159,7 @@ function listRating(id, value) {
 function calcBooking() {
     var price = parseInt($$('.sub-radio:checked').data('price'));
 
-    if (price == 0) {
-        $$('#allservice').prop('checked', 'checked');
-    }
+    if (price == 0) $$('#allservice').prop('checked', 'checked');
 
     if ($$('#allservice').prop('checked') == true) {
 

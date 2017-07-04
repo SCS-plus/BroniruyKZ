@@ -271,7 +271,7 @@
                     <div class="content-block">
                         <div class="row">
                             <div class="col-100">
-                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
+                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange">
                             </div>
                         </div>
                     </div>
@@ -340,7 +340,10 @@
             </div>
 
             <div class="toolbar tabbar product-toolbar">
-                <div class="toolbar-inner"><a href="#tab-detail" class="active tab-link">Подробно</a><a href="#tab-reviews" class="tab-link">Отзывы</a></div>
+                <div class="toolbar-inner">
+                    <a href="#tab-detail" class="active tab-link">Подробно</a>
+                    <a href="#tab-reviews" class="tab-link">Отзывы</a>
+                </div>
             </div>
 
             <div class="tabs-animated-wrap product-page">
@@ -755,11 +758,7 @@
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
                     {{#if owner}}
-                    <div id="tab-booking" class="page-content tab active pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
+                    <div id="tab-booking" class="page-content tab active">
                         {{#if ownerHistory}}
                         <div class="list-items content-block">
                             {{#each ownerHistory}}
@@ -816,11 +815,59 @@
                         {{/if}}
                     </div>
                     {{/if}}
-                    <div id="tab-history" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
+                    <div id="tab-history" class="page-content tab">
+                        <div class="filter-panel">
+                            <form id="personal-filter" class="list-block store-data">
+                                <ul>
+                                    <li>
+                                        <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                            <select id="institution" name="institution">
+                                                {{#each saunaList}}
+                                                <option value="{{@key}}">{{NAME}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <div class="item-content">
+                                                <div class="item-inner">
+                                                    <div class="item-title">Объявление</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                            <select id="halls" name="halls">
+                                                {{#each shallList}}
+                                                <option value="{{@key}}">{{NAME}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <div class="item-content">
+                                                <div class="item-inner">
+                                                    <div class="item-title">Зал</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                            <select id="period" name="period">
+                                                <option value="0">За последние 24 часа</option>
+                                                <option value="1">За последние 3 дня</option>
+                                                <option value="2">За последние 7 дней</option>
+                                                <option value="3">За последний месяц</option>
+                                            </select>
+                                            <div class="item-content">
+                                                <div class="item-inner">
+                                                    <div class="item-title">Время</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="content-block">
+                                    <input id="btnSearchHistory" type="button" value="Искать" class="button button-raised button-fill color-orange">  
+                                </div>          
+                            </form>
+                        </div>               
                         {{#if userHistory}}
                         <div class="list-items content-block">
                             {{#each userHistory}}
@@ -844,20 +891,20 @@
                                 <div class="field">
                                     <span class="title">Статус</span>
                                     <span class="text">
-                                            <p class="buttons-row">
-                                                <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
-                                                {{#if substatus}}
-                                                <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
-                                                {{/if}}
-                                            </p>
-                                            <p class="buttons-row">
-                                                {{#if buttons}}
-                                                    {{#each buttons}}
-                                                    <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
-                                                    {{/each}}
-                                                {{/if}}
-                                            </p>
-                                        </span>
+                                        <p class="buttons-row">
+                                            <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
+                                            {{#if substatus}}
+                                            <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
+                                            {{/if}}
+                                        </p>
+                                        <p class="buttons-row">
+                                            {{#if buttons}}
+                                                {{#each buttons}}
+                                                <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
+                                                {{/each}}
+                                            {{/if}}
+                                        </p>
+                                    </span>
                                 </div>
                             </div>
                             {{/each}}
@@ -868,11 +915,7 @@
                         </div>
                         {{/if}}
                     </div>
-                    <div id="tab-review" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
+                    <div id="tab-review" class="page-content tab">
                         {{#if userReviews}}
                         <div class="list-block media-list reviews">
                             <ul>
