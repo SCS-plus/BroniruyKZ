@@ -4,6 +4,7 @@
     "displayName": "Бронируй.KZ",
     "cordova": {
         "platforms": [
+            "android",
             "browser"
         ],
         "plugins": {
@@ -13,6 +14,7 @@
         }
     },
     "dependencies": {
+        "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",
         "cordova-plugin-inappbrowser": "~1.7.0",
         "cordova-plugin-whitelist": "~1.2.2",

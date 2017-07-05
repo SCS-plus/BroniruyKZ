@@ -734,6 +734,7 @@ function initApp() {
     initCalendarPicker();
 }
 
+// Owner history in personal page
 function loadOwnerHistory(saunaID) {
     var formData = bankaKZ.formToJSON('#personal-filter');
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
@@ -1338,12 +1339,13 @@ function onBackKeyDown() {
     } else if ($$('body').hasClass('with-panel-left-reveal')) {
         bankaKZ.closePanel();
     } else if (page.name == 'index') {
-        if (bankaKZ.confirm('Хотите закрыть приложение?', 'Выход')) {
+        bankaKZ.confirm('Хотите закрыть приложение?', 'Выход', function () {
             navigator.app.clearHistory();
             navigator.app.exitApp();
-        }
+        }, function () {
+            return false;
+        });
     } else {
-        getFilters();
         mainView.router.back();
     }
 }
