@@ -171,7 +171,6 @@ $$(document).on('click', '#btnSearch', function(e) {
     });
 });
 
-
 //Get user halls
 $$(document).on('click', '#my-halls', function(e) {
     bankaKZ.closePanel();
@@ -749,12 +748,7 @@ function loadOwnerHistory(saunaID) {
         },
         success: function(resp) {
             storage.setItem('ownerData', JSON.stringify(resp));
-
-            $$.each(resp.shallList, function(i, item) { 
-                if(saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
-            });
-            var selectText = $$('#halls option:first-child').text();
-            $$('.halls-select .item-after').text(selectText);
+            changeHalls(resp.shallList, saunaID);
 
             if (resp.ownerHistory) {
                 var data = resp.ownerHistory;
@@ -835,11 +829,15 @@ function loadPersonalHalls(saunaID) {
     var ownerData = JSON.parse(storage.getItem('ownerData'));
 
     halls.remove();
+    changeHalls(ownerData.shallList, saunaID);
+}
 
-    $$.each(ownerData.shallList, function(i, item) { 
+// Change halls in filter personal page
+function changeHalls(dataHalls, saunaID) {
+    $$.each(dataHalls, function(i, item) {
         if(saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
     });
-    
+
     var selectText = $$('#halls option:first-child').text();
     $$('.halls-select .item-after').text(selectText);
 }
@@ -1327,7 +1325,6 @@ function calcBooking() {
     $$('#totalprice').val(price);
 }
 
-//Native function
 //Press back button
 function onBackKeyDown() {
     var page = bankaKZ.getCurrentView().activePage;

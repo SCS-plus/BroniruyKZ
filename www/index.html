@@ -749,8 +749,7 @@
             </div>
             <div class="toolbar tabbar personal-toolbar">
                 <div class="toolbar-inner">
-                    {{#if owner}}
-                    <a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
+                    {{#if owner}}<a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
                     <a href="#tab-history" class="{{#unless owner}}active{{/unless}} tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                 </div>
@@ -787,6 +786,7 @@
                                                     <div class="halls-select item-content">
                                                         <div class="item-inner">
                                                             <div class="item-title">Зал</div>
+                                                            <div class="item-after"></div>
                                                         </div>
                                                     </div>
                                                 </a>
