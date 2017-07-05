@@ -282,6 +282,15 @@
     font-weight: 700;
 }
 
+.personal-page .button-block {
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.personal-page .personal.not-found {
+    padding-top: 30px;
+}
+
 /*Booking form*/
 #booking-form .hidden {
     display: none;
@@ -348,5 +357,22 @@
 }
 
 .filter-panel {
+    position: fixed;
+    width: 100%;
     margin-top: 48px;
+    background: #fff;
+    z-index: 9;
+}
+
+.filter-panel .open-filter {
+    color: #E65100;
+    text-transform: uppercase;
+}
+
+#personal-filter {
+    margin-bottom: 20px;
+}
+
+.owner-history { 
+    margin-top: 110px;
 }

@@ -759,115 +759,145 @@
                 <div class="tabs">
                     {{#if owner}}
                     <div id="tab-booking" class="page-content tab active">
-                        {{#if ownerHistory}}
-                        <div class="list-items content-block">
-                            {{#each ownerHistory}}
-                            <div class="item">
-                                <div class="field">
-                                    <span class="title">Название</span>
-                                    <span class="text">{{name}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Сумма</span>
-                                    <span class="text">{{summa}} тг.</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Дата</span>
-                                    <span class="text">{{date}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Пользователь</span>
-                                    <span class="text">{{user}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Телефон</span>
-                                    <span class="text">{{phone}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Комментарий</span>
-                                    <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Статус</span>
-                                    <span class="text">
-                                        <p class="buttons-row">
-                                            <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
-                                            {{#if substatus}}
-                                            <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
-                                            {{/if}}
-                                        </p>
-                                        <p class="buttons-row">
-                                            {{#if buttons}}
-                                                {{#each buttons}}
-                                                <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
-                                                {{/each}}
-                                            {{/if}}
-                                        </p>
-                                    </span>
+                        <div class="filter-panel list-block accordion-list">
+                            <div class="accordion-item">
+                                <a href="#" class="item-link item-content">
+                                    <div class="item-inner"><div class="item-title open-filter">Фильтр</div></div>
+                                </a> 
+                                <div class="accordion-item-content">
+                                    <form id="personal-filter" class="list-block store-data">
+                                        <ul>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="institution" name="institution">
+                                                        {{#each saunaList}}
+                                                        <option value="{{ID}}">{{NAME}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Объявление</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="halls" name="halls"></select>
+                                                    <div class="halls-select item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Зал</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="item-content">
+                                                    <div class="item-inner arrow">
+                                                        <div class="item-title label">Дата от</div>
+                                                        <div class="item-title">
+                                                            <input class="right" type="text" name="period-date-from" placeholder="Выбрать" readonly id="period-data-from">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="period-time-from" name="period-time-from">
+                                                        <option value="0:00">0:00</option>     
+                                                        <option value="1:00">1:00</option>    
+                                                        <option value="2:00">2:00</option>
+                                                        <option value="3:00">3:00</option>
+                                                        <option value="4:00">4:00</option>  
+                                                        <option value="5:00">5:00</option>  
+                                                        <option value="6:00">6:00</option>  
+                                                        <option value="7:00">7:00</option>    
+                                                        <option value="8:00">8:00</option>    
+                                                        <option value="9:00">9:00</option>   
+                                                        <option value="10:00">10:00</option>   
+                                                        <option value="11:00">11:00</option>
+                                                        <option value="12:00">12:00</option>   
+                                                        <option value="13:00">13:00</option>   
+                                                        <option value="14:00">14:00</option>    
+                                                        <option value="15:00">15:00</option>   
+                                                        <option value="16:00">16:00</option>    
+                                                        <option value="17:00">17:00</option>    
+                                                        <option value="18:00">18:00</option>     
+                                                        <option value="19:00">19:00</option>  
+                                                        <option value="20:00">20:00</option>    
+                                                        <option value="21:00">21:00</option>  
+                                                        <option value="22:00">22:00</option>
+                                                        <option value="23:00">23:00</option> 
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Время от</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="item-content">
+                                                    <div class="item-inner arrow">
+                                                        <div class="item-title label">Дата до</div>
+                                                        <div class="item-title">
+                                                            <input class="right" type="text" name="period-data-to" placeholder="Выбрать" readonly id="period-data-to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                             <li>
+                                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="period-time-to" name="period-time-to">   
+                                                        <option value="1:00">1:00</option>    
+                                                        <option value="2:00">2:00</option>
+                                                        <option value="3:00">3:00</option>
+                                                        <option value="4:00">4:00</option>  
+                                                        <option value="5:00">5:00</option>  
+                                                        <option value="6:00">6:00</option>  
+                                                        <option value="7:00">7:00</option>    
+                                                        <option value="8:00">8:00</option>    
+                                                        <option value="9:00">9:00</option>   
+                                                        <option value="10:00">10:00</option>   
+                                                        <option value="11:00">11:00</option>
+                                                        <option value="12:00">12:00</option>   
+                                                        <option value="13:00">13:00</option>   
+                                                        <option value="14:00">14:00</option>    
+                                                        <option value="15:00">15:00</option>   
+                                                        <option value="16:00">16:00</option>    
+                                                        <option value="17:00">17:00</option>    
+                                                        <option value="18:00">18:00</option>     
+                                                        <option value="19:00">19:00</option>  
+                                                        <option value="20:00">20:00</option>    
+                                                        <option value="21:00">21:00</option>  
+                                                        <option value="22:00">22:00</option>
+                                                        <option value="23:00">23:00</option> 
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Время до</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="button-block">
+                                            <input id="btnSearchBooking" type="button" value="Искать" class="button button-raised button-fill color-orange">  
+                                        </div>          
+                                    </form>                                    
                                 </div>
                             </div>
-                            {{/each}}
-                        </div>
+                        </div>        
+                        {{#if ownerHistory}}
+                        <div class="owner-history list-items content-block"></div>
                         {{else}}
-                        <div class="content-block not-found">
+                        <div class="personal not-found">
                             <span>Пока нет бронирований!</span>
                         </div>
                         {{/if}}
                     </div>
                     {{/if}}
-                    <div id="tab-history" class="page-content tab">
-                        <div class="filter-panel">
-                            <form id="personal-filter" class="list-block store-data">
-                                <ul>
-                                    <li>
-                                        <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                            <select id="institution" name="institution">
-                                                {{#each saunaList}}
-                                                <option value="{{@key}}">{{NAME}}</option>
-                                                {{/each}}
-                                            </select>
-                                            <div class="item-content">
-                                                <div class="item-inner">
-                                                    <div class="item-title">Объявление</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                            <select id="halls" name="halls">
-                                                {{#each shallList}}
-                                                <option value="{{@key}}">{{NAME}}</option>
-                                                {{/each}}
-                                            </select>
-                                            <div class="item-content">
-                                                <div class="item-inner">
-                                                    <div class="item-title">Зал</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
-                                            <select id="period" name="period">
-                                                <option value="0">За последние 24 часа</option>
-                                                <option value="1">За последние 3 дня</option>
-                                                <option value="2">За последние 7 дней</option>
-                                                <option value="3">За последний месяц</option>
-                                            </select>
-                                            <div class="item-content">
-                                                <div class="item-inner">
-                                                    <div class="item-title">Время</div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="content-block">
-                                    <input id="btnSearchHistory" type="button" value="Искать" class="button button-raised button-fill color-orange">  
-                                </div>          
-                            </form>
-                        </div>               
+                    <div id="tab-history" class="page-content tab">       
                         {{#if userHistory}}
                         <div class="list-items content-block">
                             {{#each userHistory}}
@@ -910,8 +940,8 @@
                             {{/each}}
                         </div>
                         {{else}}
-                        <div class="content-block not-found">
-                            <span>Пока нет бронирований!</span>
+                        <div class="content-block personal not-found">
+                            <span>Пока нет истории!</span>
                         </div>
                         {{/if}}
                     </div>
@@ -946,7 +976,7 @@
                             </ul>
                         </div>
                         {{else}}
-                        <div class="content-block not-found">
+                        <div class="content-block personal not-found">
                             <span>Пока нет отзывов!</span>
                         </div>
                         {{/if}}

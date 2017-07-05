@@ -171,6 +171,7 @@ $$(document).on('click', '#btnSearch', function(e) {
     });
 });
 
+
 //Get user halls
 $$(document).on('click', '#my-halls', function(e) {
     bankaKZ.closePanel();
@@ -689,10 +690,42 @@ bankaKZ.onPageInit('booking-page', function(page) {
 
 //Init Personal Page
 bankaKZ.onPageInit('personal-userpage', function(page) {
+    loadOwnerHistory($$('#institution').val());
+
     $$('.list-rating').each(function() {
         var id = $$(this).attr('id'),
             value = $$(this).attr('data-rating');
         listRating(id, value);
+    });
+
+    // Get user history
+    $$(document).on('click', '#btnSearchBooking', function(e) {
+        loadOwnerHistory($$('#institution').val());
+    });
+
+    $$('body').on('change', '#institution', function() {
+        var saunaID = $$(this).val();
+        loadPersonalHalls(saunaID);
+    });
+
+    var periodDataFrom = bankaKZ.calendar({
+        input: '#period-data-from',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        headerPlaceholder: "Дата от",
+        toolbarCloseText: 'Готово'
+    });
+
+    var periodDataTo = bankaKZ.calendar({
+        input: '#period-data-to',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        headerPlaceholder: "Дата до",
+        toolbarCloseText: 'Готово'
     });
 });
 
@@ -700,6 +733,80 @@ bankaKZ.onPageInit('personal-userpage', function(page) {
 function initApp() {
     initRangeSlider();
     initCalendarPicker();
+}
+
+function loadOwnerHistory(saunaID) {
+    var formData = bankaKZ.formToJSON('#personal-filter');
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        data: formData,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            storage.setItem('ownerData', JSON.stringify(resp));
+
+            $$.each(resp.shallList, function(i, item) { 
+                if(saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
+            });
+            var selectText = $$('#halls option:first-child').text();
+            $$('.halls-select .item-after').text(selectText);
+
+            if (resp.ownerHistory) {
+                var data = resp.ownerHistory;
+                var htmlMarkup = '';
+
+                data.forEach(function(item, i) {
+                    var comment = item.comment;
+                    var substatus = '';
+                    var htmlButtons = '';
+
+                    if(comment.length == 0) comment = 'Нет комментариев';
+                    if(item.substatus) substatus = '<a href="#" class="button button-fill color-'+ item.substatuscolor + '">' + item.substatus + '</a>';
+                    if(item.buttons) {
+                        var buttons = item.buttons;
+
+                        $$.each(buttons, function(n, button) { 
+                            htmlButtons += '<input type="button" class="button button-fill color-' + button.color + ' sbt-status" value="' + button.title + '" data-action="' + n + '" data-id="' + item.id + '">';
+                        });
+                    }
+
+                    htmlMarkup += '<div class="item"><div class="field"><span class="title">Название</span>';
+                    htmlMarkup += '<span class="text">' + item.name + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Сумма</span>';
+                    htmlMarkup += '<span class="text">' + item.summa + ' тг.</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Дата</span>';
+                    htmlMarkup += '<span class="text">' + item.date + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Пользователь</span>';
+                    htmlMarkup += '<span class="text">' + item.user + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Телефон</span>';
+                    htmlMarkup += '<span class="text">' + item.phone + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Комментарий</span>';
+                    htmlMarkup += '<span class="text">' + comment + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Статус</span><span class="text">';
+                    htmlMarkup += '<p class="buttons-row">';
+                    htmlMarkup += '<a href="#" class="button button-fill color-' + item.statuscolor + '">' + item.status + '</a>';
+                    htmlMarkup += substatus;
+                    htmlMarkup += '</p><p class="buttons-row">' + htmlButtons + '</p></span></div></div>';
+                });
+
+                $$('.owner-history').empty().append(htmlMarkup);
+            } else {
+                $$('.owner-history').empty().append('<p>Нет данных за этот период.</p>');
+            }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if(devMode) alert(JSON.parse(xhr));
+        }
+    });
 }
 
 // Add +1 day in booking form
@@ -720,6 +827,21 @@ function addOneDay(date) {
     if (mm < 10) mm = '0' + mm;
 
     return dd + '.' + mm + '.' + date_to_tmp.getFullYear();
+}
+
+// Load services in filter Main Page
+function loadPersonalHalls(saunaID) {
+    var halls = $$('#halls option');
+    var ownerData = JSON.parse(storage.getItem('ownerData'));
+
+    halls.remove();
+
+    $$.each(ownerData.shallList, function(i, item) { 
+        if(saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
+    });
+    
+    var selectText = $$('#halls option:first-child').text();
+    $$('.halls-select .item-after').text(selectText);
 }
 
 // Load services in filter Main Page
