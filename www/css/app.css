@@ -1,3 +1,5 @@
+@import "material-icons.css";
+
 .logo{
     vertical-align: sub;
 }
@@ -32,6 +34,14 @@
 .card .card-content .card-content-inner .adress,
 .card .card-footer .testimonials{
     padding-left: 5px;
+}
+
+.card .item-content {
+    padding-left: 0px;
+}
+
+.card .item-content .item-inner:after {
+    display: none;
 }
 
 /*list-product*/
@@ -87,6 +97,7 @@
 
 .product-page .card .card-header{
     font-size: 18px;
+    width: 100%;
 }
 
 .product-page .card .card-content-inner .map {
@@ -271,6 +282,15 @@
     font-weight: 700;
 }
 
+.personal-page .button-block {
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.personal-page .personal.not-found {
+    padding-top: 30px;
+}
+
 /*Booking form*/
 #booking-form .hidden {
     display: none;
@@ -314,3 +334,45 @@
 .list-block .item-content .item-inner .right::-moz-placeholder          {color:#757575;}
 .list-block .item-content .item-inner .right:-moz-placeholder           {color:#757575;}
 .list-block .item-content .item-inner .right:-ms-input-placeholder      {color:#757575;}
+
+.smart-select-popup ul li.disabled .item-title {
+    color: #f00;
+}
+
+#register-form .smart-select .item-inner {
+    padding-top: 14px;
+}
+
+#register-form .smart-select .item-title { 
+    font-size: 12px;
+    display: inline-block;
+}
+
+#register-form .smart-select .item-after { 
+    float: right;
+}
+
+#payment {
+    color: #E65100;
+}
+
+.filter-panel {
+    position: fixed;
+    width: 100%;
+    margin-top: 48px;
+    background: #fff;
+    z-index: 9;
+}
+
+.filter-panel .open-filter {
+    color: #E65100;
+    text-transform: uppercase;
+}
+
+#personal-filter {
+    margin-bottom: 20px;
+}
+
+.owner-history { 
+    margin-top: 110px;
+}

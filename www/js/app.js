@@ -15,26 +15,21 @@ var bankaKZ = new Framework7({
 var $$ = Dom7;
 var storage = window.localStorage;
 
+// Enable/Disable development mode
+const devMode = false;
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    getPullId();
     getFilters();
+    getPullId();
     getPushNotify();
-    // showPopupRegistration();
+    showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
 // Add view
 var mainView = bankaKZ.addView('.view-main'),
     sidebarView = bankaKZ.addView('.view-sidebar');
-
-// Refresh Main Page
-$$(document).on('refresh', '.pull-to-refresh-content', function(e) {
-    setTimeout(function() {
-        mainView.router.refreshPage();
-        bankaKZ.pullToRefreshDone();
-    }, 2000);
-});
 
 // Back to main
 $$(document).on('click', '.backtomain', function(e) {
@@ -63,6 +58,7 @@ $$(document).on('click', '.getitempage', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 })
@@ -123,6 +119,7 @@ $$(document).on('click', '.send-code', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -169,6 +166,44 @@ $$(document).on('click', '#btnSearch', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
+        }
+    });
+});
+
+//Get user halls
+$$(document).on('click', '#my-halls', function(e) {
+    bankaKZ.closePanel();
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/owner_list.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            if (resp.status == 'ERROR') {
+                bankaKZ.alert(resp.message);
+            } else {
+                if (resp.products == null) {
+                    var ctx = { 'empty': true };
+                } else {
+                    var ctx = resp.products;
+                    storage.setItem('products', JSON.stringify(ctx));
+                }
+                mainView.router.load({
+                    template: Template7.templates.listTemplate,
+                    context: ctx
+                });
+            }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -202,6 +237,7 @@ $$(document).on('click', '#about', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -228,6 +264,7 @@ $$(document).on('click', '#help', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -253,6 +290,7 @@ $$(document).on('click', '#howadd', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -278,6 +316,7 @@ $$(document).on('click', '#get-instruction', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -308,6 +347,7 @@ $$(document).on('click', '#rules', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -349,6 +389,7 @@ $$(document).on('click', '.sbt-status', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -382,8 +423,24 @@ $$(document).on('click', '.sbt-booking', function(e) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
+    }
+});
+
+//Open payment link
+$$(document).on('click', '#payment', function(e) {
+    var userID = $$(this).find('.item-title').attr('data-id');
+    var hash = CryptoJS.MD5("booking" + userID);
+    var link = 'https://www.xn--90aodoeldy.kz/account/pay/?id=' + userID + '&hash=' + hash;
+    var os = bankaKZ.device.os;
+
+    window.open = cordova.InAppBrowser.open;
+    if (os == 'ios') {
+        window.open(link);
+    } else {
+        window.open(link, '_system', 'location=no,closebuttoncaption=Cerrar,enableViewportScale=yes');
     }
 });
 
@@ -391,7 +448,7 @@ $$(document).on('click', '.sbt-booking', function(e) {
 bankaKZ.onPageInit('index', function(page) {
     initApp();
 
-    var allServices = $$('#service option');
+    var service = $$('#service option');
     var Services = [];
 
     $$.each(service, function(i, item) {
@@ -496,6 +553,7 @@ bankaKZ.onPageInit('registration-page', function(page) {
                 },
                 error: function(xhr) {
                     console.log("Error on ajax call " + xhr);
+                    if (devMode) alert(JSON.parse(xhr));
                 }
             });
         }
@@ -527,6 +585,7 @@ bankaKZ.onPageInit('login-page', function(page) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
 
@@ -546,7 +605,7 @@ bankaKZ.onPageInit('booking-page', function(page) {
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
     var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-' + serviceWrapperId).val();
 
-    // Сheck empty sub service |
+    // Сheck empty sub service 
     if ($$(".subproductservice ul li").length > 0) {
         $$('#service-' + serviceWrapperId).show();
     } else {
@@ -592,6 +651,9 @@ bankaKZ.onPageInit('booking-page', function(page) {
 
     $$(document).on('change', '#calendar-service-from', function(e) {
         var date = $$(this).val();
+        var timesAlready = JSON.parse($$('.subradiowrapper li input:checked').parent().find('.timesalready').val());
+
+        disableTimesAlredy(timesAlready, date);
 
         if (dailyBooked == "Y") {
             $$('#calendar-service-to').val(addOneDay(date));
@@ -600,12 +662,20 @@ bankaKZ.onPageInit('booking-page', function(page) {
         }
     });
 
+    $$(document).on('change', '#calendar-service-to', function(e) {
+        var date = $$(this).val();
+        var timesAlready = JSON.parse($$('.subradiowrapper li input:checked').parent().find('.timesalready').val());
+
+        disableTimesAlredy(timesAlready, date);
+    });
+
     $$(document).on('change', '#time-to', function(e) {
         calcBooking();
     });
 
     $$(document).on('change', '#time-from', function(e) {
         var time = parseInt($$(this).val()) + 1;
+
         $$("#time-to option[value='" + time + ":00']").prop('selected', 'true');
         $$("#time-to").siblings('.item-content').find('.item-after').html(time + ':00');
         calcBooking();
@@ -619,10 +689,42 @@ bankaKZ.onPageInit('booking-page', function(page) {
 
 //Init Personal Page
 bankaKZ.onPageInit('personal-userpage', function(page) {
+    loadOwnerHistory($$('#institution').val());
+
     $$('.list-rating').each(function() {
         var id = $$(this).attr('id'),
             value = $$(this).attr('data-rating');
         listRating(id, value);
+    });
+
+    // Get user history
+    $$(document).on('click', '#btnSearchBooking', function(e) {
+        loadOwnerHistory($$('#institution').val());
+    });
+
+    $$('body').on('change', '#institution', function() {
+        var saunaID = $$(this).val();
+        loadPersonalHalls(saunaID);
+    });
+
+    var periodDataFrom = bankaKZ.calendar({
+        input: '#period-data-from',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        headerPlaceholder: "Дата от",
+        toolbarCloseText: 'Готово'
+    });
+
+    var periodDataTo = bankaKZ.calendar({
+        input: '#period-data-to',
+        dateFormat: 'dd.mm.yyyy',
+        monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        closeOnSelect: true,
+        headerPlaceholder: "Дата до",
+        toolbarCloseText: 'Готово'
     });
 });
 
@@ -630,6 +732,76 @@ bankaKZ.onPageInit('personal-userpage', function(page) {
 function initApp() {
     initRangeSlider();
     initCalendarPicker();
+}
+
+// Owner history in personal page
+function loadOwnerHistory(saunaID) {
+    var formData = bankaKZ.formToJSON('#personal-filter');
+    var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        data: formData,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            storage.setItem('ownerData', JSON.stringify(resp));
+            changeHalls(resp.shallList, saunaID);
+
+            if (resp.ownerHistory) {
+                var data = resp.ownerHistory;
+                var htmlMarkup = '';
+
+                data.forEach(function(item, i) {
+                    var comment = item.comment;
+                    var substatus = '';
+                    var htmlButtons = '';
+
+                    if (comment.length == 0) comment = 'Нет комментариев';
+                    if (item.substatus) substatus = '<a href="#" class="button button-fill color-' + item.substatuscolor + '">' + item.substatus + '</a>';
+                    if (item.buttons) {
+                        var buttons = item.buttons;
+
+                        $$.each(buttons, function(n, button) {
+                            htmlButtons += '<input type="button" class="button button-fill color-' + button.color + ' sbt-status" value="' + button.title + '" data-action="' + n + '" data-id="' + item.id + '">';
+                        });
+                    }
+
+                    htmlMarkup += '<div class="item"><div class="field"><span class="title">Название</span>';
+                    htmlMarkup += '<span class="text">' + item.name + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Сумма</span>';
+                    htmlMarkup += '<span class="text">' + item.summa + ' тг.</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Дата</span>';
+                    htmlMarkup += '<span class="text">' + item.date + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Пользователь</span>';
+                    htmlMarkup += '<span class="text">' + item.user + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Телефон</span>';
+                    htmlMarkup += '<span class="text">' + item.phone + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Комментарий</span>';
+                    htmlMarkup += '<span class="text">' + comment + '</span></div>';
+                    htmlMarkup += '<div class="field"><span class="title">Статус</span><span class="text">';
+                    htmlMarkup += '<p class="buttons-row">';
+                    htmlMarkup += '<a href="#" class="button button-fill color-' + item.statuscolor + '">' + item.status + '</a>';
+                    htmlMarkup += substatus;
+                    htmlMarkup += '</p><p class="buttons-row">' + htmlButtons + '</p></span></div></div>';
+                });
+
+                $$('.owner-history').empty().append(htmlMarkup);
+            } else {
+                $$('.owner-history').empty().append('<p>Нет данных за этот период.</p>');
+            }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
+        }
+    });
 }
 
 // Add +1 day in booking form
@@ -650,6 +822,25 @@ function addOneDay(date) {
     if (mm < 10) mm = '0' + mm;
 
     return dd + '.' + mm + '.' + date_to_tmp.getFullYear();
+}
+
+// Load services in filter Main Page
+function loadPersonalHalls(saunaID) {
+    var halls = $$('#halls option');
+    var ownerData = JSON.parse(storage.getItem('ownerData'));
+
+    halls.remove();
+    changeHalls(ownerData.shallList, saunaID);
+}
+
+// Change halls in filter personal page
+function changeHalls(dataHalls, saunaID) {
+    $$.each(dataHalls, function(i, item) {
+        if (saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
+    });
+
+    var selectText = $$('#halls option:first-child').text();
+    $$('.halls-select .item-after').text(selectText);
 }
 
 // Load services in filter Main Page
@@ -692,6 +883,7 @@ function getFilters() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -717,6 +909,7 @@ function getRegisterData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -747,6 +940,7 @@ function sendPassword() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -777,6 +971,7 @@ function sendReview() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -802,6 +997,7 @@ function getSidebar() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -827,6 +1023,7 @@ function getPersonalData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -881,6 +1078,7 @@ function initCalendarPicker() {
 
     var dataSearch = bankaKZ.calendar({
         input: '#data-search',
+        value: [new Date()],
         dateFormat: 'dd.mm.yyyy',
         monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
@@ -913,13 +1111,10 @@ function initCalendarRangeServicePicker(productId, subproductId) {
     $$.each(products, function(i, item) {
         if (item.productId == productId) {
             $$.each(item.subproducts, function(k, subitem) {
-                if (subitem.subProductId == subproductId) {
-                    disDate = subitem.subProductDatesAlready;
-                }
+                if (subitem.subProductId == subproductId) disDate = subitem.subProductDatesAlready;
             });
         }
     });
-
 
     $$.each(disDate, function(i, arDate) {
         disableDates.push(new Date(arDate.y, arDate.m - 1, arDate.d));
@@ -939,6 +1134,7 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         disabled: disableDates,
         toolbarCloseText: 'Готово'
     });
+
     var dataTo = bankaKZ.calendar({
         input: '#calendar-service-to',
         dateFormat: 'dd.mm.yyyy',
@@ -946,10 +1142,39 @@ function initCalendarRangeServicePicker(productId, subproductId) {
         dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
         closeOnSelect: true,
         headerPlaceholder: "Дата до",
-        minDate: today.setDate(today.getDate() - 1),
+        minDate: today.setDate(today.getDate()),
         events: disableDates,
         disabled: disableDates,
         toolbarCloseText: 'Готово'
+    });
+}
+
+// Booking form disable already times
+function disableTimesAlredy(timesData, date) {
+    $$.each(timesData, function(i, item) {
+        if (date == item.date) {
+            $$("#time-from option").each(function() {
+                if ($$(this).val() == item.h) {
+                    $$(this).prop("disabled", true);
+                }
+            });
+            $$("#time-to option").each(function() {
+                if ($$(this).val() == item.h) {
+                    $$(this).prop("disabled", true);
+                }
+            });
+        } else {
+            $$("#time-from option").each(function() {
+                if ($$(this).val() == item.h) {
+                    $$(this).prop("disabled", false);
+                }
+            });
+            $$("#time-to option").each(function() {
+                if ($$(this).val() == item.h) {
+                    $$(this).prop("disabled", false);
+                }
+            });
+        }
     });
 }
 
@@ -1047,9 +1272,7 @@ function listRating(id, value) {
     var el = $$('#' + id + ' input');
 
     $$(el).each(function() {
-        if ($$(this).val() == value) {
-            $$(this).attr("checked", "checked");
-        }
+        if ($$(this).val() == value) $$(this).attr("checked", "checked");
     });
 }
 
@@ -1057,9 +1280,7 @@ function listRating(id, value) {
 function calcBooking() {
     var price = parseInt($$('.sub-radio:checked').data('price'));
 
-    if (price == 0) {
-        $$('#allservice').prop('checked', 'checked');
-    }
+    if (price == 0) $$('#allservice').prop('checked', 'checked');
 
     if ($$('#allservice').prop('checked') == true) {
 
@@ -1105,7 +1326,6 @@ function calcBooking() {
     $$('#totalprice').val(price);
 }
 
-//Native function
 //Press back button
 function onBackKeyDown() {
     var page = bankaKZ.getCurrentView().activePage;
@@ -1119,10 +1339,12 @@ function onBackKeyDown() {
     } else if ($$('body').hasClass('with-panel-left-reveal')) {
         bankaKZ.closePanel();
     } else if (page.name == 'index') {
-        if (bankaKZ.confirm('Хотите закрыть приложение?', 'Выход')) {
+        bankaKZ.confirm('Хотите закрыть приложение?', 'Выход', function() {
             navigator.app.clearHistory();
             navigator.app.exitApp();
-        }
+        }, function() {
+            return false;
+        });
     } else {
         mainView.router.back();
     }
@@ -1151,6 +1373,7 @@ function getPushId() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1169,6 +1392,7 @@ function getPullId() {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
     }
@@ -1187,7 +1411,8 @@ function getPullId() {
                 console.log("Success ajax call");
             },
             error: function(xhr) {
-                console.log("Error on ajax call " + xhr);
+                console.log("Error on ajax call " + xhr)
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
     });
@@ -1221,6 +1446,7 @@ function showPopupRegistration() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }

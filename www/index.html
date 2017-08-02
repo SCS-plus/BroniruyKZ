@@ -11,9 +11,8 @@
 
     <title>Бронируй.KZ</title>
 
-    <link rel="stylesheet" type="text/css" href="css/framework7.material.css">
-    <link rel="stylesheet" type="text/css" href="css/framework7.material.colors.css">
-
+    <link rel="stylesheet" type="text/css" href="css/framework7.material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/framework7.material.colors.min.css">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/nouislider.min.css">
     <link rel="stylesheet" type="text/css" href="css/app.css" />
@@ -48,20 +47,24 @@
                 <div class="list-block">
                     <ul>
                         {{#if auth}}
-                        <li id="balance">
+                        <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title">Никнейм: {{user.login}}</div>
                                 </div>
                             </div>
+                        </li>
+                        <li>
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title">Баланс: <span class="color-green">{{user.sum}}</span> тг.</div>
                                 </div>
                             </div>
+                        </li>
+                        <li id="payment">
                             <div class="item-content">
                                 <div class="item-inner">
-                                    <div class="item-title"><a href="https://www.xn--90aodoeldy.kz/account/pay/" class="external" target="_system">Пополнить баланс</a></div>
+                                    <div class="item-title" data-id="{{user.id}}">Пополнить баланс</div>
                                 </div>
                             </div>
                         </li>
@@ -74,7 +77,15 @@
                                 </div>
                             </a>
                         </li>
-                        {{else}}
+                        {{#if user.owner}}
+                        <li id="my-halls">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Мои объявления</div>
+                                </div>
+                            </div>
+                        </li>
+                        {{/if}} {{else}}
                         <li id="login">
                             <a href="#" class="item-link">
                                 <div class="item-content">
@@ -154,14 +165,10 @@
                 </div>
             </div>
             {{#if this}}
-            <div class="page-content main-page pull-to-refresh-content" data-ptr-distance="55">
-                <div class="pull-to-refresh-layer">
-                    <div class="preloader"></div>
-                    <div class="pull-to-refresh-arrow"></div>
-                </div>
+            <div class="page-content main-page">
                 <!-- Filter-->
                 <div class="content-block-title">Поиск</div>
-                <form id="filter-form" class="list-block">
+                <form id="filter-form" class="list-block store-data">
                     <ul>
                         <li>
                             <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
@@ -263,7 +270,7 @@
                     <div class="content-block">
                         <div class="row">
                             <div class="col-100">
-                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange"></a>
+                                <input id="btnSearch" type="button" value="Найти" class="button button-raised button-fill color-orange">
                             </div>
                         </div>
                     </div>
@@ -332,7 +339,10 @@
             </div>
 
             <div class="toolbar tabbar product-toolbar">
-                <div class="toolbar-inner"><a href="#tab-detail" class="active tab-link">Подробно</a><a href="#tab-reviews" class="tab-link">Отзывы</a></div>
+                <div class="toolbar-inner">
+                    <a href="#tab-detail" class="active tab-link">Подробно</a>
+                    <a href="#tab-reviews" class="tab-link">Отзывы</a>
+                </div>
             </div>
 
             <div class="tabs-animated-wrap product-page">
@@ -362,11 +372,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="halls">
+                        <div class="halls list-block{{#if ../products[0].minimize}} accordion-list{{/if}}">
                             {{#each products[0].subproducts}}
-                            <div id="scroll-{{subProductId}}" class="card">
-                                <div class="card-header">{{subProductTitle}}</div>
-                                <div class="card-content">
+                            <div id="scroll-{{subProductId}}" class="card{{#if ../products[0].minimize}} accordion-item{{/if}}">
+                                <a href="#" class="item-content item-link">
+                                    <div class="card-header{{#if ../products[0].minimize}} item-inner{{/if}}">
+                                        <div class="item-title">{{subProductTitle}}</div>
+                                    </div>
+                                </a>
+                                <div class="card-content{{#if ../products[0].minimize}} accordion-item-content{{/if}}">
                                     <div class="card-content-inner">
                                         <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
                                             <div class="swiper-pagination"></div>
@@ -400,10 +414,10 @@
                                             {{/js_compare}} {{/if}}
                                         </div>
                                         <div class="col-50">
-                                            {{#if subProductPrice}}
+                                            {{#unless ../products[0].hide_sum}} {{#if subProductPrice}}
                                             <div class="col-100">Стоимость:</div>
                                             <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
-                                            {{/if}}
+                                            {{/if}} {{/unless}}
                                         </div>
                                     </div>
                                 </div>
@@ -473,7 +487,7 @@
                 </div>
             </div>
             <div class="page-content">
-                <form id="booking-form">
+                <form id="booking-form" class="store-data">
                     <div class="list-block">
                         <div class="content-block-title">Залы</div>
                         <ul class="subradiowrapper">
@@ -486,7 +500,8 @@
                                         <div class="item-title">{{subProductTitle}} <br>
                                         {{#if subProductPrice}} ({{subProductPrice}} {{subProductPricetype}}){{/if}}</div>
                                     </div>
-                                    <input id="subproductdaily-{{subProductId}}" type="hidden" value="{{subProductDaily}}">
+                                    <input id="subproductdaily-{{subProductId}}" type="hidden" value="{{subProductDaily}}">                                    
+                                    <input class="timesalready" type="hidden" value='{{stringify subProductTimessAlready}}'>
                                 </label>
                             </li>
                             {{/each}}
@@ -688,7 +703,7 @@
         </div>
     </script>
 
-    <!--Instruction Template-->
+    <!-- Instruction Template-->
     <script id="instructionTemplate" type="text/template7">
         <div data-page="instruction" class="page">
             <div class="navbar">
@@ -735,8 +750,7 @@
             </div>
             <div class="toolbar tabbar personal-toolbar">
                 <div class="toolbar-inner">
-                    {{#if owner}}
-                    <a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
+                    {{#if owner}}<a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
                     <a href="#tab-history" class="{{#unless owner}}active{{/unless}} tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                 </div>
@@ -744,14 +758,152 @@
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
                     {{#if owner}}
-                    <div id="tab-booking" class="page-content tab active pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
+                    <div id="tab-booking" class="page-content tab active">
+                        <div class="filter-panel list-block accordion-list">
+                            <div class="accordion-item">
+                                <a href="#" class="item-link item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title open-filter">Фильтр</div>
+                                    </div>
+                                </a>
+                                <div class="accordion-item-content">
+                                    <form id="personal-filter" class="list-block store-data">
+                                        <ul>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="institution" name="institution">
+                                                        {{#each saunaList}}
+                                                        <option value="{{ID}}">{{NAME}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Объявление</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Поиск" data-searchbar-cancel="Отменить" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="halls" name="halls"></select>
+                                                    <div class="halls-select item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Зал</div>
+                                                            <div class="item-after"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="item-content">
+                                                    <div class="item-inner arrow">
+                                                        <div class="item-title label">Дата от</div>
+                                                        <div class="item-title">
+                                                            <input class="right" type="text" name="period-date-from" placeholder="Выбрать" readonly id="period-data-from">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="period-time-from" name="period-time-from">
+                                                        <option value="0:00">0:00</option>     
+                                                        <option value="1:00">1:00</option>    
+                                                        <option value="2:00">2:00</option>
+                                                        <option value="3:00">3:00</option>
+                                                        <option value="4:00">4:00</option>  
+                                                        <option value="5:00">5:00</option>  
+                                                        <option value="6:00">6:00</option>  
+                                                        <option value="7:00">7:00</option>    
+                                                        <option value="8:00">8:00</option>    
+                                                        <option value="9:00">9:00</option>   
+                                                        <option value="10:00">10:00</option>   
+                                                        <option value="11:00">11:00</option>
+                                                        <option value="12:00">12:00</option>   
+                                                        <option value="13:00">13:00</option>   
+                                                        <option value="14:00">14:00</option>    
+                                                        <option value="15:00">15:00</option>   
+                                                        <option value="16:00">16:00</option>    
+                                                        <option value="17:00">17:00</option>    
+                                                        <option value="18:00">18:00</option>     
+                                                        <option value="19:00">19:00</option>  
+                                                        <option value="20:00">20:00</option>    
+                                                        <option value="21:00">21:00</option>  
+                                                        <option value="22:00">22:00</option>
+                                                        <option value="23:00">23:00</option> 
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Время от</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="item-content">
+                                                    <div class="item-inner arrow">
+                                                        <div class="item-title label">Дата до</div>
+                                                        <div class="item-title">
+                                                            <input class="right" type="text" name="period-data-to" placeholder="Выбрать" readonly id="period-data-to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
+                                                    <select id="period-time-to" name="period-time-to">   
+                                                        <option value="1:00">1:00</option>    
+                                                        <option value="2:00">2:00</option>
+                                                        <option value="3:00">3:00</option>
+                                                        <option value="4:00">4:00</option>  
+                                                        <option value="5:00">5:00</option>  
+                                                        <option value="6:00">6:00</option>  
+                                                        <option value="7:00">7:00</option>    
+                                                        <option value="8:00">8:00</option>    
+                                                        <option value="9:00">9:00</option>   
+                                                        <option value="10:00">10:00</option>   
+                                                        <option value="11:00">11:00</option>
+                                                        <option value="12:00">12:00</option>   
+                                                        <option value="13:00">13:00</option>   
+                                                        <option value="14:00">14:00</option>    
+                                                        <option value="15:00">15:00</option>   
+                                                        <option value="16:00">16:00</option>    
+                                                        <option value="17:00">17:00</option>    
+                                                        <option value="18:00">18:00</option>     
+                                                        <option value="19:00">19:00</option>  
+                                                        <option value="20:00">20:00</option>    
+                                                        <option value="21:00">21:00</option>  
+                                                        <option value="22:00">22:00</option>
+                                                        <option value="23:00">23:00</option> 
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <div class="item-title">Время до</div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="button-block">
+                                            <input id="btnSearchBooking" type="button" value="Искать" class="button button-raised button-fill color-orange">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         {{#if ownerHistory}}
+                        <div class="owner-history list-items content-block"></div>
+                        {{else}}
+                        <div class="personal not-found">
+                            <span>Пока нет бронирований!</span>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    <div id="tab-history" class="page-content tab">
+                        {{#if userHistory}}
                         <div class="list-items content-block">
-                            {{#each ownerHistory}}
+                            {{#each userHistory}}
                             <div class="item">
                                 <div class="field">
                                     <span class="title">Название</span>
@@ -764,14 +916,6 @@
                                 <div class="field">
                                     <span class="title">Дата</span>
                                     <span class="text">{{date}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Пользователь</span>
-                                    <span class="text">{{user}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Телефон</span>
-                                    <span class="text">{{phone}}</span>
                                 </div>
                                 <div class="field">
                                     <span class="title">Комментарий</span>
@@ -799,69 +943,12 @@
                             {{/each}}
                         </div>
                         {{else}}
-                        <div class="content-block not-found">
-                            <span>Пока нет бронирований!</span>
+                        <div class="content-block personal not-found">
+                            <span>Пока нет истории!</span>
                         </div>
                         {{/if}}
                     </div>
-                    {{/if}}
-                    <div id="tab-history" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
-                        {{#if userHistory}}
-                        <div class="list-items content-block">
-                            {{#each userHistory}}
-                            <div class="item">
-                                <div class="field">
-                                    <span class="title">Название</span>
-                                    <span class="text">{{name}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Сумма</span>
-                                    <span class="text">{{summa}} тг.</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Дата</span>
-                                    <span class="text">{{date}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Комментарий</span>
-                                    <span class="text">{{#if comment}}{{comment}}{{else}}Нет комментариев{{/if}}</span>
-                                </div>
-                                <div class="field">
-                                    <span class="title">Статус</span>
-                                    <span class="text">
-                                            <p class="buttons-row">
-                                                <a href="#" class="button button-fill color-{{statuscolor}}">{{status}}</a>
-                                                {{#if substatus}}
-                                                <a href="#" class="button button-fill color-{{substatuscolor}}">{{substatus}}</a>
-                                                {{/if}}
-                                            </p>
-                                            <p class="buttons-row">
-                                                {{#if buttons}}
-                                                    {{#each buttons}}
-                                                    <input type="button" class="button button-fill color-{{color}} sbt-status" value="{{title}}" data-action="{{@key}}" data-id="{{../id}}">
-                                                    {{/each}}
-                                                {{/if}}
-                                            </p>
-                                        </span>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-                        {{else}}
-                        <div class="content-block not-found">
-                            <span>Пока нет бронирований!</span>
-                        </div>
-                        {{/if}}
-                    </div>
-                    <div id="tab-review" class="page-content tab pull-to-refresh-content" data-ptr-distance="55">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
+                    <div id="tab-review" class="page-content tab">
                         {{#if userReviews}}
                         <div class="list-block media-list reviews">
                             <ul>
@@ -892,7 +979,7 @@
                             </ul>
                         </div>
                         {{else}}
-                        <div class="content-block not-found">
+                        <div class="content-block personal not-found">
                             <span>Пока нет отзывов!</span>
                         </div>
                         {{/if}}
@@ -916,7 +1003,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-media"><i class="icon material-icons">email</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш E-mail</div>
                                     <div class="item-input">
@@ -927,7 +1014,7 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
@@ -938,11 +1025,11 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-calendar"></i></div>
-                                <div class="item-inner arrow">
+                                <div class="item-media"><i class="icon material-icons">today</i></div>
+                                <div class="item-inner">
                                     <div class="item-title label">Ваша дата рождения</div>
                                     <div class="item-input">
-                                        <input class="right" type="text" placeholder="Выбрать" name="birth" readonly id="data-birth">
+                                        <input type="text" placeholder="Выбрать" name="birth" readonly id="data-birth">
                                     </div>
                                 </div>
                             </div>
@@ -955,86 +1042,87 @@
                                     {{/each}}
                                 </select>
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-url"></i></div>
+                                    <div class="item-media"><i class="icon material-icons">language</i></div>
                                     <div class="item-inner">
                                         <div class="item-title">Ваш город</div>
                                     </div>
                                 </div>
                             </a>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-tel"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Телефон</div>
-                                        <div class="item-input">
-                                            <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__" />
-                                        </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">call</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Телефон</div>
+                                    <div class="item-input">
+                                        <input type="text" name="phone" id="phone" placeholder="+7 (___) ___-__-__" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-inner">
-                                        <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <a href="#" class="button button-fill color-orange send-code">Отправить код</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Код из СМС</div>
+                                    <div class="item-input">
+                                        <input type="text" name="code" id="code" value="" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Код из СМС</div>
-                                        <div class="item-input">
-                                            <input type="text" name="code" id="code" value="" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="password" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Пароль</div>
-                                        <div class="item-input">
-                                            <input type="password" name="password" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Повторите пароль</div>
+                                    <div class="item-input">
+                                        <input type="password" name="repassword" />
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Повторите пароль</div>
-                                        <div class="item-input">
-                                            <input type="password" name="repassword" />
-                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon material-icons">domain</i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">Владелец заведения</div>
+                                    <div class="item-input">
+                                        <label class="label-switch">
+                                        <input type="checkbox" value="1" name="owner">
+                                        <div class="checkbox"></div>
+                                    </label>
                                     </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="item-content">
-                                    <div class="item-media"><i class="icon icon-form-toggle"></i></div>
-                                    <div class="item-inner">
-                                        <div class="item-title label">Владелец заведения</div>
-                                        <div class="item-input">
-                                            <label class="label-switch">
-                                            <input type="checkbox" value="1" name="owner">
-                                            <div class="checkbox"></div>
-                                        </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <label class="label-checkbox item-content">
+                            </div>
+                        </li>
+                        <li>
+                            <label class="label-checkbox item-content">
                                 <input id="siterights" type="checkbox" name="siterights" value="1">
-                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                <div class="item-media"><i class="icon material-icons">check</i></div>
                                 <div class="item-inner">
                                     <div class="item-title">Согласен с <a href="#" id="rules">правилами сервиса</a></div>
                                 </div>
                             </label>
-                            </li>
+                        </li>
                     </ul>
                 </form>
                 <div class="content-block">
@@ -1058,7 +1146,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i> </div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
@@ -1069,7 +1157,7 @@
                         </li>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                                <div class="item-media"><i class="icon material-icons">lock_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Пароль</div>
                                     <div class="item-input">
@@ -1104,7 +1192,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">
@@ -1128,10 +1216,12 @@
     <!-- Path to JS-->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBXYeDTQh9m_9Dvs5UjxHYqNr3fEJa3Eaw"></script>
-    <script type="text/javascript" src="js/lib/framework7.js"></script>
+    <script type="text/javascript" src="js/lib/framework7.min.js"></script>
     <script type="text/javascript" src="js/lib/gmaps.js"></script>
     <script type="text/javascript" src="js/lib/nouislider.min.js"></script>
     <script type="text/javascript" src="js/lib/vanilla-masker.min.js"></script>
+    <script type="text/javascript" src="js/lib/crypto.js"></script>
+    <script type="text/javascript" src="js/lib/md5.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
 </body>
