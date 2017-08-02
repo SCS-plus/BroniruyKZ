@@ -85,8 +85,7 @@
                                 </div>
                             </div>
                         </li>
-                        {{/if}}
-                        {{else}}
+                        {{/if}} {{else}}
                         <li id="login">
                             <a href="#" class="item-link">
                                 <div class="item-content">
@@ -376,7 +375,11 @@
                         <div class="halls list-block{{#if ../products[0].minimize}} accordion-list{{/if}}">
                             {{#each products[0].subproducts}}
                             <div id="scroll-{{subProductId}}" class="card{{#if ../products[0].minimize}} accordion-item{{/if}}">
-                                <a href="#" class="item-content item-link"><div class="card-header{{#if ../products[0].minimize}} item-inner{{/if}}"><div class="item-title">{{subProductTitle}}</div></div></a>
+                                <a href="#" class="item-content item-link">
+                                    <div class="card-header{{#if ../products[0].minimize}} item-inner{{/if}}">
+                                        <div class="item-title">{{subProductTitle}}</div>
+                                    </div>
+                                </a>
                                 <div class="card-content{{#if ../products[0].minimize}} accordion-item-content{{/if}}">
                                     <div class="card-content-inner">
                                         <div class="swiper-container product-service-slider" id="subslider-{{@index}}">
@@ -411,12 +414,10 @@
                                             {{/js_compare}} {{/if}}
                                         </div>
                                         <div class="col-50">
-                                            {{#unless ../products[0].hide_sum}}
-                                            {{#if subProductPrice}}
+                                            {{#unless ../products[0].hide_sum}} {{#if subProductPrice}}
                                             <div class="col-100">Стоимость:</div>
                                             <div class="col-100 quantity">{{subProductPrice}} {{subProductPricetype}}</div>
-                                            {{/if}}
-                                            {{/unless}}
+                                            {{/if}} {{/unless}}
                                         </div>
                                     </div>
                                 </div>
@@ -761,8 +762,10 @@
                         <div class="filter-panel list-block accordion-list">
                             <div class="accordion-item">
                                 <a href="#" class="item-link item-content">
-                                    <div class="item-inner"><div class="item-title open-filter">Фильтр</div></div>
-                                </a> 
+                                    <div class="item-inner">
+                                        <div class="item-title open-filter">Фильтр</div>
+                                    </div>
+                                </a>
                                 <div class="accordion-item-content">
                                     <form id="personal-filter" class="list-block store-data">
                                         <ul>
@@ -846,7 +849,7 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                             <li>
+                                            <li>
                                                 <a href="#" data-open-in="popup" data-back-text="Назад" data-back-on-select="true" class="item-link smart-select">
                                                     <select id="period-time-to" name="period-time-to">   
                                                         <option value="1:00">1:00</option>    
@@ -882,12 +885,12 @@
                                             </li>
                                         </ul>
                                         <div class="button-block">
-                                            <input id="btnSearchBooking" type="button" value="Искать" class="button button-raised button-fill color-orange">  
-                                        </div>          
-                                    </form>                                    
+                                            <input id="btnSearchBooking" type="button" value="Искать" class="button button-raised button-fill color-orange">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </div>        
+                        </div>
                         {{#if ownerHistory}}
                         <div class="owner-history list-items content-block"></div>
                         {{else}}
@@ -897,7 +900,7 @@
                         {{/if}}
                     </div>
                     {{/if}}
-                    <div id="tab-history" class="page-content tab">       
+                    <div id="tab-history" class="page-content tab">
                         {{#if userHistory}}
                         <div class="list-items content-block">
                             {{#each userHistory}}
@@ -1143,7 +1146,7 @@
                     <ul>
                         <li>
                             <div class="item-content">
-                                <div class="item-media"><i class="icon material-icons">person_outline</i>   </div>
+                                <div class="item-media"><i class="icon material-icons">person_outline</i> </div>
                                 <div class="item-inner">
                                     <div class="item-title label">Ваш логин</div>
                                     <div class="item-input">

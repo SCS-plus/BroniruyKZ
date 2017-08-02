@@ -23,7 +23,7 @@ $$(document).on('deviceready', function() {
     getFilters();
     getPullId();
     getPushNotify();
-    //showPopupRegistration();
+    showPopupRegistration();
     document.addEventListener('backbutton', onBackKeyDown, false);
 });
 
@@ -58,7 +58,7 @@ $$(document).on('click', '.getitempage', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 })
@@ -119,7 +119,7 @@ $$(document).on('click', '.send-code', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -166,7 +166,7 @@ $$(document).on('click', '#btnSearch', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -203,7 +203,7 @@ $$(document).on('click', '#my-halls', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -237,7 +237,7 @@ $$(document).on('click', '#about', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -264,7 +264,7 @@ $$(document).on('click', '#help', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -290,7 +290,7 @@ $$(document).on('click', '#howadd', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -316,7 +316,7 @@ $$(document).on('click', '#get-instruction', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -347,7 +347,7 @@ $$(document).on('click', '#rules', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 });
@@ -389,7 +389,7 @@ $$(document).on('click', '.sbt-status', function(e) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 });
@@ -423,7 +423,7 @@ $$(document).on('click', '.sbt-booking', function(e) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
-                if(devMode) alert(JSON.parse(xhr));
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
     }
@@ -437,7 +437,7 @@ $$(document).on('click', '#payment', function(e) {
     var os = bankaKZ.device.os;
 
     window.open = cordova.InAppBrowser.open;
-    if (os == 'ios') { 
+    if (os == 'ios') {
         window.open(link);
     } else {
         window.open(link, '_system', 'location=no,closebuttoncaption=Cerrar,enableViewportScale=yes');
@@ -553,7 +553,7 @@ bankaKZ.onPageInit('registration-page', function(page) {
                 },
                 error: function(xhr) {
                     console.log("Error on ajax call " + xhr);
-                    if(devMode) alert(JSON.parse(xhr));
+                    if (devMode) alert(JSON.parse(xhr));
                 }
             });
         }
@@ -585,7 +585,7 @@ bankaKZ.onPageInit('login-page', function(page) {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
-                if(devMode) alert(JSON.parse(xhr));
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
 
@@ -604,7 +604,7 @@ bankaKZ.onPageInit('booking-page', function(page) {
     var productId = $$('#productid').val();
     var serviceWrapperId = $$('.subradiowrapper li:first-child input').val();
     var dailyBooked = $$('.subradiowrapper li:first-child #subproductdaily-' + serviceWrapperId).val();
-    
+
     // Сheck empty sub service 
     if ($$(".subproductservice ul li").length > 0) {
         $$('#service-' + serviceWrapperId).show();
@@ -659,13 +659,13 @@ bankaKZ.onPageInit('booking-page', function(page) {
             $$('#calendar-service-to').val(addOneDay(date));
         } else {
             $$('#calendar-service-to').val(date);
-        }        
+        }
     });
 
-    $$(document).on('change', '#calendar-service-to', function(e) { 
+    $$(document).on('change', '#calendar-service-to', function(e) {
         var date = $$(this).val();
         var timesAlready = JSON.parse($$('.subradiowrapper li input:checked').parent().find('.timesalready').val());
-        
+
         disableTimesAlredy(timesAlready, date);
     });
 
@@ -760,12 +760,12 @@ function loadOwnerHistory(saunaID) {
                     var substatus = '';
                     var htmlButtons = '';
 
-                    if(comment.length == 0) comment = 'Нет комментариев';
-                    if(item.substatus) substatus = '<a href="#" class="button button-fill color-'+ item.substatuscolor + '">' + item.substatus + '</a>';
-                    if(item.buttons) {
+                    if (comment.length == 0) comment = 'Нет комментариев';
+                    if (item.substatus) substatus = '<a href="#" class="button button-fill color-' + item.substatuscolor + '">' + item.substatus + '</a>';
+                    if (item.buttons) {
                         var buttons = item.buttons;
 
-                        $$.each(buttons, function(n, button) { 
+                        $$.each(buttons, function(n, button) {
                             htmlButtons += '<input type="button" class="button button-fill color-' + button.color + ' sbt-status" value="' + button.title + '" data-action="' + n + '" data-id="' + item.id + '">';
                         });
                     }
@@ -799,7 +799,7 @@ function loadOwnerHistory(saunaID) {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -836,7 +836,7 @@ function loadPersonalHalls(saunaID) {
 // Change halls in filter personal page
 function changeHalls(dataHalls, saunaID) {
     $$.each(dataHalls, function(i, item) {
-        if(saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
+        if (saunaID == item.PARENT_ID) $$('#halls').append("<option value='" + item.ID + "'>" + item.NAME + "</option>");
     });
 
     var selectText = $$('#halls option:first-child').text();
@@ -883,7 +883,7 @@ function getFilters() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -909,7 +909,7 @@ function getRegisterData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -940,7 +940,7 @@ function sendPassword() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -971,7 +971,7 @@ function sendReview() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     })
 }
@@ -997,7 +997,7 @@ function getSidebar() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1023,7 +1023,7 @@ function getPersonalData() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1151,28 +1151,28 @@ function initCalendarRangeServicePicker(productId, subproductId) {
 
 // Booking form disable already times
 function disableTimesAlredy(timesData, date) {
-    $$.each(timesData, function(i, item) {        
-        if(date == item.date) {
+    $$.each(timesData, function(i, item) {
+        if (date == item.date) {
             $$("#time-from option").each(function() {
-                if($$(this).val() == item.h) {
+                if ($$(this).val() == item.h) {
                     $$(this).prop("disabled", true);
-                } 
+                }
             });
             $$("#time-to option").each(function() {
-                if($$(this).val() == item.h) {
+                if ($$(this).val() == item.h) {
                     $$(this).prop("disabled", true);
-                } 
+                }
             });
         } else {
             $$("#time-from option").each(function() {
-                if($$(this).val() == item.h) {
+                if ($$(this).val() == item.h) {
                     $$(this).prop("disabled", false);
-                } 
+                }
             });
             $$("#time-to option").each(function() {
-                if($$(this).val() == item.h) {
+                if ($$(this).val() == item.h) {
                     $$(this).prop("disabled", false);
-                } 
+                }
             });
         }
     });
@@ -1339,10 +1339,10 @@ function onBackKeyDown() {
     } else if ($$('body').hasClass('with-panel-left-reveal')) {
         bankaKZ.closePanel();
     } else if (page.name == 'index') {
-        bankaKZ.confirm('Хотите закрыть приложение?', 'Выход', function () {
+        bankaKZ.confirm('Хотите закрыть приложение?', 'Выход', function() {
             navigator.app.clearHistory();
             navigator.app.exitApp();
-        }, function () {
+        }, function() {
             return false;
         });
     } else {
@@ -1373,7 +1373,7 @@ function getPushId() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
@@ -1392,7 +1392,7 @@ function getPullId() {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
-                if(devMode) alert(JSON.parse(xhr));
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
     }
@@ -1412,7 +1412,7 @@ function getPullId() {
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr)
-                if(devMode) alert(JSON.parse(xhr));
+                if (devMode) alert(JSON.parse(xhr));
             }
         });
     });
@@ -1446,7 +1446,7 @@ function showPopupRegistration() {
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
-            if(devMode) alert(JSON.parse(xhr));
+            if (devMode) alert(JSON.parse(xhr));
         }
     });
 }
