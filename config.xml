@@ -44,8 +44,8 @@
         <icon height="100" src="res/ios/icon-50@2x.png" width="100" />
     </platform>
     <allow-navigation href="*" />
-    <engine name="android" spec="^6.2.3" />
     <engine name="browser" spec="^4.1.0" />
+    <engine name="android" spec="^6.3.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="~1.7.0" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
     <plugin name="onesignal-cordova-plugin" spec="~1.13.1" />
