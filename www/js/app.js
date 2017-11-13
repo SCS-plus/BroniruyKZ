@@ -16,7 +16,7 @@ var $$ = Dom7;
 var storage = window.localStorage;
 
 // Enable/Disable development mode
-const devMode = false;
+const devMode = true;
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
