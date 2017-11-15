@@ -134,13 +134,9 @@
                         </li>
                         {{#if auth}}
                         <li id="logout">
-                            <div class="content-block">
-                                <div class="row">
-                                    <div class="col-100">
-                                        <input id="btnLogout" type="button" value="Выйти" class="button button-raised button-fill color-orange"></a>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="buttons-row content-block">
+                                <a href="#" id="btnLogout" class="button button-fill color-orange">Выйти</a>
+                            </p>
                         </li>
                         {{/if}}
                     </ul>
@@ -313,8 +309,11 @@
                         </div>
                         <div class="card-footer">
                             <div class="button color-orange">
-                                {{#if subProductPrice}} {{#js_compare "this.subProductPrice != 0"}}
-                                <i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span> {{/js_compare}} {{/if}}
+                                {{#if subProductPrice}}
+                                {{#js_compare "this.subProductPrice != 0"}}
+                                <i class="fa fa-money" aria-hidden="true"></i> <span class="price">{{subProductPrice}} {{subProductPricetype}}</span>
+                                {{/js_compare}}
+                                {{/if}}
                             </div>
                             <div class="button color-orange"><span class="more">Подробно</span> <i class="fa fa-arrow-right" aria-hidden="true"></i></div>
                         </div>
@@ -743,15 +742,16 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left">
-                        <a href="#" class="back link"> <i class="icon icon-back"></i></a>
+                        <a href="#" class="back link"><i class="icon icon-back"></i></a>
                     </div>
                     <div class="center sliding">Личный кабинет</div>
                 </div>
             </div>
             <div class="toolbar tabbar personal-toolbar">
                 <div class="toolbar-inner">
-                    {{#if owner}}<a href="#tab-booking" class="active tab-link">Бронирование</a> {{/if}}
-                    <a href="#tab-history" class="{{#unless owner}}active{{/unless}} tab-link">История</a>
+                    {{#if owner}}<a href="#tab-booking" class="active tab-link">Заявки</a>{{/if}}
+                    <a href="#tab-service" class="{{#unless owner}}active{{/unless}} tab-link">СЦ</a>
+                    <a href="#tab-history" class="tab-link">История</a>
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                 </div>
             </div>
@@ -778,7 +778,7 @@
                                                     </select>
                                                     <div class="item-content">
                                                         <div class="item-inner">
-                                                            <div class="item-title">Объявление</div>
+                                                            <div class="item-title">Объявления</div>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -900,6 +900,39 @@
                         {{/if}}
                     </div>
                     {{/if}}
+                    <div id="tab-service" class="page-content tab">
+                        {{#if serviceHistory}}
+                        <div class="service-history list-items content-block">
+                            {{#each serviceHistory}}
+                            <div class="item">
+                                <div class="field">
+                                    <span class="title">Название</span>
+                                    <span class="text">{{institutionName}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Номер</span>
+                                    <span class="text">{{num}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Дата</span>
+                                    <span class="text">{{date}}</span>
+                                </div>
+                                <div class="field">
+                                    <span class="title">Статус</span>
+                                    <span class="text">{{status}}</span>
+                                </div>
+                                <p class="buttons-row">
+                                    <a href="#" class="button button-fill color-green" data-id="{{id}}">Подробнее</a>
+                                </p>
+                            </div>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="content-block personal not-found">
+                            <span>Пока нет заявок!</span>
+                        </div>
+                        {{/if}}
+                    </div>
                     <div id="tab-history" class="page-content tab">
                         {{#if userHistory}}
                         <div class="list-items content-block">
@@ -983,6 +1016,109 @@
                             <span>Пока нет отзывов!</span>
                         </div>
                         {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Detail page Service history -->
+    <script id="serviceHistoryTemplate" type="text/template7">
+        <div class="page" data-page="servicehistory-page">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i></a></div>
+                    <div class="center sliding">{{institutionName}}</div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="service-items content-block">
+                    <div class="item">
+                        <span class="title">Номер заявки</span>
+                        <span class="text">{{num}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Имя пользователя</span>
+                        <span class="text">{{clientName}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Номер телефона</span>
+                        <span class="text">{{clientPhone}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Дата, время</span>
+                        <span class="text">{{date}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Статус</span>
+                        <span class="text">{{status}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">История статусов</span>
+                        {{#each statusList}}
+                        <span class="sub-title">{{statusDate}}</span>
+                        <span class="sub-text">{{status}}</span>
+                        {{/each}}
+                    </div>
+                    <div class="item">
+                        <span class="title">Техника</span>
+                        <span class="text">{{techName}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Идентификатор техники</span>
+                        <span class="text">{{techNum}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Предварительная стоимость</span>
+                        <span class="text">{{preSum}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Затраты времени, предварительно</span>
+                        <span class="text">{{preTime}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Предварительный перечень работ</span>
+                        <span class="text">{{preDesc}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Предоплата</span>
+                        <span class="text">{{paySum}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Окончательная стоимость</span>
+                        <span class="text">{{postSum}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Затраты времени, окончательно</span>
+                        <span class="text">{{postTime}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Окончательный перечень работ</span>
+                        <span class="text">{{postDesc}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Условия гарантии</span>
+                        <span class="text">{{guarantee}}</span>
+                    </div>
+                    <div class="item">
+                        <span class="title">Комментарии</span>
+                    </div>
+                </div>
+                <div class="comments content-block">
+                    {{#each commentsList}}
+                    <div class="comment-item item-{{commentSender}}">
+                        <div class="comment-sender">{{commentSenderName}}</div>
+                        <div class="comment-date">{{commentDate}}</div>
+                        <div class="comment-text">{{commentText}}</div>
+                    </div>
+                    {{/each}}
+                    <div class="comment-form">
+                        <form id="addcomment-form">
+                            <textarea id="commenttext" required="required" class="text-field" placeholder="Комментарий"></textarea>
+                            <input type="hidden" id="serviceid" value="{{id}}">
+                            <a href="#" class="button button-fill color-orange sbt-comment">Отправить</a>
+                            <div class="status"></div>
+                        </form>
                     </div>
                 </div>
             </div>
