@@ -209,7 +209,7 @@ $$(document).on('click', '#my-halls', function(e) {
 });
 
 //Open detail Service page
-$$(document).on('click', '#tab-service .button', function(e) {
+$$(document).on('click', '#tab-service .open-detail-service', function(e) {
     var id = $$(this).attr('data-id');
     var url = 'https://www.бронируй.kz/mobile_api/pageInit/serviceReserv.php?ELEMENT_ID=' + id;
 
@@ -479,6 +479,12 @@ $$(document).on('click', '.sbt-comment', function(e) {
             if (resp.status == "OK") {
                 $$('#commenttext').val('');
                 $$('#addcomment-form .status').show().text(resp.message);
+                $$('.comments').append(
+                '<div class="comment-item item-' + resp.newComment.commentSender + '">' +
+                    '<div class="comment-sender">' + resp.newComment.commentSenderName + '</div>' +
+                    '<div class="comment-date">' + resp.newComment.commentDate + '</div>' +
+                    '<div class="comment-text">' + resp.newComment.commentText + '</div>' +
+                '</div>');
             } else if (resp.status == "ERROR") {
                 $$('#addcomment-form .status').show().text(resp.message);
             }

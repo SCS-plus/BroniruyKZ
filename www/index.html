@@ -331,7 +331,7 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left">
-                        <a href="#" class="back link"> <i class="icon icon-back"></i></a>
+                        <a href="#" class="back link"><i class="icon icon-back"></i></a>
                     </div>
                     <div class="center sliding">Подробная информация</div>
                 </div>
@@ -919,10 +919,10 @@
                                 </div>
                                 <div class="field">
                                     <span class="title">Статус</span>
-                                    <span class="text">{{status}}</span>
+                                    <a href="#" class="button button-fill color-{{color}}">{{status}}</a>                                    
                                 </div>
                                 <p class="buttons-row">
-                                    <a href="#" class="button button-fill color-green" data-id="{{id}}">Подробнее</a>
+                                    <a href="#" class="open-detail-service button button-fill color-orange" data-id="{{id}}">Подробнее</a>
                                 </p>
                             </div>
                             {{/each}}
@@ -1051,7 +1051,7 @@
                     </div>
                     <div class="item">
                         <span class="title">Статус</span>
-                        <span class="text">{{status}}</span>
+                        <a href="#" class="button button-fill color-{{color}}">{{status}}</a>  
                     </div>
                     <div class="item">
                         <span class="title">История статусов</span>
@@ -1112,14 +1112,14 @@
                         <div class="comment-text">{{commentText}}</div>
                     </div>
                     {{/each}}
-                    <div class="comment-form">
-                        <form id="addcomment-form">
-                            <textarea id="commenttext" required="required" class="text-field" placeholder="Комментарий"></textarea>
-                            <input type="hidden" id="serviceid" value="{{id}}">
-                            <a href="#" class="button button-fill color-orange sbt-comment">Отправить</a>
-                            <div class="status"></div>
-                        </form>
-                    </div>
+                </div>
+                <div class="comment-form content-block">
+                    <form id="addcomment-form">
+                        <textarea id="commenttext" required="required" class="text-field" placeholder="Комментарий"></textarea>
+                        <input type="hidden" id="serviceid" value="{{id}}">
+                        <a href="#" class="button button-fill color-orange sbt-comment">Отправить</a>
+                        <div class="status"></div>
+                    </form>
                 </div>
             </div>
         </div>

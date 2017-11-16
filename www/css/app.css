@@ -396,11 +396,18 @@
     margin-bottom: 0px;
 }
 
-.comments {
+.comments,
+.comment-form {
     margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-.comments .item-user {
+.comment-form {
+    margin-bottom: 32px;
+}
+
+.comments .item-user,
+.comments .item-client {
     text-align: right;
 }
 
