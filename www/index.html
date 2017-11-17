@@ -919,11 +919,8 @@
                                 </div>
                                 <div class="field">
                                     <span class="title">Статус</span>
-                                    <a href="#" class="button button-fill color-{{color}}">{{status}}</a>                                    
+                                    <a href="#" class="open-detail-service button button-fill color-{{color}}" data-id="{{id}}">{{status}}</a>                                    
                                 </div>
-                                <p class="buttons-row">
-                                    <a href="#" class="open-detail-service button button-fill color-orange" data-id="{{id}}">Подробнее</a>
-                                </p>
                             </div>
                             {{/each}}
                         </div>
@@ -1031,7 +1028,11 @@
                     <div class="center sliding">{{institutionName}}</div>
                 </div>
             </div>
-            <div class="page-content">
+            <div class="page-content pull-to-refresh-content servicehistory-page" data-ptr-distance="55">
+                <div class="pull-to-refresh-layer">
+                  <div class="preloader"></div>
+                  <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <div class="service-items content-block">
                     <div class="item">
                         <span class="title">Номер заявки</span>

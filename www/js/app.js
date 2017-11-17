@@ -211,33 +211,15 @@ $$(document).on('click', '#my-halls', function(e) {
 //Open detail Service page
 $$(document).on('click', '#tab-service .open-detail-service', function(e) {
     var id = $$(this).attr('data-id');
-    var url = 'https://www.бронируй.kz/mobile_api/pageInit/serviceReserv.php?ELEMENT_ID=' + id;
+    var loader = false;
+    getDetailServicePage(id, loader);
+});
 
-    $$.ajax({
-        dataType: 'json',
-        url: url,
-        beforeSend: function(xhr) {
-            bankaKZ.showIndicator();
-        },
-        success: function(resp) {
-            if (resp.status == 'ERROR') {
-                bankaKZ.alert(resp.message);
-            } else {
-                var ctx = resp.reserve;
-                mainView.router.load({
-                    template: Template7.templates.serviceHistoryTemplate,
-                    context: ctx
-                });
-            }
-        },
-        complete: function(resp) {
-            bankaKZ.hideIndicator();
-        },
-        error: function(xhr) {
-            console.log("Error on ajax call " + xhr);
-            if (devMode) alert(JSON.parse(xhr));
-        }
-    });
+// Refresh Detail Service page
+$$('body').on('ptr:refresh', '.servicehistory-page', function (e) {
+    var id = $$('#serviceid').val();
+    var loader = true;
+    getDetailServicePage(id, loader);
 });
 
 //Logout event
@@ -933,6 +915,38 @@ function loadServices(type) {
 
     var selectText = $$('#service option:first-child').text();
     $$('.service-select .item-after').text(selectText);
+}
+
+// Get detail page Service histor
+function getDetailServicePage(id, loader) {
+    var url = 'https://www.бронируй.kz/mobile_api/pageInit/serviceReserv.php?ELEMENT_ID=' + id;
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        beforeSend: function(xhr) {
+            if(!loader) bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            if (resp.status == 'ERROR') {
+                bankaKZ.alert(resp.message);
+            } else {
+                var ctx = resp.reserve;
+                mainView.router.load({
+                    reload: loader,
+                    template: Template7.templates.serviceHistoryTemplate,
+                    context: ctx
+                });
+            }
+        },
+        complete: function(resp) {
+            (loader) ? bankaKZ.pullToRefreshDone() : bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
+        }
+    });
 }
 
 // Get filter data with JSON
