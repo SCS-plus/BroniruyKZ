@@ -216,7 +216,7 @@ $$(document).on('click', '#tab-service .open-detail-service', function(e) {
 });
 
 // Refresh Detail Service page
-$$('body').on('ptr:refresh', '.servicehistory-page', function (e) {
+$$('body').on('ptr:refresh', '.servicehistory-page', function(e) {
     var id = $$('#serviceid').val();
     var loader = true;
     getDetailServicePage(id, loader);
@@ -368,7 +368,7 @@ $$(document).on('click', '#rules', function(e) {
 
 //Get Personal Page
 $$(document).on('click', '#account', function(e) {
-    getPersonalData();
+    getPersonalData(false);
     bankaKZ.closePanel();
 });
 
@@ -393,7 +393,7 @@ $$(document).on('click', '.sbt-status', function(e) {
             if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-                getPersonalData();
+                getPersonalData(true);
             } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
@@ -447,8 +447,8 @@ $$(document).on('click', '.sbt-booking', function(e) {
 $$(document).on('click', '.sbt-comment', function(e) {
     var id = $$('#serviceid').val();
     var text = $$('#commenttext').val();
-    var url = 'https://www.xn--90aodoeldy.kz/mobile_api/forms/serviceCommentAdd.php?ELEMENT_ID=' + id + '&comment='
-        + text + '&comment_add=Y';
+    var url = 'https://www.xn--90aodoeldy.kz/mobile_api/forms/serviceCommentAdd.php?ELEMENT_ID=' + id + '&comment=' +
+        text + '&comment_add=Y';
 
     $$.ajax({
         dataType: 'json',
@@ -462,15 +462,15 @@ $$(document).on('click', '.sbt-comment', function(e) {
                 $$('#commenttext').val('');
                 $$('#addcomment-form .status').show().text(resp.message);
                 $$('.comments').append(
-                '<div class="comment-item item-' + resp.newComment.commentSender + '">' +
+                    '<div class="comment-item item-' + resp.newComment.commentSender + '">' +
                     '<div class="comment-sender">' + resp.newComment.commentSenderName + '</div>' +
                     '<div class="comment-date">' + resp.newComment.commentDate + '</div>' +
                     '<div class="comment-text">' + resp.newComment.commentText + '</div>' +
-                '</div>');
+                    '</div>');
             } else if (resp.status == "ERROR") {
                 $$('#addcomment-form .status').show().text(resp.message);
             }
-            setTimeout(function () {
+            setTimeout(function() {
                 $$('#addcomment-form .status').hide().empty();
             }, 3000);
         },
@@ -925,7 +925,7 @@ function getDetailServicePage(id, loader) {
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
-            if(!loader) bankaKZ.showIndicator();
+            if (!loader) bankaKZ.showIndicator();
         },
         success: function(resp) {
             if (resp.status == 'ERROR') {
@@ -940,7 +940,7 @@ function getDetailServicePage(id, loader) {
             }
         },
         complete: function(resp) {
-            (loader) ? bankaKZ.pullToRefreshDone() : bankaKZ.hideIndicator();
+            (loader) ? bankaKZ.pullToRefreshDone(): bankaKZ.hideIndicator();
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1090,7 +1090,7 @@ function getSidebar() {
 }
 
 // Get Personal data with JSON
-function getPersonalData() {
+function getPersonalData(reload) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
@@ -1101,6 +1101,7 @@ function getPersonalData() {
         },
         success: function(resp) {
             mainView.router.load({
+                reload: reload,
                 template: Template7.templates.personalTemplate,
                 context: resp
             });
@@ -1473,8 +1474,12 @@ function getPullId() {
             dataType: 'json',
             url: url,
             success: function(resp) {
+                var page = bankaKZ.getCurrentView().activePage;
+                var reload = false;
+                if (page.name == 'personal-userpage') reload = true;
+
                 if (resp.auth) {
-                    getPersonalData();
+                    getPersonalData(reload);
                 }
             },
             error: function(xhr) {
