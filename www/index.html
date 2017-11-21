@@ -1034,73 +1034,103 @@
                   <div class="pull-to-refresh-arrow"></div>
                 </div>
                 <div class="service-items content-block">
-                    <div class="item">
-                        <span class="title">Номер заявки</span>
-                        <span class="text">{{num}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Имя пользователя</span>
-                        <span class="text">{{clientName}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Номер телефона</span>
-                        <span class="text">{{clientPhone}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Дата, время</span>
-                        <span class="text">{{date}}</span>
-                    </div>
+                    {{#js_compare "this.num.length > 0"}}
+                        <div class="item">
+                            <span class="title">Номер заявки</span>
+                            <span class="text">{{num}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.clientName.length > 0"}}
+                        <div class="item">
+                            <span class="title">Имя пользователя</span>
+                            <span class="text">{{clientName}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.clientPhone.length > 0"}}
+                        <div class="item">
+                            <span class="title">Номер телефона</span>
+                            <span class="text">{{clientPhone}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.date.length > 0"}}
+                        <div class="item">
+                            <span class="title">Дата, время</span>
+                            <span class="text">{{date}}</span>
+                        </div>
+                    {{/js_compare}}
                     <div class="item">
                         <span class="title">Статус</span>
                         <a href="#" class="button button-fill color-{{color}}">{{status}}</a>  
                     </div>
-                    <div class="item">
-                        <span class="title">История статусов</span>
-                        {{#each statusList}}
-                        <span class="sub-title">{{statusDate}}</span>
-                        <span class="sub-text">{{status}}</span>
-                        {{/each}}
-                    </div>
-                    <div class="item">
-                        <span class="title">Техника</span>
-                        <span class="text">{{techName}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Идентификатор техники</span>
-                        <span class="text">{{techNum}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Предварительная стоимость</span>
-                        <span class="text">{{preSum}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Затраты времени, предварительно</span>
-                        <span class="text">{{preTime}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Предварительный перечень работ</span>
-                        <span class="text">{{preDesc}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Предоплата</span>
-                        <span class="text">{{paySum}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Окончательная стоимость</span>
-                        <span class="text">{{postSum}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Затраты времени, окончательно</span>
-                        <span class="text">{{postTime}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Окончательный перечень работ</span>
-                        <span class="text">{{postDesc}}</span>
-                    </div>
-                    <div class="item">
-                        <span class="title">Условия гарантии</span>
-                        <span class="text">{{guarantee}}</span>
-                    </div>
+                    {{#js_compare "this.statusList.length > 0"}}
+                        <div class="item">
+                            <span class="title">История статусов</span>
+                            {{#each statusList}}
+                            <span class="sub-title">{{statusDate}}</span>
+                            <span class="sub-text">{{status}}</span>
+                            {{/each}}
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.techName.length > 0"}}
+                        <div class="item">
+                            <span class="title">Техника</span>
+                            <span class="text">{{techName}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.techNum.length > 0"}}
+                        <div class="item">
+                            <span class="title">Идентификатор техники</span>
+                            <span class="text">{{techNum}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.preSum.length > 0"}}
+                        <div class="item">
+                            <span class="title">Предварительная стоимость</span>
+                            <span class="text">{{preSum}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.preTime.length > 0"}}
+                        <div class="item">
+                            <span class="title">Затраты времени, предварительно</span>
+                            <span class="text">{{preTime}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.preDesc.length > 0"}}
+                        <div class="item">
+                            <span class="title">Предварительный перечень работ</span>
+                            <span class="text">{{preDesc}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.paySum.length > 0"}}
+                        <div class="item">
+                            <span class="title">Предоплата</span>
+                            <span class="text">{{paySum}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.postSum.length > 0"}}
+                        <div class="item">
+                            <span class="title">Окончательная стоимость</span>
+                            <span class="text">{{postSum}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.postTime.length > 0"}}
+                        <div class="item">
+                            <span class="title">Затраты времени, окончательно</span>
+                            <span class="text">{{postTime}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.postDesc.length > 0"}}
+                        <div class="item">
+                            <span class="title">Окончательный перечень работ</span>
+                            <span class="text">{{postDesc}}</span>
+                        </div>
+                    {{/js_compare}}
+                    {{#js_compare "this.guarantee.length > 0"}}
+                        <div class="item">
+                            <span class="title">Условия гарантии</span>
+                            <span class="text">{{guarantee}}</span>
+                        </div>
+                    {{/js_compare}}
                     <div class="item">
                         <span class="title">Комментарии</span>
                     </div>

@@ -368,7 +368,7 @@ $$(document).on('click', '#rules', function(e) {
 
 //Get Personal Page
 $$(document).on('click', '#account', function(e) {
-    getPersonalData(false);
+    getPersonalData();
     bankaKZ.closePanel();
 });
 
@@ -393,7 +393,7 @@ $$(document).on('click', '.sbt-status', function(e) {
             if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-                getPersonalData(true);
+                getPersonalData();
             } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
@@ -1090,7 +1090,7 @@ function getSidebar() {
 }
 
 // Get Personal data with JSON
-function getPersonalData(reload) {
+function getPersonalData() {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
@@ -1101,7 +1101,6 @@ function getPersonalData(reload) {
         },
         success: function(resp) {
             mainView.router.load({
-                reload: reload,
                 template: Template7.templates.personalTemplate,
                 context: resp
             });
@@ -1474,12 +1473,8 @@ function getPullId() {
             dataType: 'json',
             url: url,
             success: function(resp) {
-                var page = bankaKZ.getCurrentView().activePage;
-                var reload = false;
-                if (page.name == 'personal-userpage') reload = true;
-
                 if (resp.auth) {
-                    getPersonalData(reload);
+                    getPersonalData();
                 }
             },
             error: function(xhr) {
