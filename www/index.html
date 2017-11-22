@@ -755,6 +755,9 @@
                     <a href="#tab-review" class="tab-link">Отзывы</a>
                 </div>
             </div>
+            <a href="#" class="floating-button color-green refresh-personal">
+                <i class="material-icons">refresh</i>
+            </a>
             <div class="tabs-animated-wrap personal-page">
                 <div class="tabs">
                     {{#if owner}}
@@ -1028,11 +1031,7 @@
                     <div class="center sliding">{{institutionName}}</div>
                 </div>
             </div>
-            <div class="page-content pull-to-refresh-content servicehistory-page" data-ptr-distance="55">
-                <div class="pull-to-refresh-layer">
-                  <div class="preloader"></div>
-                  <div class="pull-to-refresh-arrow"></div>
-                </div>
+            <div class="page-content servicehistory-page">
                 <div class="service-items content-block">
                     {{#js_compare "this.num.length > 0"}}
                         <div class="item">
@@ -1153,6 +1152,9 @@
                     </form>
                 </div>
             </div>
+            <a href="#" class="floating-button color-green refresh-service-detail">
+                <i class="material-icons">refresh</i>
+            </a>
         </div>
     </script>
 

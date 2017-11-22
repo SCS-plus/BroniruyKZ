@@ -211,15 +211,18 @@ $$(document).on('click', '#my-halls', function(e) {
 //Open detail Service page
 $$(document).on('click', '#tab-service .open-detail-service', function(e) {
     var id = $$(this).attr('data-id');
-    var loader = false;
-    getDetailServicePage(id, loader);
+    getDetailServicePage(id, false);
 });
 
 // Refresh Detail Service page
-$$('body').on('ptr:refresh', '.servicehistory-page', function(e) {
+$$('body').on('click', '.refresh-service-detail', function(e) {
     var id = $$('#serviceid').val();
-    var loader = true;
-    getDetailServicePage(id, loader);
+    getDetailServicePage(id, true);
+});
+
+// Refresh Personal page
+$$('body').on('click', '.refresh-personal', function(e) {
+    getPersonalData(true);
 });
 
 //Logout event
@@ -368,7 +371,7 @@ $$(document).on('click', '#rules', function(e) {
 
 //Get Personal Page
 $$(document).on('click', '#account', function(e) {
-    getPersonalData();
+    getPersonalData(false);
     bankaKZ.closePanel();
 });
 
@@ -393,7 +396,7 @@ $$(document).on('click', '.sbt-status', function(e) {
             if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-                getPersonalData();
+                getPersonalData(false);
             } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
@@ -925,7 +928,7 @@ function getDetailServicePage(id, loader) {
         dataType: 'json',
         url: url,
         beforeSend: function(xhr) {
-            if (!loader) bankaKZ.showIndicator();
+            bankaKZ.showIndicator();
         },
         success: function(resp) {
             if (resp.status == 'ERROR') {
@@ -940,7 +943,7 @@ function getDetailServicePage(id, loader) {
             }
         },
         complete: function(resp) {
-            (loader) ? bankaKZ.pullToRefreshDone(): bankaKZ.hideIndicator();
+            bankaKZ.hideIndicator();
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1090,7 +1093,7 @@ function getSidebar() {
 }
 
 // Get Personal data with JSON
-function getPersonalData() {
+function getPersonalData(loader) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
@@ -1101,6 +1104,7 @@ function getPersonalData() {
         },
         success: function(resp) {
             mainView.router.load({
+                reload: loader,
                 template: Template7.templates.personalTemplate,
                 context: resp
             });
@@ -1474,7 +1478,7 @@ function getPullId() {
             url: url,
             success: function(resp) {
                 if (resp.auth) {
-                    getPersonalData();
+                    getPersonalData(false);
                 }
             },
             error: function(xhr) {
