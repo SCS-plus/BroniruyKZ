@@ -435,3 +435,17 @@
     left: 0;
     right: 0;
 }
+
+.preloader-indicator-modal {
+    background: transparent;
+}
+
+.preloader.color-white
+.preloader-inner-gap,
+.preloader.color-white
+.preloader-inner-half-circle,
+.preloader.preloader-white
+.preloader-inner-gap,
+.preloader.preloader-white .preloader-inner-half-circle {
+    border-color: #ff9800;
+}
