@@ -208,6 +208,23 @@ $$(document).on('click', '#my-halls', function(e) {
     });
 });
 
+//Open detail Service page
+$$(document).on('click', '#tab-service .open-detail-service', function(e) {
+    var id = $$(this).attr('data-id');
+    getDetailServicePage(id, false);
+});
+
+// Refresh Detail Service page
+$$('body').on('click', '.refresh-service-detail', function(e) {
+    var id = $$('#serviceid').val();
+    getDetailServicePage(id, true);
+});
+
+// Refresh Personal page
+$$('body').on('click', '.refresh-personal', function(e) {
+    getPersonalData(true);
+});
+
 //Logout event
 $$(document).on('click', '#btnLogout', function(e) {
     $$.get("https://www.xn--90aodoeldy.kz/mobile_api/forms/logout.php");
@@ -354,7 +371,7 @@ $$(document).on('click', '#rules', function(e) {
 
 //Get Personal Page
 $$(document).on('click', '#account', function(e) {
-    getPersonalData();
+    getPersonalData(false);
     bankaKZ.closePanel();
 });
 
@@ -379,7 +396,7 @@ $$(document).on('click', '.sbt-status', function(e) {
             if (resp.status == "OK") {
                 bankaKZ.alert(resp.message);
                 mainView.router.back();
-                getPersonalData();
+                getPersonalData(false);
             } else if (resp.status == "ERROR") {
                 bankaKZ.alert(resp.message);
             }
@@ -391,7 +408,7 @@ $$(document).on('click', '.sbt-status', function(e) {
             console.log("Error on ajax call " + xhr);
             if (devMode) alert(JSON.parse(xhr));
         }
-    })
+    });
 });
 
 //Send booking form
@@ -427,6 +444,47 @@ $$(document).on('click', '.sbt-booking', function(e) {
             }
         });
     }
+});
+
+//Send comment with service page
+$$(document).on('click', '.sbt-comment', function(e) {
+    var id = $$('#serviceid').val();
+    var text = $$('#commenttext').val();
+    var url = 'https://www.xn--90aodoeldy.kz/mobile_api/forms/serviceCommentAdd.php?ELEMENT_ID=' + id + '&comment=' +
+        text + '&comment_add=Y';
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        method: 'POST',
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            if (resp.status == "OK") {
+                $$('#commenttext').val('');
+                $$('#addcomment-form .status').show().text(resp.message);
+                $$('.comments').append(
+                    '<div class="comment-item item-' + resp.newComment.commentSender + '">' +
+                    '<div class="comment-sender">' + resp.newComment.commentSenderName + '</div>' +
+                    '<div class="comment-date">' + resp.newComment.commentDate + '</div>' +
+                    '<div class="comment-text">' + resp.newComment.commentText + '</div>' +
+                    '</div>');
+            } else if (resp.status == "ERROR") {
+                $$('#addcomment-form .status').show().text(resp.message);
+            }
+            setTimeout(function() {
+                $$('#addcomment-form .status').hide().empty();
+            }, 3000);
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
+        }
+    })
 });
 
 //Open payment link
@@ -862,6 +920,38 @@ function loadServices(type) {
     $$('.service-select .item-after').text(selectText);
 }
 
+// Get detail page Service histor
+function getDetailServicePage(id, loader) {
+    var url = 'https://www.бронируй.kz/mobile_api/pageInit/serviceReserv.php?ELEMENT_ID=' + id;
+
+    $$.ajax({
+        dataType: 'json',
+        url: url,
+        beforeSend: function(xhr) {
+            bankaKZ.showIndicator();
+        },
+        success: function(resp) {
+            if (resp.status == 'ERROR') {
+                bankaKZ.alert(resp.message);
+            } else {
+                var ctx = resp.reserve;
+                mainView.router.load({
+                    reload: loader,
+                    template: Template7.templates.serviceHistoryTemplate,
+                    context: ctx
+                });
+            }
+        },
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+        },
+        error: function(xhr) {
+            console.log("Error on ajax call " + xhr);
+            if (devMode) alert(JSON.parse(xhr));
+        }
+    });
+}
+
 // Get filter data with JSON
 function getFilters() {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/filter.php";
@@ -1003,7 +1093,7 @@ function getSidebar() {
 }
 
 // Get Personal data with JSON
-function getPersonalData() {
+function getPersonalData(loader) {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/pageInit/account.php";
 
     $$.ajax({
@@ -1014,6 +1104,7 @@ function getPersonalData() {
         },
         success: function(resp) {
             mainView.router.load({
+                reload: loader,
                 template: Template7.templates.personalTemplate,
                 context: resp
             });
@@ -1387,7 +1478,7 @@ function getPullId() {
             url: url,
             success: function(resp) {
                 if (resp.auth) {
-                    getPersonalData();
+                    getPersonalData(false);
                 }
             },
             error: function(xhr) {

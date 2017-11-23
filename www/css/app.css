@@ -174,13 +174,14 @@
     font-size: 16px;
 }
 
-#addreview-form .text-field {
+#addreview-form .text-field,
+#addcomment-form .text-field {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #b3b3b3;
     font-size: 14px;
-    min-height: 200px;
-    padding: 5px
+    min-height: 100px;
+    padding: 5px;
 }
 
 /*Recovery form*/
@@ -191,27 +192,27 @@
 /*Rating*/
 .rating {
     pointer-events: none;
-    float:left;
+    float: left;
     border: none;
     padding: 0;
     margin: 0;
 }
 
 .rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-    clip:rect(0,0,0,0);
+    position: absolute;
+    top: -9999px;
+    clip: rect(0,0,0,0);
 }
 
 .rating:not(:checked) > label {
-    float:right;
+    float: right;
     width: 0.8em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:20px;
-    line-height:1.2;
-    color:#ddd;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #ddd;
 }
 
 .rating:not(:checked) > label:before {
@@ -236,9 +237,9 @@
 }
 
 .rating > label:active {
-    position:relative;
-    top:2px;
-    left:2px;
+    position: relative;
+    top: 2px;
+    left: 2px;
 }
 
 .clearfix:before,
@@ -276,7 +277,8 @@
     margin-bottom: 20px;
 }
 
-.personal-page .list-items .item .field .title {
+.personal-page .list-items .item .field .title,
+.service-items .item .title {
     display: inline-block;
     width: 100%;
     font-weight: 700;
@@ -356,6 +358,11 @@
     color: #E65100;
 }
 
+#logout {
+    display: inline-block;
+    width: 100%;
+}
+
 .filter-panel {
     position: fixed;
     width: 100%;
@@ -373,6 +380,72 @@
     margin-bottom: 20px;
 }
 
-.owner-history { 
+.owner-history {
     margin-top: 110px;
+}
+
+.service-history {
+    margin-top: 60px;
+}
+
+.service-items .item {
+    margin-bottom: 10px;
+}
+
+.service-items {
+    margin-bottom: 0px;
+}
+
+.comments,
+.comment-form {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.comment-form {
+    margin-bottom: 32px;
+}
+
+.comments .item-user,
+.comments .item-client {
+    text-align: right;
+}
+
+.comments .comment-item:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 10px;
+}
+
+.comments .comment-item {
+    padding-bottom: 10px;
+}
+
+.comments .comment-item .comment-sender,
+.comments .comment-item .comment-date {
+    font-size: 11px;
+    color: #949494;
+}
+
+.comment-form .status {
+    display: none;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+.preloader-indicator-modal {
+    background: transparent;
+}
+
+.preloader.color-white
+.preloader-inner-gap,
+.preloader.color-white
+.preloader-inner-half-circle,
+.preloader.preloader-white
+.preloader-inner-gap,
+.preloader.preloader-white .preloader-inner-half-circle {
+    border-color: #ff9800;
 }
