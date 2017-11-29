@@ -1453,13 +1453,29 @@ function getPushNotify() {
 //Notifications get user ID
 function getPushId() {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/push/getid.php";
-
+    
     $$.ajax({
         dataType: 'json',
         url: url,
-        success: function(resp) {
-            if (resp.auth) {
-                window.plugins.OneSignal.sendTag("bitrixid", resp.id);
+        complete: function(resp) {
+            if (resp.status == 200) {
+                var data = JSON.parse(resp.response);
+                if (data.auth) window.plugins.OneSignal.sendTag("bitrixid", data.id);
+            } else {
+                bankaKZ.modal({
+                    title: 'Нет соединения с сервером!',
+                    text: 'Попробуйте повторить или вернитесь позже.',
+                    buttons: [
+                        {
+                            text: 'Повторить',
+                            onClick: function() {
+                                getPushId();
+                            }
+                        }, {
+                            text: 'Закрыть'
+                        }
+                    ]
+                });
             }
         },
         error: function(xhr) {
@@ -1476,9 +1492,25 @@ function getPullId() {
         $$.ajax({
             dataType: 'json',
             url: url,
-            success: function(resp) {
-                if (resp.auth) {
-                    getPersonalData(false);
+            complete: function(resp) {
+                if (resp.status == 200) {
+                    var data = JSON.parse(resp.response);
+                    if (data.auth) getPersonalData(false);
+                } else {
+                    bankaKZ.modal({
+                        title: 'Нет соединения с сервером!',
+                        text: 'Попробуйте повторить или вернитесь позже.',
+                        buttons: [
+                            {
+                                text: 'Повторить',
+                                onClick: function() {
+                                    getPullId();
+                                }
+                            }, {
+                                text: 'Закрыть'
+                            }
+                        ]
+                    });
                 }
             },
             error: function(xhr) {
@@ -1519,20 +1551,36 @@ function showPopupRegistration() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            var auth = resp.sidebar.auth;
-
-            if (!auth) {
-                setTimeout(function() {
-                    bankaKZ.modal({
-                        title: 'Пройдите регистрацию!',
-                        text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
-                        buttons: [{
-                            text: 'Закрыть',
-                            bold: true
-                        }]
-                    });
-                }, 3000);
+        complete: function(resp) {
+            if (resp.status == 200) {
+                var data = JSON.parse(resp.response);
+                var auth = data.sidebar.auth;
+                if (!auth) {
+                    setTimeout(function() {
+                        bankaKZ.modal({
+                            title: 'Пройдите регистрацию!',
+                            text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
+                            buttons: [{
+                                text: 'Закрыть'
+                            }]
+                        });
+                    }, 3000);
+                }
+            } else {
+                bankaKZ.modal({
+                    title: 'Нет соединения с сервером!',
+                    text: 'Попробуйте повторить или вернитесь позже.',
+                    buttons: [
+                        {
+                            text: 'Повторить',
+                            onClick: function() {
+                                showPopupRegistration();
+                            }
+                        }, {
+                            text: 'Закрыть'
+                        }
+                    ]
+                });
             }
         },
         error: function(xhr) {
