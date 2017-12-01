@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.bronkz.bookingkz" version="1.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.bronkz.bookingkz" version="1.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Бронируй.KZ</name>
     <description>Бронируй отдых, бронируй развлечения, бронируй всё!</description>
     <author email="m.polazhynets@hotmail.com" href="http://izzi.software">IZZI software</author>
@@ -47,6 +47,7 @@
     <engine name="android" spec="^6.3.0" />
     <engine name="browser" spec="^5.0.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="~1.7.0" />
+    <plugin name="cordova-plugin-network-information" spec="^1.3.4" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
     <plugin name="onesignal-cordova-plugin" spec="~1.13.1" />
 </widget>

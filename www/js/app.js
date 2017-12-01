@@ -14,6 +14,7 @@ var bankaKZ = new Framework7({
 
 var $$ = Dom7;
 var storage = window.localStorage;
+var networkState = navigator.connection.type;
 
 // Enable/Disable development mode
 const devMode = false;
@@ -47,14 +48,18 @@ $$(document).on('click', '.getitempage', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.itemTemplate,
-                context: resp
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+
+                mainView.router.load({
+                    template: Template7.templates.itemTemplate,
+                    context: data
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -106,22 +111,26 @@ $$(document).on('click', '.send-code', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == "OK") {
-                bankaKZ.alert(resp.message);
-                $$("#register-form #code").attr('data-value', resp.code);
-            } else if (resp.status == "ERROR") {
-                bankaKZ.alert(resp.message);
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+
+                if (data.status == "OK") {
+                    bankaKZ.alert(data.message);
+                    $$("#register-form #code").attr('data-value', data.code);
+                } else if (data.status == "ERROR") {
+                    bankaKZ.alert(data.message);
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
             if (devMode) alert(JSON.parse(xhr));
         }
-    })
+    });
 });
 
 //Search button submit
@@ -145,24 +154,27 @@ $$(document).on('click', '#btnSearch', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == 'ERROR') {
-                bankaKZ.alert(resp.message);
-            } else {
-                if (resp.products == null) {
-                    var ctx = { 'empty': true };
-                } else {
-                    var ctx = resp.products;
-                    storage.setItem('products', JSON.stringify(ctx));
-                }
-                mainView.router.load({
-                    template: Template7.templates.listTemplate,
-                    context: ctx
-                });
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == 'ERROR') {
+                    bankaKZ.alert(data.message);
+                } else {
+                    if (data.products == null) {
+                        var ctx = { 'empty': true };
+                    } else {
+                        var ctx = data.products;
+                        storage.setItem('products', JSON.stringify(ctx));
+                    }
+                    mainView.router.load({
+                        template: Template7.templates.listTemplate,
+                        context: ctx
+                    });
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -182,24 +194,27 @@ $$(document).on('click', '#my-halls', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == 'ERROR') {
-                bankaKZ.alert(resp.message);
-            } else {
-                if (resp.products == null) {
-                    var ctx = { 'empty': true };
-                } else {
-                    var ctx = resp.products;
-                    storage.setItem('products', JSON.stringify(ctx));
-                }
-                mainView.router.load({
-                    template: Template7.templates.listTemplate,
-                    context: ctx
-                });
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == 'ERROR') {
+                    bankaKZ.alert(data.message);
+                } else {
+                    if (data.products == null) {
+                        var ctx = { 'empty': true };
+                    } else {
+                        var ctx = data.products;
+                        storage.setItem('products', JSON.stringify(ctx));
+                    }
+                    mainView.router.load({
+                        template: Template7.templates.listTemplate,
+                        context: ctx
+                    });
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -242,15 +257,18 @@ $$(document).on('click', '#about', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.aboutTemplate,
-                context: resp.about
-            });
-            bankaKZ.closePanel();
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.aboutTemplate,
+                    context: data.about
+                });
+                bankaKZ.closePanel();
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -269,15 +287,18 @@ $$(document).on('click', '#help', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.helpTemplate,
-                context: resp.help
-            });
-            bankaKZ.closePanel();
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.helpTemplate,
+                    context: data.help
+                });
+                bankaKZ.closePanel();
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -295,15 +316,18 @@ $$(document).on('click', '#howadd', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.howaddTemplate,
-                context: resp.howadd
-            });
-            bankaKZ.closePanel();
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.howaddTemplate,
+                    context: data.howadd
+                });
+                bankaKZ.closePanel();
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -321,15 +345,18 @@ $$(document).on('click', '#get-instruction', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.instructionTemplate,
-                context: resp.instructions
-            });
-            bankaKZ.closeModal('.modal');
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.instructionTemplate,
+                    context: data.instructions
+                });
+                bankaKZ.closeModal('.modal');
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -353,14 +380,17 @@ $$(document).on('click', '#rules', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.siteRulesTemplate,
-                context: resp.rules
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.siteRulesTemplate,
+                    context: data.rules
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -392,17 +422,20 @@ $$(document).on('click', '.sbt-status', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == "OK") {
-                bankaKZ.alert(resp.message);
-                mainView.router.back();
-                getPersonalData(false);
-            } else if (resp.status == "ERROR") {
-                bankaKZ.alert(resp.message);
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == "OK") {
+                    bankaKZ.alert(data.message);
+                    mainView.router.back();
+                    getPersonalData(false);
+                } else if (data.status == "ERROR") {
+                    bankaKZ.alert(data.message);
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -427,16 +460,19 @@ $$(document).on('click', '.sbt-booking', function(e) {
             beforeSend: function(xhr) {
                 bankaKZ.showIndicator();
             },
-            success: function(resp) {
-                if (resp.status == "OK") {
-                    bankaKZ.alert(resp.message);
-                    mainView.router.back();
-                } else if (resp.status == "ERROR") {
-                    bankaKZ.alert(resp.message);
-                }
-            },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                    var data = JSON.parse(resp.response);
+                    if (data.status == "OK") {
+                        bankaKZ.alert(data.message);
+                        mainView.router.back();
+                    } else if (data.status == "ERROR") {
+                        bankaKZ.alert(data.message);
+                    }
+                } else {
+                    noConnection();
+                }
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
@@ -460,25 +496,28 @@ $$(document).on('click', '.sbt-comment', function(e) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == "OK") {
-                $$('#commenttext').val('');
-                $$('#addcomment-form .status').show().text(resp.message);
-                $$('.comments').append(
-                    '<div class="comment-item item-' + resp.newComment.commentSender + '">' +
-                    '<div class="comment-sender">' + resp.newComment.commentSenderName + '</div>' +
-                    '<div class="comment-date">' + resp.newComment.commentDate + '</div>' +
-                    '<div class="comment-text">' + resp.newComment.commentText + '</div>' +
-                    '</div>');
-            } else if (resp.status == "ERROR") {
-                $$('#addcomment-form .status').show().text(resp.message);
-            }
-            setTimeout(function() {
-                $$('#addcomment-form .status').hide().empty();
-            }, 3000);
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == "OK") {
+                    $$('#commenttext').val('');
+                    $$('#addcomment-form .status').show().text(data.message);
+                    $$('.comments').append(
+                        '<div class="comment-item item-' + data.newComment.commentSender + '">' +
+                        '<div class="comment-sender">' + data.newComment.commentSenderName + '</div>' +
+                        '<div class="comment-date">' + data.newComment.commentDate + '</div>' +
+                        '<div class="comment-text">' + data.newComment.commentText + '</div>' +
+                        '</div>');
+                } else if (data.status == "ERROR") {
+                    $$('#addcomment-form .status').show().text(data.message);
+                }
+                setTimeout(function() {
+                    $$('#addcomment-form .status').hide().empty();
+                }, 3000);
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -600,14 +639,17 @@ bankaKZ.onPageInit('registration-page', function(page) {
                 beforeSend: function(xhr) {
                     bankaKZ.showIndicator();
                 },
-                success: function(resp) {
-                    if (resp.status == "OK" || resp.status == "ERROR") {
-                        bankaKZ.alert(resp.message);
-                        getFilters();
-                    }
-                },
                 complete: function(resp) {
                     bankaKZ.hideIndicator();
+                    if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                        var data = JSON.parse(resp.response);
+                        if (data.status == "OK" || data.status == "ERROR") {
+                            bankaKZ.alert(data.message);
+                            getFilters();
+                        }
+                    } else {
+                        noConnection();
+                    }
                 },
                 error: function(xhr) {
                     console.log("Error on ajax call " + xhr);
@@ -632,14 +674,19 @@ bankaKZ.onPageInit('login-page', function(page) {
             beforeSend: function(xhr) {
                 bankaKZ.showIndicator();
             },
-            success: function(resp) {
-                if (resp.status == "OK") {
-                    getFilters();
-                    getPushId();
-                } else if (resp.status == "ERROR") { bankaKZ.alert(resp.message); }
-            },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                    var data = JSON.parse(resp.response);
+                    if (data.status == "OK") {
+                        getFilters();
+                        getPushId();
+                    } else if (data.status == "ERROR") {
+                        bankaKZ.alert(data.message);
+                    }
+                } else {
+                    noConnection();
+                }
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr);
@@ -805,55 +852,59 @@ function loadOwnerHistory(saunaID) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            storage.setItem('ownerData', JSON.stringify(resp));
-            changeHalls(resp.shallList, saunaID);
-
-            if (resp.ownerHistory) {
-                var data = resp.ownerHistory;
-                var htmlMarkup = '';
-
-                data.forEach(function(item, i) {
-                    var comment = item.comment;
-                    var substatus = '';
-                    var htmlButtons = '';
-
-                    if (comment.length == 0) comment = 'Нет комментариев';
-                    if (item.substatus) substatus = '<a href="#" class="button button-fill color-' + item.substatuscolor + '">' + item.substatus + '</a>';
-                    if (item.buttons) {
-                        var buttons = item.buttons;
-
-                        $$.each(buttons, function(n, button) {
-                            htmlButtons += '<input type="button" class="button button-fill color-' + button.color + ' sbt-status" value="' + button.title + '" data-action="' + n + '" data-id="' + item.id + '">';
-                        });
-                    }
-
-                    htmlMarkup += '<div class="item"><div class="field"><span class="title">Название</span>';
-                    htmlMarkup += '<span class="text">' + item.name + '</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Сумма</span>';
-                    htmlMarkup += '<span class="text">' + item.summa + ' тг.</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Дата</span>';
-                    htmlMarkup += '<span class="text">' + item.date + '</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Пользователь</span>';
-                    htmlMarkup += '<span class="text">' + item.user + '</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Телефон</span>';
-                    htmlMarkup += '<span class="text">' + item.phone + '</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Комментарий</span>';
-                    htmlMarkup += '<span class="text">' + comment + '</span></div>';
-                    htmlMarkup += '<div class="field"><span class="title">Статус</span><span class="text">';
-                    htmlMarkup += '<p class="buttons-row">';
-                    htmlMarkup += '<a href="#" class="button button-fill color-' + item.statuscolor + '">' + item.status + '</a>';
-                    htmlMarkup += substatus;
-                    htmlMarkup += '</p><p class="buttons-row">' + htmlButtons + '</p></span></div></div>';
-                });
-
-                $$('.owner-history').empty().append(htmlMarkup);
-            } else {
-                $$('.owner-history').empty().append('<p>Нет данных за этот период.</p>');
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var dataServer = JSON.parse(resp.response);
+
+                storage.setItem('ownerData', JSON.stringify(dataServer));
+                changeHalls(dataServer.shallList, saunaID);
+
+                if (dataServer.ownerHistory) {
+                    var data = dataServer.ownerHistory;
+                    var htmlMarkup = '';
+
+                    data.forEach(function(item, i) {
+                        var comment = item.comment;
+                        var substatus = '';
+                        var htmlButtons = '';
+
+                        if (comment.length == 0) comment = 'Нет комментариев';
+                        if (item.substatus) substatus = '<a href="#" class="button button-fill color-' + item.substatuscolor + '">' + item.substatus + '</a>';
+                        if (item.buttons) {
+                            var buttons = item.buttons;
+
+                            $$.each(buttons, function(n, button) {
+                                htmlButtons += '<input type="button" class="button button-fill color-' + button.color + ' sbt-status" value="' + button.title + '" data-action="' + n + '" data-id="' + item.id + '">';
+                            });
+                        }
+
+                        htmlMarkup += '<div class="item"><div class="field"><span class="title">Название</span>';
+                        htmlMarkup += '<span class="text">' + item.name + '</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Сумма</span>';
+                        htmlMarkup += '<span class="text">' + item.summa + ' тг.</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Дата</span>';
+                        htmlMarkup += '<span class="text">' + item.date + '</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Пользователь</span>';
+                        htmlMarkup += '<span class="text">' + item.user + '</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Телефон</span>';
+                        htmlMarkup += '<span class="text">' + item.phone + '</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Комментарий</span>';
+                        htmlMarkup += '<span class="text">' + comment + '</span></div>';
+                        htmlMarkup += '<div class="field"><span class="title">Статус</span><span class="text">';
+                        htmlMarkup += '<p class="buttons-row">';
+                        htmlMarkup += '<a href="#" class="button button-fill color-' + item.statuscolor + '">' + item.status + '</a>';
+                        htmlMarkup += substatus;
+                        htmlMarkup += '</p><p class="buttons-row">' + htmlButtons + '</p></span></div></div>';
+                    });
+
+                    $$('.owner-history').empty().append(htmlMarkup);
+                } else {
+                    $$('.owner-history').empty().append('<p>Нет данных за этот период.</p>');
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -930,20 +981,23 @@ function getDetailServicePage(id, loader) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == 'ERROR') {
-                bankaKZ.alert(resp.message);
-            } else {
-                var ctx = resp.reserve;
-                mainView.router.load({
-                    reload: loader,
-                    template: Template7.templates.serviceHistoryTemplate,
-                    context: ctx
-                });
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == 'ERROR') {
+                    bankaKZ.alert(data.message);
+                } else {
+                    var ctx = data.reserve;
+                    mainView.router.load({
+                        reload: loader,
+                        template: Template7.templates.serviceHistoryTemplate,
+                        context: ctx
+                    });
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -962,14 +1016,17 @@ function getFilters() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.mainTemplate,
-                context: resp.filters[0]
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.mainTemplate,
+                    context: data.filters[0]
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -988,14 +1045,17 @@ function getRegisterData() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                template: Template7.templates.registrationTemplate,
-                context: resp.register
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    template: Template7.templates.registrationTemplate,
+                    context: data.register
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1017,16 +1077,19 @@ function sendPassword() {
             bankaKZ.showIndicator();
         },
         data: formData,
-        success: function(resp) {
-            if (resp.status == "OK") {
-                bankaKZ.alert(resp.message);
-                mainView.router.back();
-            } else if (resp.status == "ERROR") {
-                bankaKZ.alert(resp.message);
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == "OK") {
+                    bankaKZ.alert(data.message);
+                    mainView.router.back();
+                } else if (data.status == "ERROR") {
+                    bankaKZ.alert(data.message);
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1048,16 +1111,19 @@ function sendReview() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            if (resp.status == "OK") {
-                bankaKZ.alert(resp.message);
-                mainView.router.back();
-            } else if (resp.status == "ERROR") {
-                bankaKZ.alert(resp.message);
-            }
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.status == "OK") {
+                    bankaKZ.alert(data.message);
+                    mainView.router.back();
+                } else if (data.status == "ERROR") {
+                    bankaKZ.alert(data.message);
+                }
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1076,14 +1142,17 @@ function getSidebar() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            sidebarView.router.load({
-                template: Template7.templates.sidebarTemplate,
-                context: resp.sidebar
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                sidebarView.router.load({
+                    template: Template7.templates.sidebarTemplate,
+                    context: data.sidebar
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1102,15 +1171,18 @@ function getPersonalData(loader) {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            mainView.router.load({
-                reload: loader,
-                template: Template7.templates.personalTemplate,
-                context: resp
-            });
-        },
         complete: function(resp) {
             bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                mainView.router.load({
+                    reload: loader,
+                    template: Template7.templates.personalTemplate,
+                    context: data
+                });
+            } else {
+                noConnection();
+            }
         },
         error: function(xhr) {
             console.log("Error on ajax call " + xhr);
@@ -1453,13 +1525,16 @@ function getPushNotify() {
 //Notifications get user ID
 function getPushId() {
     var url = "https://www.xn--90aodoeldy.kz/mobile_api/push/getid.php";
-
+    
     $$.ajax({
         dataType: 'json',
         url: url,
-        success: function(resp) {
-            if (resp.auth) {
-                window.plugins.OneSignal.sendTag("bitrixid", resp.id);
+        complete: function(resp) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                if (data.auth) window.plugins.OneSignal.sendTag("bitrixid", data.id);
+            } else {
+                noConnection();
             }
         },
         error: function(xhr) {
@@ -1476,9 +1551,12 @@ function getPullId() {
         $$.ajax({
             dataType: 'json',
             url: url,
-            success: function(resp) {
-                if (resp.auth) {
-                    getPersonalData(false);
+            complete: function(resp) {
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                    var data = JSON.parse(resp.response);
+                    if (data.auth) getPersonalData(false);
+                } else {
+                    noConnection();
                 }
             },
             error: function(xhr) {
@@ -1498,8 +1576,8 @@ function getPullId() {
             url: url,
             data: tags,
             method: 'GET',
-            success: function(resp) {
-                console.log("Success ajax call");
+            complete: function(resp) {
+                if (resp.status != 200) noConnection();
             },
             error: function(xhr) {
                 console.log("Error on ajax call " + xhr)
@@ -1519,20 +1597,24 @@ function showPopupRegistration() {
         beforeSend: function(xhr) {
             bankaKZ.showIndicator();
         },
-        success: function(resp) {
-            var auth = resp.sidebar.auth;
-
-            if (!auth) {
-                setTimeout(function() {
-                    bankaKZ.modal({
-                        title: 'Пройдите регистрацию!',
-                        text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
-                        buttons: [{
-                            text: 'Закрыть',
-                            bold: true
-                        }]
-                    });
-                }, 3000);
+        complete: function(resp) {
+            bankaKZ.hideIndicator();
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
+                var data = JSON.parse(resp.response);
+                var auth = data.sidebar.auth;
+                if (!auth) {
+                    setTimeout(function() {
+                        bankaKZ.modal({
+                            title: 'Пройдите регистрацию!',
+                            text: 'Для полноценной работы на сайте и в приложении, необходимо пройти <a href="#" id="get-instruction">процедуру регистрации</a> и <a href="#" id="get-login">авторизоваться</a>.',
+                            buttons: [{
+                                text: 'Закрыть'
+                            }]
+                        });
+                    }, 3000);
+                }
+            } else {
+                noConnection();
             }
         },
         error: function(xhr) {
@@ -1540,4 +1622,44 @@ function showPopupRegistration() {
             if (devMode) alert(JSON.parse(xhr));
         }
     });
+}
+
+//Show no connection popup
+function noConnection() {
+    var page = bankaKZ.getCurrentView().activePage;
+    
+    if ((!page) || (page.name == 'index')) { 
+        bankaKZ.modal({
+            title: 'Соединение утеряно!',
+            text: 'Попробуйте закрыть приложение и попытайтесь снова',
+            buttons: [
+                {
+                    text: 'Закрыть',
+                    onClick: function() {
+                        navigator.app.clearHistory();
+                        navigator.app.exitApp();
+                    }
+                }
+            ]
+        });
+    } else {
+        bankaKZ.modal({
+            title: 'Соединение утеряно!',
+            text: 'Попробуйте вернуться на предыдущую страницу или закройте приложение',
+            buttons: [
+                {
+                    text: 'Вернуться',
+                    onClick: function() {
+                        mainView.router.back();
+                    }
+                }, {
+                    text: 'Закрыть',
+                    onClick: function() {
+                        navigator.app.clearHistory();
+                        navigator.app.exitApp();
+                    }
+                }
+            ]
+        });
+    }
 }
