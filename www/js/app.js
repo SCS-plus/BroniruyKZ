@@ -14,6 +14,7 @@ var bankaKZ = new Framework7({
 
 var $$ = Dom7;
 var storage = window.localStorage;
+var networkState = navigator.connection.type;
 
 // Enable/Disable development mode
 const devMode = false;
@@ -49,7 +50,7 @@ $$(document).on('click', '.getitempage', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
 
                 mainView.router.load({
@@ -112,7 +113,7 @@ $$(document).on('click', '.send-code', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
 
                 if (data.status == "OK") {
@@ -155,7 +156,7 @@ $$(document).on('click', '#btnSearch', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == 'ERROR') {
                     bankaKZ.alert(data.message);
@@ -195,7 +196,7 @@ $$(document).on('click', '#my-halls', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == 'ERROR') {
                     bankaKZ.alert(data.message);
@@ -258,7 +259,7 @@ $$(document).on('click', '#about', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.aboutTemplate,
@@ -288,7 +289,7 @@ $$(document).on('click', '#help', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.helpTemplate,
@@ -317,7 +318,7 @@ $$(document).on('click', '#howadd', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.howaddTemplate,
@@ -346,7 +347,7 @@ $$(document).on('click', '#get-instruction', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.instructionTemplate,
@@ -381,7 +382,7 @@ $$(document).on('click', '#rules', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.siteRulesTemplate,
@@ -423,7 +424,7 @@ $$(document).on('click', '.sbt-status', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == "OK") {
                     bankaKZ.alert(data.message);
@@ -461,7 +462,7 @@ $$(document).on('click', '.sbt-booking', function(e) {
             },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
-                if (resp.status == 200) {
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                     var data = JSON.parse(resp.response);
                     if (data.status == "OK") {
                         bankaKZ.alert(data.message);
@@ -497,7 +498,7 @@ $$(document).on('click', '.sbt-comment', function(e) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == "OK") {
                     $$('#commenttext').val('');
@@ -640,7 +641,7 @@ bankaKZ.onPageInit('registration-page', function(page) {
                 },
                 complete: function(resp) {
                     bankaKZ.hideIndicator();
-                    if (resp.status == 200) {
+                    if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                         var data = JSON.parse(resp.response);
                         if (data.status == "OK" || data.status == "ERROR") {
                             bankaKZ.alert(data.message);
@@ -675,7 +676,7 @@ bankaKZ.onPageInit('login-page', function(page) {
             },
             complete: function(resp) {
                 bankaKZ.hideIndicator();
-                if (resp.status == 200) {
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                     var data = JSON.parse(resp.response);
                     if (data.status == "OK") {
                         getFilters();
@@ -853,7 +854,7 @@ function loadOwnerHistory(saunaID) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var dataServer = JSON.parse(resp.response);
 
                 storage.setItem('ownerData', JSON.stringify(dataServer));
@@ -982,7 +983,7 @@ function getDetailServicePage(id, loader) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == 'ERROR') {
                     bankaKZ.alert(data.message);
@@ -1017,7 +1018,7 @@ function getFilters() {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.mainTemplate,
@@ -1046,7 +1047,7 @@ function getRegisterData() {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     template: Template7.templates.registrationTemplate,
@@ -1078,7 +1079,7 @@ function sendPassword() {
         data: formData,
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == "OK") {
                     bankaKZ.alert(data.message);
@@ -1112,7 +1113,7 @@ function sendReview() {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.status == "OK") {
                     bankaKZ.alert(data.message);
@@ -1143,7 +1144,7 @@ function getSidebar() {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 sidebarView.router.load({
                     template: Template7.templates.sidebarTemplate,
@@ -1172,7 +1173,7 @@ function getPersonalData(loader) {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 mainView.router.load({
                     reload: loader,
@@ -1529,7 +1530,7 @@ function getPushId() {
         dataType: 'json',
         url: url,
         complete: function(resp) {
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 if (data.auth) window.plugins.OneSignal.sendTag("bitrixid", data.id);
             } else {
@@ -1551,7 +1552,7 @@ function getPullId() {
             dataType: 'json',
             url: url,
             complete: function(resp) {
-                if (resp.status == 200) {
+                if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                     var data = JSON.parse(resp.response);
                     if (data.auth) getPersonalData(false);
                 } else {
@@ -1598,7 +1599,7 @@ function showPopupRegistration() {
         },
         complete: function(resp) {
             bankaKZ.hideIndicator();
-            if (resp.status == 200) {
+            if ((resp.status == 200) && (networkState !== Connection.NONE)) {
                 var data = JSON.parse(resp.response);
                 var auth = data.sidebar.auth;
                 if (!auth) {
