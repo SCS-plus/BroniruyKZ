@@ -1626,32 +1626,40 @@ function showPopupRegistration() {
 
 //Show no connection popup
 function noConnection() {
-    bankaKZ.modal({
-        title: 'Соединение утеряно!',
-        text: 'Попробуйте вернуться на предыдущую страницу или закройте приложения.',
-        buttons: [
-            {
-                text: 'Вернуться',
-                onClick: function() {
-                    var page = bankaKZ.getCurrentView().activePage;
-                    if (page.name == 'index') {
-                        bankaKZ.confirm('Хотите закрыть приложение?', 'Выход', function() {
-                            navigator.app.clearHistory();
-                            navigator.app.exitApp();
-                        }, function() {
-                            return false;
-                        });
-                    } else {
-                        mainView.router.back();
+    var page = bankaKZ.getCurrentView().activePage;
+    
+    if ((!page) || (page.name == 'index')) { 
+        bankaKZ.modal({
+            title: 'Соединение утеряно!',
+            text: 'Попробуйте закрыть приложение и попытайтесь снова',
+            buttons: [
+                {
+                    text: 'Закрыть',
+                    onClick: function() {
+                        navigator.app.clearHistory();
+                        navigator.app.exitApp();
                     }
                 }
-            }, {
-                text: 'Закрыть',
-                onClick: function() {
-                    navigator.app.clearHistory();
-                    navigator.app.exitApp();
+            ]
+        });
+    } else {
+        bankaKZ.modal({
+            title: 'Соединение утеряно!',
+            text: 'Попробуйте вернуться на предыдущую страницу или закройте приложение',
+            buttons: [
+                {
+                    text: 'Вернуться',
+                    onClick: function() {
+                        mainView.router.back();
+                    }
+                }, {
+                    text: 'Закрыть',
+                    onClick: function() {
+                        navigator.app.clearHistory();
+                        navigator.app.exitApp();
+                    }
                 }
-            }
-        ]
-    });
+            ]
+        });
+    }
 }
